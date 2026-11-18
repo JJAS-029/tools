@@ -1,0 +1,35 @@
+# --- Secrets / signing (NEVER commit) ---
+*.p12
+*.p7b
+*.cer
+*.csr
+*.jks
+*.keystore
+signing/
+secrets.properties
+local.properties
+agconnect-services.json
+keep_token*
+
+# --- Android / Gradle ---
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.iml
+.idea/
+
+# --- DevEco Studio / HarmonyOS ---
+.hvigor/
+oh_modules/
+.preview/
+*.hap
+*.bin
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,29 @@
+<div class="page" onswipe="onSwipe">
+    <text class="app">{{ appName }}</text>
+    <text class="title">{{ title }}</text>
+    <text class="artist">{{ artist }}</text>
+
+    <progress class="bar" type="horizontal" percent="{{ percent }}"></progress>
+
+    <div class="controls">
+        <div class="btn" onclick="prev">
+            <image class="ico-s" src="/common/images/prev.png"></image>
+        </div>
+        <div class="btn main" onclick="toggle">
+            <image class="ico-l" src="{{ playIcon }}"></image>
+        </div>
+        <div class="btn" onclick="next">
+            <image class="ico-s" src="/common/images/next.png"></image>
+        </div>
+    </div>
+
+    <div class="volume">
+        <div class="vbtn" onclick="volDown">
+            <image class="ico-v" src="/common/images/vol_down.png"></image>
+        </div>
+        <text class="vtext">{{ volText }}</text>
+        <div class="vbtn" onclick="volUp">
+            <image class="ico-v" src="/common/images/vol_up.png"></image>
+        </div>
+    </div>
+</div>
