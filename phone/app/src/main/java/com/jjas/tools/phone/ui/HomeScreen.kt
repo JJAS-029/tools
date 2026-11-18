@@ -269,7 +269,7 @@ private fun VolumeButton(icon: ImageVector, desc: String, onClick: () -> Unit) {
 private fun SpotifyCard(ui: SpotifyUi) {
     val cs = MaterialTheme.colorScheme
     ExpressiveCard {
-        CardTitle(M3Shapes.Clover, cs.primaryContainer, cs.primary, Icons.AutoMirrored.Rounded.QueueMusic,
+        CardTitle(M3Shapes.Clover, cs.secondary, cs.onSecondary, Icons.AutoMirrored.Rounded.QueueMusic,
             "Spotify", when {
                 !ui.configured -> "Sin configurar"
                 ui.logged -> "Conectado"

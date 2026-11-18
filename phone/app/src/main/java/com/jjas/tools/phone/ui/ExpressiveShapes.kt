@@ -42,9 +42,9 @@ object M3Shapes {
     val Clover = PolygonShape(
         RoundedPolygon.star(
             numVerticesPerRadius = 4,
-            innerRadius = 0.55f,
-            rounding = CornerRounding(0.9f),
-            innerRounding = CornerRounding(0.2f),
+            innerRadius = 0.72f,
+            rounding = CornerRounding(0.55f),
+            innerRounding = CornerRounding(0.35f),
         )
     )
 
