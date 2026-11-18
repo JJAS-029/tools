@@ -117,10 +117,80 @@ def m_list(size=56):
     save(img, size, "m_list")
 
 
+# ---------- Material 3 Expressive style tiles ----------
+# Shape (circle, cookie, clover, sun, squircle...) in a pastel color with the
+# icon glyph tinted dark on top, like Pixel Watch icons.
+import math
+
+
+def shape_points(kind, s, n_pts=720):
+    cx = cy = s / 2
+    R = s * 0.48
+    pts = []
+    for i in range(n_pts):
+        t = 2 * math.pi * i / n_pts
+        if kind == "circle":
+            r = R
+        elif kind.startswith("cookie"):  # scalloped edge, e.g. cookie9
+            k = int(kind[6:])
+            r = R * (0.92 + 0.08 * math.cos(k * t))
+        elif kind == "clover":  # 4 rounded leaves
+            r = R * (0.80 + 0.20 * abs(math.cos(2 * t)) ** 0.6)
+        elif kind == "sunny":  # 8 soft points
+            r = R * (0.88 + 0.12 * math.cos(8 * t))
+        elif kind == "squircle":
+            c, sn = math.cos(t), math.sin(t)
+            r = R / ((abs(c) ** 4 + abs(sn) ** 4) ** 0.25)
+        else:
+            raise ValueError(kind)
+        pts.append((cx + r * math.cos(t), cy + r * math.sin(t)))
+    return pts
+
+
+def tile(name, glyph, kind, bg, fg, size=84, glyph_size=46):
+    img, d, s = canvas(size)
+    d.polygon(shape_points(kind, s), fill=bg)
+    g = Image.open(OUT / f"{glyph}.png").convert("RGBA").resize((glyph_size * SS, glyph_size * SS), Image.LANCZOS)
+    tint = Image.new("RGBA", g.size, fg)
+    tint.putalpha(g.getchannel("A"))
+    off = (s - g.size[0]) // 2
+    img.alpha_composite(tint, (off, off))
+    save(img, size, name)
+
+
+def hexc(h):
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
+
+
+# name, glyph, shape, container (pastel), glyph (dark)
+TILES = [
+    ("t_music", "m_music", "cookie9", "#9df5b0", "#00391c"),
+    ("t_list", "m_list", "clover", "#c3f0b8", "#0f3a0c"),
+    ("t_camera", "m_camera", "squircle", "#b4ccff", "#0a2a66"),
+    ("t_qr", "m_qr", "sunny", "#d9c6ff", "#2e1066"),
+    ("t_nav", "m_nav", "cookie6", "#ffcfa6", "#4a2200"),
+    ("t_notes", "m_notes", "squircle", "#fbe38c", "#3d3000"),
+    ("t_mic", "m_mic", "cookie12", "#ffb8b0", "#5c0d07"),
+]
+
+
+def dark_controls():
+    """Dark-glyph versions for buttons on light (pastel) backgrounds."""
+    for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
+        g = Image.open(OUT / f"{src}.png").convert("RGBA")
+        tint = Image.new("RGBA", g.size, hexc(col))
+        tint.putalpha(g.getchannel("A"))
+        tint.save(OUT / f"{dst}.png")
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     play(); pause()
     skip(forward=True); skip(forward=False)
     vol(plus=True); vol(plus=False)
     m_music(); m_camera(); m_qr(); m_nav(); m_notes(); m_mic(); m_list()
+    for name, glyph, kind, bg, fg in TILES:
+        tile(name, glyph, kind, hexc(bg), hexc(fg))
+    dark_controls()
     print(f"Icons written to {OUT}")

@@ -1,11 +1,11 @@
 <div class="page" onswipe="onSwipe">
     <text class="header">{{ pname }}</text>
     <text class="msg" show="{{ msg !== '' }}">{{ msg }}</text>
-    <list class="list">
+    <list class="list" ref="list">
         <list-item for="{{ rows }}" class="row" onclick="open({{ $idx }})">
-            <div class="card">
+            <div class="card" style="background-color: {{ $item.bg }};">
                 <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
-                <text class="sub">{{ $item.s }}</text>
+                <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
             </div>
         </list-item>
     </list>

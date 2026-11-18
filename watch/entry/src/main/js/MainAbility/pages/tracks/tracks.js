@@ -1,10 +1,16 @@
 import router from '@system.router';
+import { tick, focusCrown } from '../../common/haptics.js';
 import bridge from '../../common/bridge.js';
 
-const WHITE = '#ffffff';
-const GREEN = '#1db954';
+// M3 Expressive: primary container for actions, tonal surface for items.
+const ACTION = { color: '#00391c', sub: '#1f5c33', bg: '#9df5b0' };
+const ITEM = { color: '#f1f3f1', sub: '#9da39f', bg: '#1d201f' };
+const MORE = { color: '#9df5b0', sub: '#9da39f', bg: '#173a22' };
 
 export default {
+    onShow() {
+        focusCrown(this.$refs.list);
+    },
     data: {
         // Received from playlists via router params.
         pid: '',
@@ -38,7 +44,7 @@ export default {
         const rows = [];
         if (r.off === 0) {
             // First page: start the list with "Play all".
-            rows.push({ kind: 'all', n: 'Reproducir todo', s: r.locked ? '' : r.total + ' canciones', color: GREEN });
+            rows.push({ kind: 'all', n: 'Reproducir todo', s: r.locked ? '' : r.total + ' canciones', color: ACTION.color, sub: ACTION.sub, bg: ACTION.bg });
         } else {
             // Next pages: keep what's already there, minus the "See more" row.
             for (let i = 0; i < this.rows.length; i++) {
@@ -47,12 +53,12 @@ export default {
         }
         for (let j = 0; j < r.items.length; j++) {
             const t = r.items[j];
-            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, color: WHITE });
+            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, color: ITEM.color, sub: ITEM.sub, bg: ITEM.bg });
         }
         this.total = r.total;
         this.loaded = r.off + r.items.length;
         if (!r.locked && this.loaded < this.total) {
-            rows.push({ kind: 'more', n: 'Ver más…', s: (this.total - this.loaded) + ' restantes', color: GREEN });
+            rows.push({ kind: 'more', n: 'Ver más…', s: (this.total - this.loaded) + ' restantes', color: MORE.color, sub: MORE.sub, bg: MORE.bg });
         }
         if (r.locked) {
             this.msg = 'Spotify no comparte su lista';
@@ -62,6 +68,7 @@ export default {
     open(i) {
         const row = this.rows[i];
         if (!row) { return; }
+        tick();
         if (row.kind === 'more') {
             this.load(this.loaded);
         } else if (row.kind === 'all') {

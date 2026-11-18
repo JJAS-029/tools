@@ -1,11 +1,9 @@
 <div class="page" onswipe="onSwipe">
     <text class="header">JJAS Tools</text>
-    <list class="menu">
+    <list class="menu" ref="list">
         <list-item for="{{ apps }}" class="row" onclick="open({{ $idx }})">
             <div class="card">
-                <div class="icon" style="background-color: {{ $item.color }};">
-                    <image class="icon-img" src="{{ $item.icon }}"></image>
-                </div>
+                <image class="tile" src="{{ $item.icon }}"></image>
                 <div class="labels">
                     <text class="name">{{ $item.name }}</text>
                     <text class="sub">{{ $item.sub }}</text>

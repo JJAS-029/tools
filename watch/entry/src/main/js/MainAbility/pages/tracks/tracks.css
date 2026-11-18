@@ -13,7 +13,7 @@
     height: 12%;
     margin-top: 8px;
     font-size: 30px;
-    color: #1db954;
+    color: #9df5b0;
     text-align: center;
 }
 
@@ -38,14 +38,16 @@
 }
 
 .card {
-    width: 330px;
-    height: 88px;
+    width: 340px;
+    height: 90px;
+    border-radius: 34px;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .name {
-    width: 330px;
+    width: 296px;
     height: 46px;
     font-size: 38px;
     color: #ffffff;
@@ -53,7 +55,7 @@
 }
 
 .sub {
-    width: 330px;
+    width: 296px;
     height: 36px;
     font-size: 30px;
     color: #6b707a;

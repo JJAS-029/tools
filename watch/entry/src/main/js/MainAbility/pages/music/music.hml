@@ -1,18 +1,22 @@
-<div class="page" onswipe="onSwipe">
-    <text class="app">{{ appName }}</text>
+<div class="page" ref="page" onswipe="onSwipe" onrotation="onCrown">
+    <div class="chip">
+        <text class="chip-text">{{ appName }}</text>
+    </div>
     <text class="title">{{ title }}</text>
     <text class="artist">{{ artist }}</text>
 
     <progress class="bar" type="horizontal" percent="{{ percent }}"></progress>
 
+    <!-- M3 Expressive "button group": side pills + wide central button
+         whose shape changes (pill when paused, square-ish while playing). -->
     <div class="controls">
-        <div class="btn" onclick="prev">
+        <div class="side" onclick="prev">
             <image class="ico-s" src="/common/images/prev.png"></image>
         </div>
-        <div class="btn main" onclick="toggle">
+        <div class="main" style="border-radius: {{ playRadius }}px;" onclick="toggle">
             <image class="ico-l" src="{{ playIcon }}"></image>
         </div>
-        <div class="btn" onclick="next">
+        <div class="side" onclick="next">
             <image class="ico-s" src="/common/images/next.png"></image>
         </div>
     </div>
