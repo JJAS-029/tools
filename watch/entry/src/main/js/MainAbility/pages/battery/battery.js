@@ -36,15 +36,8 @@ export default {
         focusCrown(this.$refs.list);
     },
     setSub(i, text) {
-        // Reassign the array so the list updates.
-        const rows = this.rows.slice();
-        const r = {};
-        for (const k in rows[i]) {
-            r[k] = rows[i][k];
-        }
-        r.s = text;
-        rows[i] = r;
-        this.rows = rows;
+        // Only change the text (rebuilding the list costs memory on lite).
+        this.rows[i].s = text;
     },
     tap(i) {
         const r = this.rows[i];

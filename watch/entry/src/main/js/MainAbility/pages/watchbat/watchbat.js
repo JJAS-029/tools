@@ -5,6 +5,9 @@ import { load, save, readBattery } from '../../common/store.js';
 import { row, INFO, ACTION } from '../../common/rows.js';
 import { defaultWatch, watchState, watchCharge, fmtWhen, fmtDur, levelColor } from '../../common/battcalc.js';
 
+// Data outside `data` (lite observes everything in `data`; see bike.js).
+let w = null;
+
 export default {
     data: {
         pct: 0,
@@ -12,13 +15,12 @@ export default {
         bigText: '--',
         smallText: 'Leyendo...',
         rows: [],
-        w: null,
         level: -1,
         charging: false
     },
     onInit() {
-        load('watchbat', defaultWatch(), (w) => {
-            this.w = w;
+        load('watchbat', defaultWatch(), (stored) => {
+            w = stored;
             readBattery((lvl, charging) => {
                 this.level = lvl;
                 this.charging = charging;
@@ -45,7 +47,7 @@ export default {
             return;
         }
         const now = new Date().getTime();
-        const s = watchState(this.w, lvl, now);
+        const s = watchState(w, lvl, now);
         this.pct = lvl;
         this.ringColor = levelColor(lvl);
         this.bigText = lvl + '%';
@@ -65,7 +67,7 @@ export default {
                     s: s.measured ? 'Consumo actual' : 'Cargas anteriores' }, '', INFO));
             }
             rows.push(row({ kind: 'info', n: 'Hace ' + fmtDur(s.sinceMs),
-                s: 'Carga · desde ' + this.w.chargeLevel + '%' }, '', INFO));
+                s: 'Carga · desde ' + w.chargeLevel + '%' }, '', INFO));
         }
         rows.push(row({ kind: 'charge', n: 'Lo cargué', s: 'Al 100%' }, 'bt_charge.png', ACTION));
         rows.push(row({ kind: 'info', n: 'Tip', s: 'Ábrela al cargar' }, '', INFO));
@@ -74,8 +76,8 @@ export default {
     tap(i) {
         const r = this.rows[i];
         if (r && r.kind === 'charge' && this.level >= 0) {
-            watchCharge(this.w, this.level, new Date().getTime());
-            save('watchbat', this.w);
+            watchCharge(w, this.level, new Date().getTime());
+            save('watchbat', w);
             try { vibrator.vibrate({ mode: 'long' }); } catch (e) {}
             this.refresh();
         }
