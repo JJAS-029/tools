@@ -24,3 +24,5 @@ El reloj no tiene internet propio: la app compañera del teléfono hace el traba
 - [ ] Fase 1: puente P2P y launcher
 - [ ] Fase 2: música, cámara, QR, Maps, Keep y grabadora
 - [ ] Fase 3: extras
+
+Plan de funciones y viabilidad: [docs/roadmap.md](docs/roadmap.md)
