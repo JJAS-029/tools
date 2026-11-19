@@ -143,6 +143,47 @@ de Google Maps, notas de Keep y grabadora de voz, que se graba en el teléfono.
 4. ⚖️ Convertidor de unidades.
 5. 🃏 Anki con mazo de prueba en el reloj; con Wear Engine se conecta a AnkiDroid.
 
+## Publicarla para otros usuarios (evaluación 2026-11-19)
+**Sí se puede.** Pero no todo lo que hicimos se puede publicar tal cual. Conviene
+separar las funciones en **públicas** y **personales**.
+
+### Dónde se publica
+| Parte | Tienda | Qué pide |
+|---|---|---|
+| App del reloj | **AppGallery** (sección de relojes, se instala desde Huawei Health) | Certificado **de publicación** (no el de depuración), revisión de Huawei, política de privacidad, capturas y descripción. |
+| App del teléfono | **Google Play** (y opcionalmente AppGallery) | Cuenta de Play (pago único de 25 USD). Las cuentas personales nuevas deben hacer una **prueba cerrada con 12 testers durante 14 días** antes de publicar. |
+| Wear Engine | Huawei | La solicitud actual dice "uso personal": para publicar hay que **actualizarla diciendo que es una app pública**. |
+
+### Qué se puede publicar y qué no
+| Función | ¿Pública? | Por qué |
+|---|---|---|
+| Baterías, Lugares, Koala, Convertidor, Contador, Dado, Intervalos | ✅ | Solo usan el reloj. |
+| Control de música (cualquier app) | ✅ | Usa la API oficial de Android (MediaSession). |
+| Cámara (foto y video) | ✅ | |
+| Calendario, Anki (AnkiDroid), Maps (notificaciones), QR | ✅ | APIs públicas; hay que explicar bien los permisos. |
+| **Playlists de Spotify** | ⚠️ Solo con truco | Desde 2025 Spotify solo da cuota amplia a **empresas**; en modo desarrollo son **5 usuarios máximo**. Opción: que cada usuario ponga su propio Client ID (para usuarios avanzados). |
+| **Notas de Keep (gkeepapi)** | ❌ Solo personal | API no oficial con el token de tu cuenta de Google: no apta para la tienda. |
+| **Trucos de WhatsApp** (llamar, fotos y audios) | ⚠️ Riesgoso | No hay API oficial; Play puede rechazarla. Mejor dejarlos como función personal. |
+| **Claude** | ⚠️ | No se puede incluir nuestra API key: cada usuario pone la suya, o hace falta un servidor propio con costo. |
+
+### Cambios necesarios antes de publicar
+- **Quitar `QUERY_ALL_PACKAGES`:** Play lo restringe. Se cambia por `<queries>` para
+  las apps de música.
+- **Política de privacidad** (notificaciones, ubicación, cámara, contactos):
+  todo se procesa en el dispositivo.
+- **No usar marcas** (Spotify, WhatsApp, Huawei) en el nombre ni en el ícono.
+  Nombre propio, por ejemplo "JJAS Tools" u otro.
+- **Interruptor "funciones personales":** una opción de compilación que deja
+  fuera Keep, WhatsApp y Spotify en la versión pública.
+- **Probar en otros relojes** (Fit 4, Band…) o limitarla al Fit 3.
+- **Idiomas:** español primero; inglés amplía mucho el público.
+
+### Plan sugerido
+1. Seguir construyendo con la separación pública/personal desde ahora.
+2. **v1 pública:** Baterías, Lugares, Koala, Convertidor, Música, Cámara.
+3. Prueba cerrada en Play con 12 amigos durante 14 días, y publicar.
+4. Agregar Calendario, Anki y Maps en versiones siguientes.
+
 ## Descartadas (ya vienen en el Fit 3)
 - Encontrar mi teléfono.
 - Linterna.
