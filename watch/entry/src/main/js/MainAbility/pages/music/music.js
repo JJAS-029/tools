@@ -5,6 +5,16 @@ import { PALETTES, paletteIndex } from '../../common/palette.js';
 
 const IMG = '/common/images/';
 const TRACK_W = 280;
+const FRAMES = 6;
+
+// image-animator frames: the shape turns and the note stays upright (common/images/art_<i>_<k>.png).
+function frames(i) {
+    const f = [];
+    for (let k = 0; k < FRAMES; k++) {
+        f.push({ src: IMG + 'art_' + i + '_' + k + '.png' });
+    }
+    return f;
+}
 
 export default {
     data: {
@@ -17,6 +27,7 @@ export default {
         pContainer: PALETTES[0].container,
         pSurface: PALETTES[0].surface,
         artIcon: IMG + 'art_0.png',
+        artFrames: frames(0),
         playIcon: IMG + 'play_p0.png',
         playRadius: 52,
         fillWidth: 0,
@@ -45,6 +56,7 @@ export default {
     applyState(s) {
         this.title = s.title || 'Nada sonando';
         this.artist = s.artist || '';
+        const wasPlaying = this.playing;
         this.playing = !!s.playing;
         this.chipText = s.app || 'Música';
 
@@ -57,15 +69,27 @@ export default {
             this.pContainer = p.container;
             this.pSurface = p.surface;
             this.artIcon = IMG + 'art_' + i + '.png';
+            this.artFrames = frames(i);
         }
         this.playIcon = IMG + (this.playing ? 'pause_p' : 'play_p') + i + '.png';
         // Shape morph: pill when paused, rounded square while playing.
         this.playRadius = this.playing ? 30 : 52;
+        if (this.playing !== wasPlaying) {
+            this.animate(this.playing);
+        }
 
         const pct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
         this.fillWidth = Math.round(TRACK_W * pct);
         if (s.vol !== undefined) {
             this.vol = s.vol;
+        }
+    },
+    animate(on) {
+        const a = this.$refs.anim;
+        try {
+            if (on) { a.start(); } else { a.stop(); }
+        } catch (e) {
+            // no animator (Previewer/old version): the static image stays
         }
     },
     cmd(a) {

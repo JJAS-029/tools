@@ -123,12 +123,12 @@ def m_list(size=56):
 import math
 
 
-def shape_points(kind, s, n_pts=720):
+def shape_points(kind, s, n_pts=720, rot=0.0):
     cx = cy = s / 2
     R = s * 0.48
     pts = []
     for i in range(n_pts):
-        t = 2 * math.pi * i / n_pts
+        t = 2 * math.pi * i / n_pts - rot
         if kind == "circle":
             r = R
         elif kind.startswith("cookie"):  # scalloped edge, e.g. cookie9
@@ -143,7 +143,7 @@ def shape_points(kind, s, n_pts=720):
             r = R / ((abs(c) ** 4 + abs(sn) ** 4) ** 0.25)
         else:
             raise ValueError(kind)
-        pts.append((cx + r * math.cos(t), cy + r * math.sin(t)))
+        pts.append((cx + r * math.cos(t + rot), cy + r * math.sin(t + rot)))
     return pts
 
 
@@ -321,6 +321,29 @@ def battery_assets():
     tile("bt_charge", "m_batt", "circle", hexc(teal[1]), hexc(teal[0]), size=56, glyph_size=34)
 
 
+# Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
+PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
+ART_FRAMES = 6
+
+
+def art_frames():
+    """Frames for the music image-animator: the shape turns, the note stays upright.
+    (On lite, transform: rotate turns around the corner, not the center.)"""
+    for i, (acc, on, cont, surf) in enumerate(MUSIC_PALETTES):
+        kind = ART_SHAPES[i]
+        for k in range(ART_FRAMES):
+            size, glyph_size = 120, 56
+            img, d, s = canvas(size)
+            rot = math.radians(PERIOD[kind] * k / ART_FRAMES)
+            d.polygon(shape_points(kind, s, rot=rot), fill=hexc(acc))
+            g = Image.open(OUT / "m_music.png").convert("RGBA").resize((glyph_size * SS, glyph_size * SS), Image.LANCZOS)
+            tint = Image.new("RGBA", g.size, hexc(on))
+            tint.putalpha(g.getchannel("A"))
+            off = (s - g.size[0]) // 2
+            img.alpha_composite(tint, (off, off))
+            save(img, size, f"art_{i}_{k}")
+
+
 def dark_controls():
     """Dark-glyph versions for buttons on light (pastel) backgrounds."""
     for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
@@ -341,6 +364,7 @@ if __name__ == "__main__":
     dark_controls()
     flip_icon(); timer_icon()
     music_assets()
+    art_frames()
     battery_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     print(f"Icons written to {OUT}")

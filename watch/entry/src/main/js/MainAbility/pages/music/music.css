@@ -30,26 +30,6 @@
     margin-top: 8px;
 }
 
-/* Slow rotation while playing (if the watch doesn't support it, it just stays still) */
-.art-spin {
-    width: 120px;
-    height: 120px;
-    margin-top: 8px;
-    animation-name: spin;
-    animation-duration: 12000ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .title {
     width: 320px;
     height: 46px;
