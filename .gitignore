@@ -33,3 +33,6 @@ oh_modules/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Huawei forms (personal data)
+exceles/
