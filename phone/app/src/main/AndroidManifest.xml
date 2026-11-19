@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Camera shutter from the watch -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <!-- Lets it open Spotify from the background when the watch asks to play. -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -43,6 +46,13 @@
                 <data android:scheme="jjastools" android:host="spotify-callback" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".camera.CameraActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.JJASTools" />
 
         <service
             android:name=".media.MediaListenerService"

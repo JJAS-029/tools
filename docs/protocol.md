@@ -34,10 +34,15 @@ Las páginas son de 15 elementos. Los textos llegan recortados a 40 caracteres p
 ## Cámara
 | t | Dir | d |
 |---|---|---|
-| `cam.open` | R→T | `{}` |
-| `cam.shoot` | R→T | `{timer: 0\|3\|10}` |
-| `cam.flip` | R→T | `{}` |
-| `cam.result` | T→R | `{ok, name}` |
+| `cam.open` | R→T | `{}`: abre la cámara en el teléfono (encima de la pantalla de bloqueo) |
+| `cam.shoot` | R→T | `{timer: 0\|3\|10}`: si la cámara está cerrada, la abre y dispara |
+| `cam.flip` | R→T | `{}`: frontal ↔ trasera |
+| `cam.close` | R→T | `{}`: al salir de la pantalla del reloj |
+| `cam.state` | T→R | `{open, front?}` |
+| `cam.count` | T→R | `{s}`: cada segundo del temporizador |
+| `cam.result` | T→R | `{ok, name}` o `{ok: false, msg}` |
+
+Las fotos se guardan en `Pictures/JJAS Tools` (MediaStore).
 
 ## QR
 | t | Dir | d |

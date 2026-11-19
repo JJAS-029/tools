@@ -175,6 +175,36 @@ TILES = [
 ]
 
 
+def flip_icon(size=48):
+    """Two curved arrows (switch camera)."""
+    img, d, s = canvas(size)
+    lw = int(s * .09)
+    d.arc([s * .16, s * .16, s * .84, s * .84], start=200, end=340, fill=W, width=lw)
+    d.arc([s * .16, s * .16, s * .84, s * .84], start=20, end=160, fill=W, width=lw)
+    d.polygon([(s * .76, s * .22), (s * .92, s * .40), (s * .70, s * .44)], fill=W)
+    d.polygon([(s * .24, s * .78), (s * .08, s * .60), (s * .30, s * .56)], fill=W)
+    save(img, size, "flip")
+
+
+def timer_icon(size=40):
+    """Stopwatch."""
+    img, d, s = canvas(size)
+    lw = int(s * .09)
+    d.ellipse([s * .14, s * .20, s * .86, s * .92], outline=W, width=lw)
+    d.rounded_rectangle([s * .38, s * .04, s * .62, s * .14], radius=s * .03, fill=W)
+    d.line([(s * .50, s * .56), (s * .50, s * .34)], fill=W, width=lw)
+    save(img, size, "timer")
+
+
+def shutter(size=150, name="shutter", bg="#b4ccff", fg="#0a2a66"):
+    """Big shutter: M3 cookie in light blue with a dark ring."""
+    img, d, s = canvas(size)
+    d.polygon(shape_points("cookie12", s), fill=hexc(bg))
+    r = s * .26
+    d.ellipse([s / 2 - r, s / 2 - r, s / 2 + r, s / 2 + r], outline=hexc(fg), width=int(s * .055))
+    save(img, size, name)
+
+
 def dark_controls():
     """Dark-glyph versions for buttons on light (pastel) backgrounds."""
     for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
@@ -193,4 +223,6 @@ if __name__ == "__main__":
     for name, glyph, kind, bg, fg in TILES:
         tile(name, glyph, kind, hexc(bg), hexc(fg))
     dark_controls()
+    flip_icon(); timer_icon()
+    shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     print(f"Icons written to {OUT}")

@@ -12,7 +12,7 @@ export default {
         apps: [
             { name: 'Música', sub: 'Reproduciendo', icon: IMG + 't_music.png', uri: 'pages/music/music' },
             { name: 'Playlists', sub: 'Spotify', icon: IMG + 't_list.png', uri: 'pages/playlists/playlists' },
-            { name: 'Cámara', sub: 'Pronto', icon: IMG + 't_camera.png', uri: '' },
+            { name: 'Cámara', sub: 'Obturador', icon: IMG + 't_camera.png', uri: 'pages/camera/camera' },
             { name: 'QR', sub: 'Pronto', icon: IMG + 't_qr.png', uri: '' },
             { name: 'Navegar', sub: 'Pronto', icon: IMG + 't_nav.png', uri: '' },
             { name: 'Notas', sub: 'Pronto', icon: IMG + 't_notes.png', uri: '' },

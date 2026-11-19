@@ -34,7 +34,8 @@
           "pages/index/index",
           "pages/music/music",
           "pages/playlists/playlists",
-          "pages/tracks/tracks"
+          "pages/tracks/tracks",
+          "pages/camera/camera"
         ],
         "name": ".MainAbility"
       }

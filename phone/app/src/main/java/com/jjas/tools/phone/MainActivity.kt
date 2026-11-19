@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationManagerCompat
+import com.jjas.tools.phone.camera.CameraRepository
 import com.jjas.tools.phone.media.MediaRepository
 import com.jjas.tools.phone.spotify.SpotifyAuth
 import com.jjas.tools.phone.ui.HomeScreen
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SpotifyAuth.init(this)
+        CameraRepository.init(this)
         spotifyLogged.value = SpotifyAuth.isLoggedIn
         handleSpotifyCallback(intent)
         enableEdgeToEdge()

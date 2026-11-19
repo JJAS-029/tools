@@ -31,6 +31,8 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.MusicNote
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Pause
@@ -100,6 +102,7 @@ fun HomeScreen(hasAccess: Boolean, onGrantAccess: () -> Unit, spotify: SpotifyUi
             if (!hasAccess) item { AccessCard(onGrantAccess) }
             item { NowPlayingCard() }
             item { SpotifyCard(spotify) }
+            item { CameraCard() }
             item { LogCard() }
         }
     }
@@ -264,6 +267,30 @@ private fun GroupButton(icon: ImageVector, desc: String, modifier: Modifier, onC
 private fun VolumeButton(icon: ImageVector, desc: String, onClick: () -> Unit) {
     Box(Modifier.size(52.dp).clip(CircleShape).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         Icon(icon, contentDescription = desc)
+    }
+}
+
+// ---------- Camera ----------
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CameraCard() {
+    val cs = MaterialTheme.colorScheme
+    ExpressiveCard {
+        CardTitle(M3Shapes.cookie(6), cs.secondary, cs.onSecondary, Icons.Rounded.PhotoCamera,
+            "Cámara", "Obturador desde el reloj")
+        Text("Simular reloj", style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilledTonalButton(onClick = { fromWatch("cam.open") }) {
+                Icon(Icons.Rounded.PhotoCamera, null, Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp)); Text("Abrir")
+            }
+            Button(onClick = { fromWatch("cam.shoot", JSONObject().put("timer", 3)) }) {
+                Icon(Icons.Rounded.Timer, null, Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp)); Text("Foto en 3 s")
+            }
+        }
+        Text("Las fotos se guardan en Imágenes/JJAS Tools.", style = MaterialTheme.typography.bodySmall,
+            color = cs.onSurfaceVariant)
     }
 }
 

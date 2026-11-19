@@ -28,6 +28,8 @@ const mockMedia = {
     vol: 50
 };
 
+const mockCam = { front: false, n: 0 };
+
 function copy(o) {
     const r = {};
     for (const k in o) {
@@ -73,6 +75,24 @@ function mockSend(t, d) {
         mockMedia.playing = true;
         mockMedia.title = 'Canción ' + ((d.idx || 0) + 1);
         setTimeout(function () { emit('sp.play.r', { ok: true }); }, 200);
+    }
+    // Camera: the phone opens, counts down and "takes" the photo.
+    if (t === 'cam.open') {
+        setTimeout(function () { emit('cam.state', { open: true, front: mockCam.front }); }, 400);
+    }
+    if (t === 'cam.flip') {
+        mockCam.front = !mockCam.front;
+        setTimeout(function () { emit('cam.state', { open: true, front: mockCam.front }); }, 200);
+    }
+    if (t === 'cam.shoot') {
+        const secs = d.timer || 0;
+        for (let k = secs; k >= 1; k--) {
+            (function (s, wait) {
+                setTimeout(function () { emit('cam.count', { s: s }); }, wait);
+            })(k, (secs - k) * 1000);
+        }
+        mockCam.n++;
+        setTimeout(function () { emit('cam.result', { ok: true, name: 'JJAS_prueba_' + mockCam.n + '.jpg' }); }, secs * 1000 + 300);
     }
     if (t === 'ping') {
         setTimeout(function () { emit('pong', { ts: d.ts }); }, 100);

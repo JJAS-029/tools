@@ -1,0 +1,20 @@
+<div class="page" ref="page" onswipe="onSwipe" onrotation="onCrown">
+    <div class="chip">
+        <text class="chip-text">{{ chip }}</text>
+    </div>
+    <text class="status" style="color: {{ statusColor }};">{{ status }}</text>
+
+    <!-- M3 "cookie" shutter: dims while the photo is being taken -->
+    <image class="shutter" src="{{ shutterIcon }}" onclick="shoot"></image>
+
+    <div class="row">
+        <div class="pill" onclick="cycleTimer">
+            <image class="ico" src="/common/images/timer.png"></image>
+            <text class="pill-text">{{ timerText }}</text>
+        </div>
+        <div class="pill" onclick="flip">
+            <image class="ico" src="/common/images/flip.png"></image>
+            <text class="pill-text">{{ sideText }}</text>
+        </div>
+    </div>
+</div>
