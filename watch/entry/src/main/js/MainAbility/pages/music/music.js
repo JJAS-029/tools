@@ -17,7 +17,6 @@ export default {
         pContainer: PALETTES[0].container,
         pSurface: PALETTES[0].surface,
         artIcon: IMG + 'art_0.png',
-        artClass: 'art',
         playIcon: IMG + 'play_p0.png',
         playRadius: 52,
         fillWidth: 0,
@@ -60,7 +59,6 @@ export default {
         this.playIcon = IMG + (this.playing ? 'pause_p' : 'play_p') + i + '.png';
         // Shape morph: pill when paused, rounded square while playing.
         this.playRadius = this.playing ? 30 : 52;
-        this.artClass = this.playing ? 'art-spin' : 'art';
 
         const pct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
         this.fillWidth = Math.round(TRACK_W * pct);

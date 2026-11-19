@@ -51,7 +51,7 @@ export default {
             // First page: start the list with "Play all".
             // "Play all" in the playlist's color (accent container).
             rows.push({ kind: 'all', n: 'Reproducir todo', s: r.locked ? '' : r.total + ' canciones',
-                icon: IMG + 'play_p' + this.pidx + '.png', lcls: 'labels', color: p.on, sub: p.container, bg: p.accent });
+                icon: IMG + 'play_p' + this.pidx + '.png', lw: 252, lm: 12, color: p.on, sub: p.container, bg: p.accent });
         } else {
             // Next pages: keep what's already there, minus the "See more" row.
             for (let i = 0; i < this.rows.length; i++) {
@@ -60,14 +60,14 @@ export default {
         }
         for (let j = 0; j < r.items.length; j++) {
             const t = r.items[j];
-            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, icon: '', lcls: 'labels-wide',
+            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, icon: '', lw: 300, lm: 24,
                 color: '#f1f3f1', sub: p.accent, bg: p.surface });
         }
         this.total = r.total;
         this.loaded = r.off + r.items.length;
         if (!r.locked && this.loaded < this.total) {
             rows.push({ kind: 'more', n: 'Ver más…', s: (this.total - this.loaded) + ' restantes', icon: '',
-                lcls: 'labels-wide', color: p.accent, sub: '#a9a4ad', bg: p.container });
+                lw: 300, lm: 24, color: p.accent, sub: '#a9a4ad', bg: p.container });
         }
         if (r.locked) {
             this.msg = 'Spotify no comparte su lista';

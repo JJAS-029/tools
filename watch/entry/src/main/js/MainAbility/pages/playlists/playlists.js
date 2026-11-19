@@ -10,16 +10,16 @@ const LILAC = PALETTES[0];
 // "Your likes": pink container. Each playlist: its own shape and color (same as in Music).
 function likedRow(count) {
     return { id: 'liked', n: 'Tus me gusta', s: count + ' canciones', icon: IMG + 'lt_heart.png',
-        lcls: 'labels', color: PINK.on, sub: '#7b2949', bg: PINK.accent };
+        lw: 252, lm: 12, color: PINK.on, sub: '#7b2949', bg: PINK.accent };
 }
 function playlistRow(p) {
     const i = paletteIndex(p.n);
     return { id: p.id, n: p.n, s: p.c + ' canciones', icon: IMG + 'lt_' + i + '.png', pidx: i,
-        lcls: 'labels', color: '#f1f3f1', sub: PALETTES[i].accent, bg: PALETTES[i].surface };
+        lw: 252, lm: 12, color: '#f1f3f1', sub: PALETTES[i].accent, bg: PALETTES[i].surface };
 }
 function moreRow(left) {
     return { id: '__more', n: 'Ver más…', s: left + ' restantes', icon: '',
-        lcls: 'labels-wide', color: LILAC.accent, sub: '#a9a4ad', bg: LILAC.container };
+        lw: 300, lm: 24, color: LILAC.accent, sub: '#a9a4ad', bg: LILAC.container };
 }
 
 export default {

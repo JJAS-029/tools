@@ -4,7 +4,8 @@
     </div>
 
     <!-- "Cover": M3 shape and color per song; spins while playing -->
-    <image class="{{ artClass }}" src="{{ artIcon }}"></image>
+    <image class="art-spin" show="{{ playing }}" src="{{ artIcon }}"></image>
+    <image class="art" show="{{ !playing }}" src="{{ artIcon }}"></image>
 
     <text class="title">{{ title }}</text>
     <text class="artist">{{ artist }}</text>
