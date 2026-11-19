@@ -12,7 +12,7 @@ export function defaultBike() {
         trips: [], // [{ km, ts }] since the last charge
         uses: [
             { n: 'Trabajo', km: 8 },
-            { n: 'Casa del Koala', km: 6 },
+            { n: 'Casa Koala', km: 6 },
             { n: 'Mandados', km: 3 }
         ],
         avgDaily: 0 // km/day learned in previous charges

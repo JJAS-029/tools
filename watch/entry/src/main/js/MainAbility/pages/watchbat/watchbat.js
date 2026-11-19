@@ -40,7 +40,7 @@ export default {
         if (lvl < 0) {
             this.bigText = '--';
             this.smallText = 'Sin lectura';
-            rows.push(row({ kind: 'info', n: 'No pude leer la batería', s: 'Prueba en el reloj real' }, '', INFO));
+            rows.push(row({ kind: 'info', n: 'Sin lectura', s: 'Prueba en el reloj' }, '', INFO));
             this.rows = rows;
             return;
         }
@@ -56,16 +56,19 @@ export default {
         }
 
         if (!s.charged) {
-            rows.push(row({ kind: 'info', n: 'Sin carga registrada', s: 'Toca abajo al cargarlo' }, '', INFO));
+            rows.push(row({ kind: 'info', n: 'Sin carga', s: 'Toca Lo cargué' }, '', INFO));
         } else {
-            rows.push(row({ kind: 'info', n: 'Se acaba: ' + (s.etaTs ? fmtWhen(s.etaTs, now) : 'calculando'),
-                s: s.measured ? 'Gasta ~' + s.rate + ' % por hora'
-                    : (this.w.rate > 0 ? 'Según cargas anteriores' : 'Necesito ~2 h de datos') }, '', INFO));
-            rows.push(row({ kind: 'info', n: 'Cargado hace ' + fmtDur(s.sinceMs),
-                s: 'Desde ' + this.w.chargeLevel + '%' }, '', INFO));
+            rows.push(row({ kind: 'info', n: s.etaTs ? fmtWhen(s.etaTs, now) : 'Midiendo',
+                s: s.etaTs ? 'Se acaba la pila' : 'Faltan ~2 h de datos' }, '', INFO));
+            if (s.rate > 0) {
+                rows.push(row({ kind: 'info', n: '~' + s.rate + ' %/h',
+                    s: s.measured ? 'Consumo actual' : 'Cargas anteriores' }, '', INFO));
+            }
+            rows.push(row({ kind: 'info', n: 'Hace ' + fmtDur(s.sinceMs),
+                s: 'Carga · desde ' + this.w.chargeLevel + '%' }, '', INFO));
         }
-        rows.push(row({ kind: 'charge', n: 'Lo cargué al 100%', s: 'Reinicia la cuenta' }, 'bt_charge.png', ACTION));
-        rows.push(row({ kind: 'info', n: 'Tip', s: 'Ábrela mientras carga' }, '', INFO));
+        rows.push(row({ kind: 'charge', n: 'Lo cargué', s: 'Al 100%' }, 'bt_charge.png', ACTION));
+        rows.push(row({ kind: 'info', n: 'Tip', s: 'Ábrela al cargar' }, '', INFO));
         this.rows = rows;
     },
     tap(i) {

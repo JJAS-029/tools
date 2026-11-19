@@ -18,8 +18,8 @@ export default {
         load('bike', defaultBike(), (b) => {
             const s = bikeState(b, now);
             this.setSub(0, s.charged
-                ? s.pct + '% · ' + (s.etaTs ? 'cargar ' + fmtWhen(s.etaTs, now) : s.remaining + ' km')
-                : 'Sin carga registrada');
+                ? s.pct + '% · ' + (s.etaTs ? fmtWhen(s.etaTs, now) : s.remaining + ' km')
+                : 'Sin carga aún');
         });
         load('watchbat', defaultWatch(), (w) => {
             readBattery((lvl) => {
@@ -28,7 +28,7 @@ export default {
                     return;
                 }
                 const s = watchState(w, lvl, now);
-                this.setSub(1, lvl + '% · ' + (s.etaTs ? 'dura a ' + fmtWhen(s.etaTs, now) : 'calculando'));
+                this.setSub(1, lvl + '% · ' + (s.etaTs ? fmtWhen(s.etaTs, now) : 'midiendo'));
             });
         });
     },

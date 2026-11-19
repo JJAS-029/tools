@@ -32,17 +32,18 @@ export default {
         if (!s.charged) {
             this.pct = 0;
             this.bigText = '--';
-            this.smallText = b.rangeKm + ' km/carga';
-            rows.push(row({ kind: 'info', n: 'Sin carga', s: 'Registra tu carga abajo' }, '', INFO));
+            this.smallText = b.rangeKm + ' km';
+            rows.push(row({ kind: 'info', n: 'Sin carga', s: 'Toca Cargué 100%' }, '', INFO));
         } else {
             this.pct = s.pct;
             this.ringColor = levelColor(s.pct);
             this.bigText = s.pct + '%';
             this.smallText = s.remaining + ' km';
-            rows.push(row({ kind: 'info', n: 'Cargar: ' + (s.etaTs ? fmtWhen(s.etaTs, now) : 'calculando'),
-                s: s.daily > 0 ? '~' + s.daily + ' km por día' : 'Úsala un día para estimar' }, '', INFO));
-            rows.push(row({ kind: 'info', n: 'Cargada hace ' + fmtDur(s.sinceMs),
-                s: s.used + ' km usados' }, '', INFO));
+            // Big value on top, short label below (Pixel Watch style).
+            rows.push(row({ kind: 'info', n: s.etaTs ? fmtWhen(s.etaTs, now) : 'Calculando',
+                s: s.daily > 0 ? 'Cargar · ' + s.daily + ' km/día' : 'Cuándo cargar' }, '', INFO));
+            rows.push(row({ kind: 'info', n: 'Hace ' + fmtDur(s.sinceMs),
+                s: 'Carga · ' + s.used + ' km usados' }, '', INFO));
         }
 
         // Frequent uses: tap = 1 trip, hold = change km.
@@ -50,16 +51,16 @@ export default {
             const u = b.uses[i];
             const left = s.left[i];
             rows.push(row({ kind: 'use', idx: i, n: u.n,
-                s: u.km + ' km · ' + (s.charged ? 'te alcanza ' + left : 'sin carga') },
+                s: u.km + ' km' + (s.charged ? ' · ' + left + (left === 1 ? ' viaje' : ' viajes') : '') },
                 'u_' + (i % 3) + '.png', ITEM));
         }
         if (b.trips.length > 0) {
             const last = b.trips[b.trips.length - 1];
-            rows.push(row({ kind: 'undo', n: 'Deshacer último', s: 'Quitar ' + last.km + ' km' }, '', TONAL));
+            rows.push(row({ kind: 'undo', n: 'Deshacer', s: 'Quitar ' + last.km + ' km' }, '', TONAL));
         }
-        rows.push(row({ kind: 'charge', n: 'Cargué al 100%', s: 'Reinicia la cuenta' }, 'bt_charge.png', ACTION));
+        rows.push(row({ kind: 'charge', n: 'Cargué 100%', s: 'Reinicia cuenta' }, 'bt_charge.png', ACTION));
         rows.push(row({ kind: 'range', n: 'Autonomía', s: b.rangeKm + ' km por carga' }, '', TONAL));
-        rows.push(row({ kind: 'info', n: 'Tip', s: 'Mantén un uso para editarlo' }, '', INFO));
+        rows.push(row({ kind: 'info', n: 'Tip', s: 'Mantén = editar km' }, '', INFO));
         this.rows = rows;
     },
     tap(i) {
