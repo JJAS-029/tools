@@ -30,11 +30,14 @@ se prueba con el teléfono simulado.
 Guardas lugares con nombre (bici, carro, casa del Koala, trabajo…). Tocas uno y
 te dice **a qué distancia está y hacia dónde ir**.
 - **Viabilidad: alta.** El Fit 3 tiene GPS propio (`@system.geolocation`).
-- **Dirección:** el Fit 3 probablemente no tiene brújula, así que la flecha se
-  calcula con el **rumbo de tus últimos pasos** (cuando caminas) más el punto
-  cardinal ("380 m al noreste").
-- **Mapa:** el reloj no puede mostrar calles por sí mismo. **Con Wear Engine**, el
-  teléfono puede dibujar un mini mapa de la zona y mandarlo como imagen.
+- **Dirección:** si el Fit 3 trae brújula (tú crees que sí; lo confirmamos en el
+  reloj real), la flecha apunta de verdad con `@system.sensor` (compass). Si no,
+  se calcula con el **rumbo de tus últimos pasos** más el punto cardinal ("380 m
+  al noreste").
+- **Mapa (con Wear Engine):** el teléfono descarga la zona (OpenStreetMap o el
+  mapa estático de Google), dibuja el tag y tu posición, y le manda al reloj una
+  **imagen de unos 400×400**. Hay que confirmar que la app del reloj puede mostrar
+  una imagen recibida por P2P (que se guarda en su almacenamiento interno).
 - **Extra:** si tienes la app abierta al llegar a un tag, te propone "¿Registrar
   viaje a Casa Koala?" para Baterías.
 
@@ -85,17 +88,34 @@ No podemos cambiar el firmware, pero sí hacer **nuestro propio calendario**:
   día y la semana al reloj, con chips de colores por calendario.
 - **Viabilidad: alta** en cuanto haya Wear Engine.
 
-### 9. Modos / rutinas del teléfono desde el reloj
-Botones en el reloj para "No molestar", "Silencio", "Modo Trabajo", etc.
-- **Viabilidad: media.** La app del teléfono puede activar No molestar y
-  silenciar por sí misma.
-- Los **Modos y rutinas de Samsung** no tienen API pública. Una opción es que
-  tu rutina de Samsung se active con una condición que nosotros provoquemos.
-  Hay que probarlo.
+### 9. Modos y rutinas de Samsung desde el reloj (Trabajo, Dormir…)
+Botones en el reloj: Trabajo, Dormir, Manejo, No molestar, Silencio.
+- **No molestar y Silencio: viabilidad alta.** La app del teléfono los cambia por
+  sí misma (con el permiso de acceso a No molestar).
+- **Modos de Samsung: viabilidad media, hay que probarlo.** No tienen API pública.
+  Ideas, en orden:
+  1. Que la rutina de Samsung se active con una **condición que provoquemos**
+     (por ejemplo, abrir una pantalla de JJAS Tools o un cambio que
+     controlemos).
+  2. Mandar al reloj **atajos de Modos** si Samsung expone algún intent o
+     acceso directo.
+  3. Plan B: nuestros propios "modos" que hagan lo mismo (No molestar, volumen,
+     brillo, Wi-Fi o Bluetooth donde Android lo permita).
 
 ### 10. Ya planeadas (plan original)
 QR en el reloj (el reloj lite tiene un componente `qrcode` nativo), indicaciones
 de Google Maps, notas de Keep y grabadora de voz, que se graba en el teléfono.
+
+## Lluvia de ideas (2026-11-19): evaluación
+| Idea | Viabilidad | Cómo | Qué lo complica |
+|---|---|---|---|
+| **🐨 Tamagotchi de Koala** | 🟢 Alta, solo reloj | Koala animado (`image-animator`) con hambre, ánimo y energía. Lo alimentas con **tus pasos** (sensor de pasos) y lo haces feliz con **tus viajes en bici** (Baterías). Como la app no corre en segundo plano, al abrirla se calcula lo que pasó mientras estuvo cerrada, como los tamagotchis reales. | Solo memoria por pantalla: animaciones de pocos cuadros. |
+| **🎙️ Dictado / transcribir voz** | 🟡 Media | Si el reloj puede grabar, el audio va al teléfono, el teléfono lo transcribe y el texto vuelve al reloj o se guarda en Keep. | **Por verificar:** que una app lite pueda usar el micrófono. Si no, se graba con el micrófono del teléfono (lo que ya está en el plan). |
+| **🖼️ Ver fotos de WhatsApp** | 🟡 Media | El teléfono toma la vista previa de la imagen que trae la notificación de WhatsApp, la reduce y la manda al reloj. | Solo funciona con las que llegan como notificación; WhatsApp no tiene API. |
+| **🔊 Audios de WhatsApp** | 🟡 Transcritos, 🔴 escucharlos | **Escucharlos en el reloj no es viable:** las apps lite no tienen reproductor de audio y el Fit 3 no reproduce audio de apps. **Transcribirlos sí:** el teléfono convierte el audio en texto y el reloj lo muestra. | Hay que poder leer el archivo de voz desde el teléfono (carpeta de medios de WhatsApp): por verificar. |
+| **⏰ Alarma inteligente (ciclos de sueño)** | 🔴 Baja | Despertarte en sueño ligero necesita datos de sueño **en tiempo real**, y una app lite no puede quedarse midiendo toda la noche; Health Kit da el sueño **después**, no en vivo. | Revisar primero si Huawei Health ya trae "alarma inteligente" para el Fit 3; muchas bandas Huawei la tienen. |
+| **🤖 Conexión con Claude** | 🟡 Media (con Wear Engine) | El reloj manda una pregunta (dictada, si hay micrófono, o de una lista) → el teléfono la manda a la API de Claude → la respuesta corta vuelve al reloj. También serviría para **resumir chats** o **audios transcritos**. | Necesita una API key de Anthropic guardada solo en el teléfono (cuesta por uso). Respuestas cortas para la pantalla. |
+| **🧭 Aprovechar más el hardware** | — | Brújula → flecha real en Lugares. GPS → Lugares y velocidad en bici. Pasos → Koala. Micrófono → dictado, si se puede. | Una sola app abierta a la vez y nada en segundo plano. |
 
 ## Descartadas (ya vienen en el Fit 3)
 - Encontrar mi teléfono.
