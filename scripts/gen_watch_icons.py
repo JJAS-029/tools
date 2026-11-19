@@ -248,6 +248,79 @@ def music_assets():
     tile("lt_play", "play", "circle", hexc(MUSIC_PALETTES[0][1]), hexc(MUSIC_PALETTES[0][0]), size=56, glyph_size=30)
 
 
+# ---------- Batteries ----------
+def m_batt(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .08)
+    d.rounded_rectangle([s * .10, s * .26, s * .82, s * .74], radius=s * .10, outline=W, width=lw)
+    d.rounded_rectangle([s * .84, s * .40, s * .92, s * .60], radius=s * .03, fill=W)
+    d.rounded_rectangle([s * .20, s * .36, s * .56, s * .64], radius=s * .04, fill=W)
+    save(img, size, "m_batt")
+
+
+def m_bike(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .07)
+    d.ellipse([s * .04, s * .48, s * .40, s * .84], outline=W, width=lw)
+    d.ellipse([s * .60, s * .48, s * .96, s * .84], outline=W, width=lw)
+    pts = [(s * .22, s * .66), (s * .42, s * .36), (s * .66, s * .36), (s * .78, s * .66)]
+    d.line(pts, fill=W, width=lw, joint="curve")
+    d.line([(s * .22, s * .66), (s * .50, s * .66), (s * .42, s * .36)], fill=W, width=lw, joint="curve")
+    d.line([(s * .62, s * .22), (s * .72, s * .22), (s * .66, s * .36)], fill=W, width=lw)
+    d.line([(s * .36, s * .30), (s * .48, s * .30)], fill=W, width=lw)
+    save(img, size, "m_bike")
+
+
+def m_watch(size=56):
+    img, d, s = canvas(size)
+    d.rounded_rectangle([s * .34, s * .04, s * .66, s * .30], radius=s * .05, fill=W)
+    d.rounded_rectangle([s * .34, s * .70, s * .66, s * .96], radius=s * .05, fill=W)
+    d.rounded_rectangle([s * .22, s * .20, s * .78, s * .80], radius=s * .16, fill=W)
+    d.rounded_rectangle([s * .32, s * .30, s * .68, s * .70], radius=s * .09, fill=(0, 0, 0, 0))
+    save(img, size, "m_watch")
+
+
+def m_work(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .07)
+    d.rounded_rectangle([s * .34, s * .14, s * .66, s * .34], radius=s * .06, outline=W, width=lw)
+    d.rounded_rectangle([s * .10, s * .30, s * .90, s * .84], radius=s * .10, fill=W)
+    d.rectangle([s * .10, s * .52, s * .90, s * .57], fill=(0, 0, 0, 0))
+    save(img, size, "m_work")
+
+
+def m_koala(size=56):
+    img, d, s = canvas(size)
+    d.ellipse([s * .02, s * .14, s * .38, s * .50], fill=W)
+    d.ellipse([s * .62, s * .14, s * .98, s * .50], fill=W)
+    d.ellipse([s * .18, s * .22, s * .82, s * .86], fill=W)
+    clear = (0, 0, 0, 0)
+    d.ellipse([s * .34, s * .44, s * .42, s * .52], fill=clear)
+    d.ellipse([s * .58, s * .44, s * .66, s * .52], fill=clear)
+    d.ellipse([s * .43, s * .52, s * .57, s * .72], fill=clear)
+    save(img, size, "m_koala")
+
+
+def m_bag(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .07)
+    d.arc([s * .32, s * .08, s * .68, s * .44], start=180, end=360, fill=W, width=lw)
+    d.rounded_rectangle([s * .14, s * .28, s * .86, s * .90], radius=s * .10, fill=W)
+    save(img, size, "m_bag")
+
+
+def battery_assets():
+    m_batt(); m_bike(); m_watch(); m_work(); m_koala(); m_bag()
+    amber, teal, coral, sky = MUSIC_PALETTES[3], MUSIC_PALETTES[5], MUSIC_PALETTES[1], MUSIC_PALETTES[2]
+    tile("t_batt", "m_batt", "cookie9", hexc(amber[0]), hexc(amber[1]))
+    tile("bt_bike", "m_bike", "cookie9", hexc(teal[0]), hexc(teal[1]), size=56, glyph_size=36)
+    tile("bt_watch", "m_watch", "squircle", hexc(sky[0]), hexc(sky[1]), size=56, glyph_size=32)
+    tile("u_0", "m_work", "squircle", hexc(sky[0]), hexc(sky[1]), size=56, glyph_size=30)
+    tile("u_1", "m_koala", "cookie9", hexc(MUSIC_PALETTES[4][0]), hexc(MUSIC_PALETTES[4][1]), size=56, glyph_size=34)
+    tile("u_2", "m_bag", "clover", hexc(amber[0]), hexc(amber[1]), size=56, glyph_size=28)
+    tile("bt_charge", "m_batt", "circle", hexc(teal[1]), hexc(teal[0]), size=56, glyph_size=34)
+
+
 def dark_controls():
     """Dark-glyph versions for buttons on light (pastel) backgrounds."""
     for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
@@ -268,5 +341,6 @@ if __name__ == "__main__":
     dark_controls()
     flip_icon(); timer_icon()
     music_assets()
+    battery_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     print(f"Icons written to {OUT}")

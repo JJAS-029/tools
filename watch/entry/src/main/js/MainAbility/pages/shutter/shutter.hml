@@ -1,4 +1,4 @@
-<div class="page" ref="page" onswipe="onSwipe" onrotation="onCrown">
+<div class="page" onswipe="onSwipe">
     <div class="chip">
         <text class="chip-text">{{ chip }}</text>
     </div>

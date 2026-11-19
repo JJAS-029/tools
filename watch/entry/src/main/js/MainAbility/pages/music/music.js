@@ -1,6 +1,6 @@
 import router from '@system.router';
 import bridge from '../../common/bridge.js';
-import { tick, focusCrown, crownSteps } from '../../common/haptics.js';
+import { tick, focusCrown } from '../../common/haptics.js';
 import { PALETTES, paletteIndex } from '../../common/palette.js';
 
 const IMG = '/common/images/';
@@ -20,25 +20,27 @@ export default {
         playIcon: IMG + 'play_p0.png',
         playRadius: 52,
         fillWidth: 0,
-        volText: '--'
+        vol: 0
     },
     onInit() {
         bridge.on('media.state', (s) => this.applyState(s));
         bridge.send('media.get');
     },
     onShow() {
-        // The crown controls the volume on this screen.
-        focusCrown(this.$refs.page);
+        // The crown moves the volume slider (lite: only list/slider/picker take the crown).
+        focusCrown(this.$refs.vol);
     },
     onDestroy() {
         bridge.off('media.state');
     },
-    onCrown(e) {
-        const steps = crownSteps(e);
-        if (steps !== 0) {
-            tick();
-            this.cmd(steps > 0 ? 'vol+' : 'vol-');
+    onVol(e) {
+        const v = Math.round(e.progress !== undefined ? e.progress : e.value);
+        if (v === this.vol) {
+            return;
         }
+        this.vol = v;
+        tick();
+        bridge.send('media.cmd', { a: 'vol', v: v });
     },
     applyState(s) {
         this.title = s.title || 'Nada sonando';
@@ -62,7 +64,9 @@ export default {
 
         const pct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
         this.fillWidth = Math.round(TRACK_W * pct);
-        this.volText = (s.vol === undefined ? '--' : s.vol) + '%';
+        if (s.vol !== undefined) {
+            this.vol = s.vol;
+        }
     },
     cmd(a) {
         bridge.send('media.cmd', { a: a });

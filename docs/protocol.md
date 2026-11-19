@@ -16,7 +16,7 @@ Dirección: **R→T** va del reloj al teléfono; **T→R** va del teléfono al r
 |---|---|---|
 | `media.get` | R→T | `{}` |
 | `media.state` | T→R | `{app, title, artist, playing, pos, dur, vol}` |
-| `media.cmd` | R→T | `{a: "play"\|"pause"\|"next"\|"prev"\|"vol+"\|"vol-"}` |
+| `media.cmd` | R→T | `{a: "play"\|"pause"\|"next"\|"prev"\|"vol+"\|"vol-"}` o `{a: "vol", v: 0..100}` (slider del reloj) |
 
 ## Spotify (playlists)
 Las páginas son de 15 elementos. Los textos llegan recortados a 40 caracteres para cuidar la memoria del reloj. El id especial `liked` representa "Tus me gusta".

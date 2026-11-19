@@ -163,7 +163,8 @@ object MediaRepository {
         WatchLink.send(Protocol.encode("media.state", _state.value.toJson()))
     }
 
-    fun command(a: String) {
+    /** [v] = target volume 0..100 (only for a = "vol", the watch slider). */
+    fun command(a: String, v: Int = -1) {
         val tc = controller?.transportControls
         when (a) {
             "play" -> tc?.play()
@@ -172,6 +173,12 @@ object MediaRepository {
             "prev" -> tc?.skipToPrevious()
             "vol+" -> audio?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0)
             "vol-" -> audio?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0)
+            "vol" -> audio?.let { am ->
+                if (v >= 0) {
+                    val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, Math.round(v.coerceIn(0, 100) * max / 100f), 0)
+                }
+            }
             else -> Log.w(TAG, "Comando desconocido: $a")
         }
         // Volume changes don't fire MediaController callbacks: refresh manually.

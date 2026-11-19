@@ -1,7 +1,7 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import bridge from '../../common/bridge.js';
-import { tick, focusCrown, crownSteps } from '../../common/haptics.js';
+import { tick } from '../../common/haptics.js';
 
 const IMG = '/common/images/';
 const TIMERS = [0, 3, 10];
@@ -47,10 +47,6 @@ export default {
         });
         bridge.send('cam.open');
     },
-    onShow() {
-        // The crown changes the timer.
-        focusCrown(this.$refs.page);
-    },
     onDestroy() {
         bridge.off('cam.state');
         bridge.off('cam.count');
@@ -83,14 +79,6 @@ export default {
     cycleTimer() {
         tick();
         this.setTimer((this.timerIdx + 1) % TIMERS.length);
-    },
-    onCrown(e) {
-        const steps = crownSteps(e);
-        if (steps !== 0) {
-            tick();
-            const n = TIMERS.length;
-            this.setTimer(((this.timerIdx + steps) % n + n) % n);
-        }
     },
     flip() {
         if (this.busy) {

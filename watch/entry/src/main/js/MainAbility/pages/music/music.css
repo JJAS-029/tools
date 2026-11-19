@@ -140,10 +140,8 @@
     height: 32px;
 }
 
-.vtext {
-    width: 130px;
+.vslider {
+    width: 150px;
     height: 40px;
-    font-size: 30px;
-    color: #f1f3f1;
-    text-align: center;
+    color: #4a4458;
 }

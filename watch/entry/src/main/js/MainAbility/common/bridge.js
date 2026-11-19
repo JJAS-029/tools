@@ -47,6 +47,7 @@ function mockSend(t, d) {
         else if (a === 'prev') { mockMedia.title = 'Canción anterior'; mockMedia.pos = 0; }
         else if (a === 'vol+') { mockMedia.vol = Math.min(100, mockMedia.vol + 10); }
         else if (a === 'vol-') { mockMedia.vol = Math.max(0, mockMedia.vol - 10); }
+        else if (a === 'vol') { mockMedia.vol = d.v; }
     }
     if (t === 'media.get' || t === 'media.cmd') {
         setTimeout(function () { emit('media.state', copy(mockMedia)); }, 150);

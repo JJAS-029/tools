@@ -35,7 +35,11 @@
           "pages/music/music",
           "pages/playlists/playlists",
           "pages/tracks/tracks",
-          "pages/camera/camera"
+          "pages/shutter/shutter",
+          "pages/battery/battery",
+          "pages/bike/bike",
+          "pages/watchbat/watchbat",
+          "pages/batedit/batedit"
         ],
         "name": ".MainAbility"
       }

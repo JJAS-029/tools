@@ -1,0 +1,10 @@
+<div class="page" onswipe="onSwipe">
+    <text class="header">{{ label }}</text>
+    <text class="hint">Gira la corona</text>
+    <!-- Number wheel: the crown turns it natively -->
+    <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                 onchange="onPick"></picker-view>
+    <div class="save" onclick="done">
+        <text class="save-text">Guardar</text>
+    </div>
+</div>

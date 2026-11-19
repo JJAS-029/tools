@@ -1,4 +1,4 @@
-<div class="page" ref="page" onswipe="onSwipe" onrotation="onCrown">
+<div class="page" onswipe="onSwipe">
     <div class="chip" style="background-color: {{ pContainer }};">
         <text class="chip-text" style="color: {{ pAccent }};">{{ chipText }}</text>
     </div>
@@ -32,7 +32,8 @@
         <div class="vbtn" onclick="volDown">
             <image class="ico-v" src="/common/images/vol_down.png"></image>
         </div>
-        <text class="vtext">{{ volText }}</text>
+        <slider class="vslider" ref="vol" min="0" max="100" value="{{ vol }}"
+                style="selected-color: {{ pAccent }}; block-color: {{ pAccent }};" onchange="onVol"></slider>
         <div class="vbtn" onclick="volUp">
             <image class="ico-v" src="/common/images/vol_up.png"></image>
         </div>
