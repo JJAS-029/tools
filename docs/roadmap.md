@@ -113,9 +113,35 @@ de Google Maps, notas de Keep y grabadora de voz, que se graba en el teléfono.
 | **🎙️ Dictado / transcribir voz** | 🟡 Media | Si el reloj puede grabar, el audio va al teléfono, el teléfono lo transcribe y el texto vuelve al reloj o se guarda en Keep. | **Por verificar:** que una app lite pueda usar el micrófono. Si no, se graba con el micrófono del teléfono (lo que ya está en el plan). |
 | **🖼️ Ver fotos de WhatsApp** | 🟡 Media | El teléfono toma la vista previa de la imagen que trae la notificación de WhatsApp, la reduce y la manda al reloj. | Solo funciona con las que llegan como notificación; WhatsApp no tiene API. |
 | **🔊 Audios de WhatsApp** | 🟡 Transcritos, 🔴 escucharlos | **Escucharlos en el reloj no es viable:** las apps lite no tienen reproductor de audio y el Fit 3 no reproduce audio de apps. **Transcribirlos sí:** el teléfono convierte el audio en texto y el reloj lo muestra. | Hay que poder leer el archivo de voz desde el teléfono (carpeta de medios de WhatsApp): por verificar. |
-| **⏰ Alarma inteligente (ciclos de sueño)** | 🔴 Baja | Despertarte en sueño ligero necesita datos de sueño **en tiempo real**, y una app lite no puede quedarse midiendo toda la noche; Health Kit da el sueño **después**, no en vivo. | Revisar primero si Huawei Health ya trae "alarma inteligente" para el Fit 3; muchas bandas Huawei la tienen. |
+| **⏰ Alarma inteligente (ciclos de sueño)** | 🔴 En vivo / 🟡 **por tendencias** | En vivo no se puede (la app no puede medir toda la noche). **Tu idea sí se puede:** la app del teléfono lee tu historial de sueño (**Health Kit**), calcula cada semana cuánto tardas en dormirte y cuánto duran tus ciclos, y te propone la mejor hora: al tocar "Me voy a dormir" en el reloj te sugiere despertar al final de un ciclo (p. ej. 6:50 en vez de 7:15) y **pone la alarma en el teléfono** (`AlarmClock`), que suena también en el reloj. | Necesita Health Kit (otra solicitud a Huawei). Sin Health Kit: versión aproximada con ciclos de 90 min y tu hora de dormir. |
 | **🤖 Conexión con Claude** | 🟡 Media (con Wear Engine) | El reloj manda una pregunta (dictada, si hay micrófono, o de una lista) → el teléfono la manda a la API de Claude → la respuesta corta vuelve al reloj. También serviría para **resumir chats** o **audios transcritos**. | Necesita una API key de Anthropic guardada solo en el teléfono (cuesta por uso). Respuestas cortas para la pantalla. |
+| **🎭 Stickers de WhatsApp** | 🟡 Media | Igual que las fotos, si la notificación trae la imagen del sticker. | Muchas veces la notificación solo dice "Sticker" sin imagen. |
+| **📻 Walkie-talkie teléfono ↔ reloj** | 🔴 Baja | El reloj no puede reproducir audio de apps. Versión posible: lo que hablas en el teléfono llega **transcrito** al reloj, y del reloj al teléfono por dictado, si hay micrófono. | Sin reproductor de audio en lite. |
+| **🃏 Anki / vocabulario de inglés** | 🟢 Alta | **AnkiDroid tiene una API pública** (ContentProvider): el teléfono lee tus tarjetas pendientes, el reloj te las muestra (tocas para voltear y calificas *Otra vez / Bien*) y la respuesta se registra en AnkiDroid. Mientras no haya Wear Engine, un mazo de prueba guardado en el reloj. | Tener AnkiDroid instalado. |
+| **⚖️ Convertidor de unidades** | 🟢 Alta, solo reloj | Libras↔kg, °F↔°C, millas↔km, oz↔g, pies↔m y USD↔MXN (tipo de cambio del teléfono o puesto a mano). El número se gira con la corona (`picker-view`). | — |
+| **🤚 Detección de caídas** | 🔴 No | Tendría que vigilar todo el tiempo y la app no corre en segundo plano. | — |
+| **👋 Gestos (sacudir o girar la muñeca)** | 🟡 Solo con la app abierta | Con el acelerómetro (`@system.sensor`), solo en pantallas abiertas: **sacudir para tomar la foto** en Cámara o girar la muñeca para pasar la diapositiva. | No funciona en todo el sistema como el Apple Watch. |
+| **🎥 Grabar video en Cámara** | 🟢 Alta | Botón de grabar y detener en el reloj, con cronómetro; el teléfono graba con CameraX (`VideoCapture`) y lo guarda en Movies/JJAS Tools. | — (**se nos pasó, va primero**) |
 | **🧭 Aprovechar más el hardware** | — | Brújula → flecha real en Lugares. GPS → Lugares y velocidad en bici. Pasos → Koala. Micrófono → dictado, si se puede. | Una sola app abierta a la vez y nada en segundo plano. |
+
+## Ideas mías (para valorar)
+| Idea | Viabilidad | De qué trata |
+|---|---|---|
+| **🎤 Letras de canciones** | 🟡 | El teléfono busca la letra sincronizada de la canción que suena (por ejemplo LRCLIB, que es gratuita) y el reloj la muestra línea por línea en vivo, con los colores de Música. |
+| **🗣️ Traductor de bolsillo** | 🟡 | Dictas (o eliges) una frase y Claude te la regresa en inglés. Combina con Anki para practicar. |
+| **📜 Teleprompter** | 🟢 | Un texto del teléfono (o de Keep) que lees en el reloj y avanzas con la corona: discursos, recetas, listas. |
+| **🎲 Para decidir** | 🟢 | Dado, moneda o ruleta que giras con la corona ("¿quién paga?", "¿qué cenamos?"). |
+| **💞 Contador de días** | 🟢 | Días con el Koala, días para un viaje, racha de días en bici. |
+| **🅿️ Parquímetro** | 🟢 | Guarda dónde dejaste el carro (Lugares) y cuánto pagaste; vibra cuando se acerca la hora. El aviso con la app cerrada llega como notificación del teléfono. |
+| **🏋️ Intervalos (HIIT)** | 🟢 | Rutinas de trabajo y descanso con vibraciones distintas, sin teléfono. |
+| **🚴 Modo bici en vivo** | 🟡 | Velocidad por GPS y autonomía restante mientras ruedas. No corre al mismo tiempo que un entrenamiento del reloj. |
+
+## Orden sugerido (sin esperar a Huawei)
+1. 🎥 Video en Cámara (rápido y se prueba completo en el S23).
+2. 📍 Lugares (GPS, brújula si la tiene).
+3. 🐨 Koala tamagotchi.
+4. ⚖️ Convertidor de unidades.
+5. 🃏 Anki con mazo de prueba en el reloj; con Wear Engine se conecta a AnkiDroid.
 
 ## Descartadas (ya vienen en el Fit 3)
 - Encontrar mi teléfono.
