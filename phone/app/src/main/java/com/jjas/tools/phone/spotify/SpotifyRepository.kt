@@ -21,6 +21,10 @@ object SpotifyRepository {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    /** First playlist from the last list (for the phone's test button). */
+    @Volatile var lastFirstPlaylist: String? = null
+        private set
+
     private fun short(s: String) = if (s.length <= MAX_TEXT) s else s.take(MAX_TEXT - 1) + "…"
 
     fun handle(t: String, d: JSONObject) {
@@ -55,6 +59,7 @@ object SpotifyRepository {
 
     private fun lists(off: Int) {
         val page = SpotifyApi.playlists(off, PAGE)
+        if (off == 0) page.items.firstOrNull()?.let { lastFirstPlaylist = it.id }
         val items = JSONArray()
         page.items.forEach { items.put(JSONObject().put("id", it.id).put("n", short(it.name)).put("c", it.count)) }
         val d = JSONObject().put("off", off).put("total", page.total).put("items", items)

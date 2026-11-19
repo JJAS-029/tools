@@ -1,6 +1,7 @@
 package com.jjas.tools.phone
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
     private val hasAccess = mutableStateOf(false)
     private val spotifyLogged = mutableStateOf(false)
     private val spotifyMsg = mutableStateOf("")
+    private val canOverlay = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,12 @@ class MainActivity : ComponentActivity() {
                         configured = SpotifyAuth.isConfigured,
                         logged = spotifyLogged.value,
                         message = spotifyMsg.value,
+                        canOpenSpotify = canOverlay.value,
+                        onAllowOpenSpotify = {
+                            startActivity(
+                                Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+                            )
+                        },
                         onLogin = { startActivity(SpotifyAuth.loginIntent()) },
                         onLogout = {
                             SpotifyAuth.logout()
@@ -68,6 +76,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        canOverlay.value = Settings.canDrawOverlays(this)
         hasAccess.value = NotificationManagerCompat.getEnabledListenerPackages(this).contains(packageName)
         if (hasAccess.value) MediaRepository.start(this)
     }

@@ -1,5 +1,6 @@
 package com.jjas.tools.phone.spotify
 
+import com.jjas.tools.phone.media.MediaRepository
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -15,6 +16,8 @@ object SpotifyApi {
     private fun call(method: String, path: String, body: JSONObject? = null): JSONObject {
         val conn = URL(BASE + path).openConnection() as HttpURLConnection
         conn.requestMethod = method
+        conn.connectTimeout = 10_000
+        conn.readTimeout = 15_000
         conn.setRequestProperty("Authorization", "Bearer ${SpotifyAuth.accessToken()}")
         if (body != null) {
             conn.doOutput = true
@@ -60,12 +63,26 @@ object SpotifyApi {
         }
         try {
             call("PUT", "/me/player/play", body)
+            return
         } catch (e: SpotifyException) {
-            // 404 = no active device: pick the phone (Spotify must be open/in background).
-            if (e.code != 404) throw e
-            val device = SpotifyParse.pickDevice(call("GET", "/me/player/devices"))
-                ?: throw SpotifyException(404, "Abre Spotify en tu teléfono")
-            call("PUT", "/me/player/play?device_id=$device", body)
+            if (e.code != 404) throw e   // 404 = no active device
         }
+        val device = findDevice(if (id == LIKED) null else "spotify:playlist:$id")
+            ?: throw SpotifyException(404, "Abre Spotify en tu teléfono")
+        call("PUT", "/me/player/play?device_id=$device", body)
+    }
+
+    /**
+     * The phone as a Spotify Connect device. If Spotify is closed or "asleep" it
+     * doesn't show up: we open it (on [openUri]) and wait for it to register (~10 s).
+     */
+    private fun findDevice(openUri: String?): String? {
+        SpotifyParse.pickDevice(call("GET", "/me/player/devices"))?.let { return it }
+        if (!MediaRepository.openSpotify(openUri)) return null
+        repeat(12) {
+            Thread.sleep(2_000)
+            SpotifyParse.pickDevice(call("GET", "/me/player/devices"))?.let { return it }
+        }
+        return null
     }
 }

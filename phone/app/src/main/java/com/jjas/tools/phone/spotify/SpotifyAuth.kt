@@ -108,6 +108,8 @@ object SpotifyAuth {
         val body = params.joinToString("&") { (k, v) -> "$k=${URLEncoder.encode(v, "UTF-8")}" }
         val conn = URL("https://accounts.spotify.com/api/token").openConnection() as HttpURLConnection
         conn.requestMethod = "POST"
+        conn.connectTimeout = 10_000
+        conn.readTimeout = 15_000
         conn.doOutput = true
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
         conn.outputStream.use { it.write(body.toByteArray()) }

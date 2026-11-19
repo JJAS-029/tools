@@ -2,8 +2,10 @@ package com.jjas.tools.phone.media
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.net.Uri
 import android.media.MediaMetadata
 import android.media.session.MediaController
 import android.media.session.MediaSessionManager
@@ -72,6 +74,28 @@ object MediaRepository {
             Log.w(TAG, "Sin acceso a notificaciones", e)
         }
     }
+
+    /**
+     * Opens Spotify on the phone (on [uri] if there is one) so it registers in
+     * Spotify Connect. From the background it needs the "Display over other apps" permission.
+     */
+    fun openSpotify(uri: String?): Boolean {
+        val ctx = appContext ?: return false
+        val intent = if (uri != null) {
+            Intent(Intent.ACTION_VIEW, Uri.parse(uri)).setPackage(SPOTIFY)
+        } else {
+            ctx.packageManager.getLaunchIntentForPackage(SPOTIFY) ?: return false
+        }
+        return try {
+            ctx.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            true
+        } catch (e: Exception) {
+            Log.w(TAG, "No se pudo abrir Spotify", e)
+            false
+        }
+    }
+
+    private const val SPOTIFY = "com.spotify.music"
 
     fun stop() {
         sessionManager?.removeOnActiveSessionsChangedListener(sessionsListener)

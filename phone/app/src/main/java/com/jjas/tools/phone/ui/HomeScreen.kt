@@ -68,12 +68,16 @@ import com.jjas.tools.phone.bridge.Protocol
 import com.jjas.tools.phone.bridge.WatchLink
 import com.jjas.tools.phone.media.MediaRepository
 import com.jjas.tools.phone.spotify.SpotifyApi
+import com.jjas.tools.phone.spotify.SpotifyRepository
 import org.json.JSONObject
 
 data class SpotifyUi(
     val configured: Boolean,
     val logged: Boolean,
     val message: String,
+    /** "Display over other apps" permission: lets it open Spotify when the watch asks. */
+    val canOpenSpotify: Boolean,
+    val onAllowOpenSpotify: () -> Unit,
     val onLogin: () -> Unit,
     val onLogout: () -> Unit,
 )
@@ -294,10 +298,22 @@ private fun SpotifyCard(ui: SpotifyUi) {
                         Icon(Icons.Rounded.Favorite, null, Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp)); Text("Me gusta")
                     }
-                    Button(onClick = { fromWatch("sp.play", JSONObject().put("id", SpotifyApi.LIKED).put("idx", 0)) }) {
+                    Button(onClick = {
+                        // Plays the first playlist (if "Playlists" was tapped) or your liked songs.
+                        val id = SpotifyRepository.lastFirstPlaylist ?: SpotifyApi.LIKED
+                        fromWatch("sp.play", JSONObject().put("id", id).put("idx", 0))
+                    }) {
                         Icon(Icons.Rounded.PlayArrow, null, Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp)); Text("Reproducir")
                     }
+                }
+                if (!ui.canOpenSpotify) {
+                    Text(
+                        "Para que el reloj pueda poner música con Spotify cerrado, permite " +
+                            "que JJAS Tools se muestre sobre otras apps.",
+                        style = MaterialTheme.typography.bodyMedium, color = cs.onSurfaceVariant,
+                    )
+                    FilledTonalButton(onClick = ui.onAllowOpenSpotify) { Text("Permitir abrir Spotify") }
                 }
                 OutlinedButton(onClick = ui.onLogout) { Text("Cerrar sesión") }
             }
