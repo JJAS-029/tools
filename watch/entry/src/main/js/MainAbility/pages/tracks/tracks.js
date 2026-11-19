@@ -1,11 +1,9 @@
 import router from '@system.router';
 import { tick, focusCrown } from '../../common/haptics.js';
 import bridge from '../../common/bridge.js';
+import { PALETTES } from '../../common/palette.js';
 
-// M3 Expressive: primary container for actions, tonal surface for items.
-const ACTION = { color: '#00391c', sub: '#1f5c33', bg: '#9df5b0' };
-const ITEM = { color: '#f1f3f1', sub: '#9da39f', bg: '#1d201f' };
-const MORE = { color: '#9df5b0', sub: '#9da39f', bg: '#173a22' };
+const IMG = '/common/images/';
 
 export default {
     onShow() {
@@ -15,13 +13,19 @@ export default {
         // Received from playlists via router params.
         pid: '',
         pname: '',
+        pidx: 0,
+        headColor: PALETTES[0].accent,
         rows: [],
         msg: 'Cargando…',
         total: 0,
         loaded: 0,
         loading: false
     },
+    pal() {
+        return PALETTES[this.pidx] || PALETTES[0];
+    },
     onInit() {
+        this.headColor = this.pal().accent;
         bridge.on('sp.tracks.r', (r) => this.onPage(r));
         bridge.on('sp.play.r', () => router.replace({ uri: 'pages/music/music' }));
         bridge.on('sp.err', (e) => { this.loading = false; this.msg = e.msg; });
@@ -41,10 +45,13 @@ export default {
         if (r.id !== this.pid) { return; }
         this.loading = false;
         this.msg = '';
+        const p = this.pal();
         const rows = [];
         if (r.off === 0) {
             // First page: start the list with "Play all".
-            rows.push({ kind: 'all', n: 'Reproducir todo', s: r.locked ? '' : r.total + ' canciones', color: ACTION.color, sub: ACTION.sub, bg: ACTION.bg });
+            // "Play all" in the playlist's color (accent container).
+            rows.push({ kind: 'all', n: 'Reproducir todo', s: r.locked ? '' : r.total + ' canciones',
+                icon: IMG + 'play_p' + this.pidx + '.png', lcls: 'labels', color: p.on, sub: p.container, bg: p.accent });
         } else {
             // Next pages: keep what's already there, minus the "See more" row.
             for (let i = 0; i < this.rows.length; i++) {
@@ -53,12 +60,14 @@ export default {
         }
         for (let j = 0; j < r.items.length; j++) {
             const t = r.items[j];
-            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, color: ITEM.color, sub: ITEM.sub, bg: ITEM.bg });
+            rows.push({ kind: 'track', idx: r.off + j, n: t.n, s: t.a, icon: '', lcls: 'labels-wide',
+                color: '#f1f3f1', sub: p.accent, bg: p.surface });
         }
         this.total = r.total;
         this.loaded = r.off + r.items.length;
         if (!r.locked && this.loaded < this.total) {
-            rows.push({ kind: 'more', n: 'Ver más…', s: (this.total - this.loaded) + ' restantes', color: MORE.color, sub: MORE.sub, bg: MORE.bg });
+            rows.push({ kind: 'more', n: 'Ver más…', s: (this.total - this.loaded) + ' restantes', icon: '',
+                lcls: 'labels-wide', color: p.accent, sub: '#a9a4ad', bg: p.container });
         }
         if (r.locked) {
             this.msg = 'Spotify no comparte su lista';

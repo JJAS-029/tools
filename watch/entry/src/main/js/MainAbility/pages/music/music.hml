@@ -1,27 +1,33 @@
 <div class="page" ref="page" onswipe="onSwipe" onrotation="onCrown">
-    <div class="chip">
-        <text class="chip-text">{{ appName }}</text>
+    <div class="chip" style="background-color: {{ pContainer }};">
+        <text class="chip-text" style="color: {{ pAccent }};">{{ chipText }}</text>
     </div>
+
+    <!-- "Cover": M3 shape and color per song; spins while playing -->
+    <image class="{{ artClass }}" src="{{ artIcon }}"></image>
+
     <text class="title">{{ title }}</text>
     <text class="artist">{{ artist }}</text>
 
-    <progress class="bar" type="horizontal" percent="{{ percent }}"></progress>
+    <!-- Thick progress bar (M3 Expressive) -->
+    <div class="track" style="background-color: {{ pSurface }};">
+        <div class="fill" style="width: {{ fillWidth }}px; background-color: {{ pAccent }};"></div>
+    </div>
 
-    <!-- M3 Expressive "button group": side pills + wide central button
-         whose shape changes (pill when paused, square-ish while playing). -->
+    <!-- Button group: the center one changes shape (pill ↔ rounded square) -->
     <div class="controls">
-        <div class="side" onclick="prev">
+        <div class="side" style="background-color: {{ pContainer }};" onclick="prev">
             <image class="ico-s" src="/common/images/prev.png"></image>
         </div>
-        <div class="main" style="border-radius: {{ playRadius }}px;" onclick="toggle">
+        <div class="main" style="border-radius: {{ playRadius }}px; background-color: {{ pAccent }};" onclick="toggle">
             <image class="ico-l" src="{{ playIcon }}"></image>
         </div>
-        <div class="side" onclick="next">
+        <div class="side" style="background-color: {{ pContainer }};" onclick="next">
             <image class="ico-s" src="/common/images/next.png"></image>
         </div>
     </div>
 
-    <div class="volume">
+    <div class="volume" style="background-color: {{ pSurface }};">
         <div class="vbtn" onclick="volDown">
             <image class="ico-v" src="/common/images/vol_down.png"></image>
         </div>

@@ -1,18 +1,26 @@
 import router from '@system.router';
 import bridge from '../../common/bridge.js';
 import { tick, focusCrown, crownSteps } from '../../common/haptics.js';
+import { PALETTES, paletteIndex } from '../../common/palette.js';
 
 const IMG = '/common/images/';
+const TRACK_W = 280;
 
 export default {
     data: {
-        appName: 'Música',
+        chipText: 'Música',
         title: 'Conectando...',
         artist: '',
         playing: false,
-        playIcon: IMG + 'play_d.png',
+        pIdx: 0,
+        pAccent: PALETTES[0].accent,
+        pContainer: PALETTES[0].container,
+        pSurface: PALETTES[0].surface,
+        artIcon: IMG + 'art_0.png',
+        artClass: 'art',
+        playIcon: IMG + 'play_p0.png',
         playRadius: 52,
-        percent: 0,
+        fillWidth: 0,
         volText: '--'
     },
     onInit() {
@@ -34,14 +42,28 @@ export default {
         }
     },
     applyState(s) {
-        this.appName = s.app || 'Música';
-        this.title = s.title || 'Nada reproduciéndose';
+        this.title = s.title || 'Nada sonando';
         this.artist = s.artist || '';
         this.playing = !!s.playing;
-        this.playIcon = IMG + (this.playing ? 'pause_d.png' : 'play_d.png');
+        this.chipText = s.app || 'Música';
+
+        // Dynamic color: each song gets its own palette and "cover" shape.
+        const i = paletteIndex(s.title);
+        if (i !== this.pIdx || this.artIcon === '') {
+            const p = PALETTES[i];
+            this.pIdx = i;
+            this.pAccent = p.accent;
+            this.pContainer = p.container;
+            this.pSurface = p.surface;
+            this.artIcon = IMG + 'art_' + i + '.png';
+        }
+        this.playIcon = IMG + (this.playing ? 'pause_p' : 'play_p') + i + '.png';
         // Shape morph: pill when paused, rounded square while playing.
         this.playRadius = this.playing ? 30 : 52;
-        this.percent = s.dur > 0 ? Math.round((s.pos / s.dur) * 100) : 0;
+        this.artClass = this.playing ? 'art-spin' : 'art';
+
+        const pct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
+        this.fillWidth = Math.round(TRACK_W * pct);
         this.volText = (s.vol === undefined ? '--' : s.vol) + '%';
     },
     cmd(a) {

@@ -165,8 +165,8 @@ def hexc(h):
 
 # name, glyph, shape, container (pastel), glyph (dark)
 TILES = [
-    ("t_music", "m_music", "cookie9", "#9df5b0", "#00391c"),
-    ("t_list", "m_list", "clover", "#c3f0b8", "#0f3a0c"),
+    ("t_music", "m_music", "cookie9", "#d0bcff", "#381e72"),
+    ("t_list", "m_list", "clover", "#ffb0cd", "#5e1133"),
     ("t_camera", "m_camera", "squircle", "#b4ccff", "#0a2a66"),
     ("t_qr", "m_qr", "sunny", "#d9c6ff", "#2e1066"),
     ("t_nav", "m_nav", "cookie6", "#ffcfa6", "#4a2200"),
@@ -205,6 +205,49 @@ def shutter(size=150, name="shutter", bg="#b4ccff", fg="#0a2a66"):
     save(img, size, name)
 
 
+# ---------- Music: per-song palettes (Material You style) ----------
+# accent (button/art), on (dark glyph), container (side pills), surface (track)
+MUSIC_PALETTES = [
+    ("#d0bcff", "#381e72", "#3b2f57", "#2b2633"),  # 0 lilac
+    ("#ffb4a8", "#561e15", "#5a2e27", "#33201d"),  # 1 coral
+    ("#a8c8ff", "#0a2f60", "#263a5c", "#1f2531"),  # 2 sky
+    ("#ffd27a", "#402d00", "#4f4020", "#2f2a20"),  # 3 amber
+    ("#ffb0cd", "#5e1133", "#5a2a3e", "#33202a"),  # 4 pink
+    ("#80d5d0", "#003735", "#204a48", "#1c2b2a"),  # 5 teal
+]
+ART_SHAPES = ["cookie9", "sunny", "clover", "cookie12", "squircle", "cookie6"]
+
+
+def heart(size=56):
+    img, d, s = canvas(size)
+    r = s * .21
+    d.ellipse([s * .12, s * .18, s * .12 + 2 * r, s * .18 + 2 * r], fill=W)
+    d.ellipse([s * .88 - 2 * r, s * .18, s * .88, s * .18 + 2 * r], fill=W)
+    d.polygon([(s * .14, s * .44), (s * .86, s * .44), (s * .50, s * .86)], fill=W)
+    save(img, size, "m_heart")
+
+
+def tinted(src, dst, col):
+    g = Image.open(OUT / f"{src}.png").convert("RGBA")
+    t = Image.new("RGBA", g.size, hexc(col))
+    t.putalpha(g.getchannel("A"))
+    t.save(OUT / f"{dst}.png")
+
+
+def music_assets():
+    heart()
+    for i, (acc, on, cont, surf) in enumerate(MUSIC_PALETTES):
+        # big "art": per-song shape and color
+        tile(f"art_{i}", "m_music", ART_SHAPES[i], hexc(acc), hexc(on), size=130, glyph_size=60)
+        # small tiles for the playlist list
+        tile(f"lt_{i}", "m_list", ART_SHAPES[i], hexc(acc), hexc(on), size=56, glyph_size=30)
+        tinted("play", f"play_p{i}", on)
+        tinted("pause", f"pause_p{i}", on)
+    acc, on = MUSIC_PALETTES[4][0], MUSIC_PALETTES[4][1]
+    tile("lt_heart", "m_heart", "cookie9", hexc(on), hexc(acc), size=56, glyph_size=28)
+    tile("lt_play", "play", "circle", hexc(MUSIC_PALETTES[0][1]), hexc(MUSIC_PALETTES[0][0]), size=56, glyph_size=30)
+
+
 def dark_controls():
     """Dark-glyph versions for buttons on light (pastel) backgrounds."""
     for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
@@ -224,5 +267,6 @@ if __name__ == "__main__":
         tile(name, glyph, kind, hexc(bg), hexc(fg))
     dark_controls()
     flip_icon(); timer_icon()
+    music_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     print(f"Icons written to {OUT}")
