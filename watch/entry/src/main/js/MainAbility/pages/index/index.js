@@ -19,6 +19,8 @@ export default {
             { name: 'Metro', sub: 'CDMX y MI', icon: IMG + 't_metro.png', uri: 'pages/metro/metro' },
             { name: 'Lugares', sub: 'GPS y brújula', icon: IMG + 't_places.png', uri: 'pages/places/places' },
             { name: 'Koala', sub: 'Científico', icon: IMG + 't_koala.png', uri: 'pages/koala/koala' },
+            { name: 'Bici Kit', sub: 'Mantto y luces', icon: IMG + 't_bkit.png', uri: 'pages/bikecare/bikecare' },
+            { name: 'Pomodoro', sub: 'Foco y HIIT', icon: IMG + 't_timer.png', uri: 'pages/timer/timer' },
             { name: 'Unidades', sub: 'lb, °F, USD...', icon: IMG + 't_units.png', uri: 'pages/units/units' },
             { name: 'Contador', sub: 'Agua y reps', icon: IMG + 't_count.png', uri: 'pages/counter/counter' },
             { name: 'Propinas', sub: 'Dividir cuenta', icon: IMG + 't_tip.png', uri: 'pages/tip/tip' },

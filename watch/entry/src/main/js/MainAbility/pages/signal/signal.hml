@@ -1,0 +1,17 @@
+<div class="page" onswipe="onSwipe">
+    <div class="lamp" style="background-color: {{ lampBg }};" onclick="toggleHazard">
+        <text class="arrow" style="color: {{ lampCol }};">{{ glyph }}</text>
+        <text class="lbl" style="color: {{ lampCol }};">{{ label }}</text>
+    </div>
+    <div class="controls">
+        <div class="btn" style="background-color: {{ leftBg }};" onclick="setDir('left')">
+            <text class="btn-txt" style="color: {{ leftCol }};">◀</text>
+        </div>
+        <div class="btn-mid" onclick="setDir('off')">
+            <text class="btn-mid-txt">OFF</text>
+        </div>
+        <div class="btn" style="background-color: {{ rightBg }};" onclick="setDir('right')">
+            <text class="btn-txt" style="color: {{ rightCol }};">▶</text>
+        </div>
+    </div>
+</div>

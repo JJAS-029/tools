@@ -56,7 +56,10 @@
           "pages/places/places",
           "pages/placego/placego",
           "pages/hwtest/hwtest",
-          "pages/koala/koala"
+          "pages/koala/koala",
+          "pages/bikecare/bikecare",
+          "pages/signal/signal",
+          "pages/timer/timer"
         ],
         "name": ".MainAbility"
       }

@@ -1,0 +1,73 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.chip {
+    width: 280px;
+    height: 46px;
+    margin-top: 14px;
+    border-radius: 23px;
+    background-color: #1c2b2a;
+    justify-content: center;
+    align-items: center;
+}
+
+.chip-text {
+    width: 260px;
+    height: 36px;
+    font-size: 30px;
+    color: #80d5d0;
+    text-align: center;
+}
+
+.list {
+    width: 100%;
+    height: 382px;
+    margin-top: 6px;
+}
+
+.row {
+    width: 100%;
+    height: 96px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 344px;
+    height: 86px;
+    border-radius: 43px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.labels {
+    width: 296px;
+    height: 78px;
+    margin-left: 24px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.name {
+    width: 100%;
+    height: 42px;
+    font-size: 36px;
+    text-overflow: ellipsis;
+}
+
+.sub {
+    width: 100%;
+    height: 34px;
+    font-size: 28px;
+    text-overflow: ellipsis;
+}
+
+.tail {
+    width: 100%;
+    height: 80px;
+}

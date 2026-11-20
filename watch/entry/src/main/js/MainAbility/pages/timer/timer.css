@@ -1,0 +1,107 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.chip {
+    width: 260px;
+    height: 46px;
+    margin-top: 16px;
+    border-radius: 23px;
+    justify-content: center;
+    align-items: center;
+}
+
+.chip-text {
+    width: 240px;
+    height: 36px;
+    font-size: 30px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.ring-box {
+    width: 210px;
+    height: 180px;
+    margin-top: 6px;
+}
+
+.ring {
+    width: 210px;
+    height: 180px;
+    center-x: 105px;
+    center-y: 98px;
+    radius: 90px;
+    start-angle: 240deg;
+    total-angle: 240deg;
+    stroke-width: 14px;
+    background-color: #1d201f;
+}
+
+.ring-center {
+    width: 210px;
+    height: 180px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.big {
+    width: 148px;
+    height: 48px;
+    font-size: 38px;
+    color: #f1f3f1;
+    text-align: center;
+}
+
+.small {
+    width: 148px;
+    height: 36px;
+    font-size: 28px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.controls {
+    width: 300px;
+    height: 76px;
+    margin-top: 14px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-go {
+    width: 204px;
+    height: 72px;
+    border-radius: 36px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-go-txt {
+    width: 180px;
+    height: 42px;
+    font-size: 34px;
+    text-align: center;
+}
+
+.btn-rst {
+    width: 82px;
+    height: 72px;
+    border-radius: 36px;
+    background-color: #1d201f;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-rst-txt {
+    width: 66px;
+    height: 42px;
+    font-size: 36px;
+    color: #f1f3f1;
+    text-align: center;
+}

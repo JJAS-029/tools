@@ -1,0 +1,21 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to cycle preset: Pomodoro / HIIT 30-15 / HIIT 45-15 / Estirar -->
+    <div class="chip" style="background-color: {{ chipBg }};" onclick="nextPreset">
+        <text class="chip-text" style="color: {{ accent }};">{{ presetText }}</text>
+    </div>
+    <stack class="ring-box">
+        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ accent }};"></progress>
+        <div class="ring-center" onclick="toggle">
+            <text class="big">{{ clockText }}</text>
+            <text class="small" style="color: {{ accent }};">{{ phaseText }}</text>
+        </div>
+    </stack>
+    <div class="controls">
+        <div class="btn-go" style="background-color: {{ accent }};" onclick="toggle">
+            <text class="btn-go-txt" style="color: {{ onAccent }};">{{ goText }}</text>
+        </div>
+        <div class="btn-rst" onclick="reset">
+            <text class="btn-rst-txt">↺</text>
+        </div>
+    </div>
+</div>

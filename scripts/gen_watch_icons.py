@@ -665,6 +665,12 @@ def koala_assets():
     draw_koala_sprite("ko_sleep_1", eyes="sleep", arms="normal", hat=True, z_y=-12.8)
 
 
+def phase3_bike_timer_assets():
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    tile("t_bkit", "m_bike", "clover", hexc(amber[0]), hexc(amber[1]))
+    tile("t_timer", "m_clock", "cookie12", hexc(coral[0]), hexc(coral[1]))
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -717,6 +723,7 @@ if __name__ == "__main__":
     quick_tools_assets()
     places_assets()
     koala_assets()
+    phase3_bike_timer_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)
