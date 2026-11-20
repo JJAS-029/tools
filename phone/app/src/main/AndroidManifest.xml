@@ -11,6 +11,10 @@
     <!-- Phase 2: bike hourly SMS beacon, "¿Dónde estás?" auto-reply, Wi-Fi leave reminder -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Reply to "¿Dónde estás?" with the app closed (Android 10+: "Allow all the time") -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- Bike notices on time with the phone asleep (if not granted, Android may delay them a bit) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />

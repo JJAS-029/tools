@@ -9,8 +9,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
+import android.os.CancellationSignal
+import android.os.Handler
+import android.os.Looper
 import android.telephony.SmsManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -36,18 +40,28 @@ data class SafetyState(
 
 /**
  * Shared state, SMS + GPS helpers, and notifications for Phase 2:
- *  - Hourly "Salí en bici" / "Llegué" beacon
+ *  - Periodic "Salí en bici" / "Llegué" notice (SafetyService)
  *  - Auto-reply to "¿Dónde estás?" SMS from the authorized contact
  *  - "¿Llevas todo?" notification when leaving Wi-Fi
+ *
+ * Holds only the applicationContext (no leak).
  */
+@SuppressLint("StaticFieldLeak")
 object SafetyRepository {
     const val CH_SAFETY = "jjas_safety"
     const val CH_REMINDER = "jjas_reminder"
+
+    /** A location older than this is marked as "from X min ago" in the SMS. */
+    private const val FRESH_MS = 3 * 60_000L
+
+    /** Minimum time between automatic replies (avoids loops/spam). */
+    private const val AUTO_REPLY_GAP_MS = 3 * 60_000L
 
     private var appCtx: Context? = null
     private var prefs: SharedPreferences? = null
     private val _state = MutableStateFlow(SafetyState())
     val state: StateFlow<SafetyState> = _state
+    private val main by lazy { Handler(Looper.getMainLooper()) }
 
     fun init(context: Context) {
         val ctx = context.applicationContext
@@ -55,7 +69,7 @@ object SafetyRepository {
         val p = ctx.getSharedPreferences("safety_cfg", Context.MODE_PRIVATE)
         prefs = p
         ensureChannels(ctx)
-        val loaded = SafetyState(
+        var loaded = SafetyState(
             contactName = p.getString("name", "Mamá") ?: "Mamá",
             contactPhone = p.getString("phone", "") ?: "",
             intervalMin = p.getInt("interval", 60),
@@ -66,6 +80,13 @@ object SafetyRepository {
                 ?: "Llaves, cartera, cargador, casco",
             lastSent = p.getString("lastSent", "") ?: "",
         )
+        // If the next notice should have gone out a while ago, the ride was interrupted
+        // (phone restarted or Android killed the app): don't show "En bici" forever.
+        val next = p.getLong("nextTickAt", 0L)
+        if (loaded.riding && next > 0 && System.currentTimeMillis() > next + 15 * 60_000L) {
+            p.edit().putBoolean("riding", false).apply()
+            loaded = loaded.copy(riding = false, statusMsg = "Se interrumpió el aviso en bici. Vuelve a iniciarlo.")
+        }
         _state.value = loaded
         if (loaded.leaveReminder) {
             WifiLeaveMonitor.start(ctx)
@@ -108,7 +129,15 @@ object SafetyRepository {
 
     fun setRiding(on: Boolean) {
         prefs?.edit()?.putBoolean("riding", on)?.apply()
+        if (!on) prefs?.edit()?.remove("nextTickAt")?.apply()
         _state.value = _state.value.copy(riding = on)
+    }
+
+    /** Ride state saved to disk (survives the process; the service uses it instead of memory). */
+    fun isRidingSaved(): Boolean = prefs?.getBoolean("riding", false) ?: false
+
+    fun setNextTick(at: Long) {
+        prefs?.edit()?.putLong("nextTickAt", at)?.apply()
     }
 
     fun setStatus(msg: String) {
@@ -137,12 +166,19 @@ object SafetyRepository {
     fun hasPerm(ctx: Context, perm: String) =
         ContextCompat.checkSelfPermission(ctx, perm) == PackageManager.PERMISSION_GRANTED
 
-    /** Last known location across GPS and Network providers (most recent wins). */
+    /** "Allow all the time": needed to reply "¿Dónde estás?" with the app closed. */
+    fun hasBackgroundLocation(ctx: Context) =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+            hasPerm(ctx, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+
+    private fun hasAnyLocation(ctx: Context) =
+        hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION) ||
+            hasPerm(ctx, Manifest.permission.ACCESS_COARSE_LOCATION)
+
+    /** Last known location across GPS and Network providers (most recent wins). Can be old. */
     @SuppressLint("MissingPermission")
     fun bestLastLocation(ctx: Context): Location? {
-        if (!hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION) &&
-            !hasPerm(ctx, Manifest.permission.ACCESS_COARSE_LOCATION)
-        ) return null
+        if (!hasAnyLocation(ctx)) return null
         val lm = ctx.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return null
         var best: Location? = null
         for (p in listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)) {
@@ -152,10 +188,79 @@ object SafetyRepository {
         return best
     }
 
-    fun mapsLink(loc: Location?): String = if (loc != null) {
-        "https://maps.google.com/?q=%.5f,%.5f".format(Locale.US, loc.latitude, loc.longitude)
-    } else {
-        "(sin señal GPS ahorita)"
+    /**
+     * Asks for a FRESH location (GPS, or network if GPS is off). If it doesn't arrive
+     * within [timeoutMs], returns the last known one (which may be old: the SMS says so).
+     * [cb] is always called exactly once, on the main thread.
+     */
+    @SuppressLint("MissingPermission")
+    fun currentLocation(ctx: Context, timeoutMs: Long, cb: (Location?) -> Unit) {
+        if (!hasAnyLocation(ctx)) {
+            main.post { cb(null) }
+            return
+        }
+        val lm = ctx.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+        if (lm == null) {
+            main.post { cb(null) }
+            return
+        }
+        val provider = when {
+            lm.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
+                hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION) -> LocationManager.GPS_PROVIDER
+            lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+            else -> null
+        }
+        if (provider == null) {
+            main.post { cb(bestLastLocation(ctx)) }
+            return
+        }
+        var done = false
+        fun finish(loc: Location?) {
+            if (done) return
+            done = true
+            cb(loc ?: bestLastLocation(ctx))
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val cancel = CancellationSignal()
+                lm.getCurrentLocation(provider, cancel, ContextCompat.getMainExecutor(ctx)) { finish(it) }
+                main.postDelayed({
+                    if (!done) {
+                        cancel.cancel()
+                        finish(null)
+                    }
+                }, timeoutMs)
+            } else {
+                val listener = object : LocationListener {
+                    override fun onLocationChanged(location: Location) {
+                        lm.removeUpdates(this)
+                        finish(location)
+                    }
+                }
+                @Suppress("DEPRECATION")
+                lm.requestSingleUpdate(provider, listener, Looper.getMainLooper())
+                main.postDelayed({
+                    if (!done) {
+                        lm.removeUpdates(listener)
+                        finish(null)
+                    }
+                }, timeoutMs)
+            }
+        } catch (_: Exception) {
+            // No permission in the background, provider disabled, etc.
+            main.post { finish(null) }
+        }
+    }
+
+    /** Maps link + how old it is if it isn't fresh ("de hace 25 min"). */
+    fun mapsLink(loc: Location?, now: Long = System.currentTimeMillis()): String {
+        if (loc == null) return "(sin señal GPS ahorita)"
+        val link = "https://maps.google.com/?q=%.5f,%.5f".format(Locale.US, loc.latitude, loc.longitude)
+        val age = now - loc.time
+        if (age <= FRESH_MS) return link
+        val min = age / 60_000L
+        val ago = if (min < 120) "$min min" else "${min / 60} h"
+        return "$link (ubicación de hace $ago)"
     }
 
     fun sendSms(ctx: Context, phone: String, text: String): Boolean {
@@ -191,12 +296,26 @@ object SafetyRepository {
         return da.takeLast(10) == db.takeLast(10)
     }
 
-    /** True if the incoming SMS asks "dónde" / "donde" (accent & case insensitive). */
+    /**
+     * True only if the SMS really asks where you are: "¿Dónde estás?", "donde andas",
+     * "dónde vas" (accent/case/punctuation insensitive). A plain "dónde" no longer
+     * counts (e.g. "¿dónde dejaste las llaves?").
+     */
     fun isWhereQuery(body: String): Boolean {
         val norm = Normalizer.normalize(body, Normalizer.Form.NFD)
             .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
             .lowercase(Locale.ROOT)
-        return norm.contains("donde")
+            .replace(Regex("[^a-z ]"), " ")
+            .replace(Regex("\\s+"), " ")
+        return Regex("\\bdonde (estas|andas|vas|te encuentras)\\b").containsMatchIn(norm)
+    }
+
+    /** Allows at most one auto-reply every 3 min. Records it if allowed. */
+    fun allowAutoReply(now: Long = System.currentTimeMillis()): Boolean {
+        val p = prefs ?: return true
+        if (now - p.getLong("lastAutoReply", 0L) < AUTO_REPLY_GAP_MS) return false
+        p.edit().putLong("lastAutoReply", now).apply()
+        return true
     }
 
     fun digitsOnly(s: String) = s.filter { it.isDigit() }

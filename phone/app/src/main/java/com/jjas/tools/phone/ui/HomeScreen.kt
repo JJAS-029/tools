@@ -330,10 +330,28 @@ private fun SafetyCard() {
     val cs = MaterialTheme.colorScheme
     var phone by remember(st.contactPhone) { mutableStateOf(st.contactPhone) }
 
+    // Step 2 (Android 10+): "Allow all the time" is asked separately, after the normal one.
+    val askBackground = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { ok ->
+        SafetyRepository.setStatus(
+            if (ok) "Listo: puedo responder \"¿Dónde estás?\" con la app cerrada"
+            else "Sin 'Todo el tiempo', \"¿Dónde estás?\" solo sabe tu ubicación con la app abierta"
+        )
+    }
     val askPerms = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-        SafetyRepository.setStatus("Permisos actualizados")
+    ) { res ->
+        val fine = res[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+            SafetyRepository.hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (fine && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            !SafetyRepository.hasBackgroundLocation(ctx)
+        ) {
+            SafetyRepository.setStatus("En la siguiente pantalla elige \"Permitir todo el tiempo\"")
+            askBackground.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        } else {
+            SafetyRepository.setStatus("Permisos actualizados")
+        }
     }
 
     fun requestNeededPerms() {
@@ -394,8 +412,8 @@ private fun SafetyCard() {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(Modifier.weight(1f)) {
-                Text("Responder \"dónde\" por SMS", style = MaterialTheme.typography.bodyMedium)
-                Text("Solo al número autorizado", style = MaterialTheme.typography.bodySmall,
+                Text("Responder \"¿Dónde estás?\" por SMS", style = MaterialTheme.typography.bodyMedium)
+                Text("Solo a ${st.contactName}, máx. 1 cada 3 min", style = MaterialTheme.typography.bodySmall,
                     color = cs.onSurfaceVariant)
             }
             Switch(checked = st.autoReply, onCheckedChange = { SafetyRepository.setAutoReply(it) })
