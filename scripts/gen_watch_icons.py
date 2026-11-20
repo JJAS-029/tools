@@ -168,6 +168,7 @@ TILES = [
     ("t_music", "m_music", "cookie9", "#d0bcff", "#381e72"),
     ("t_list", "m_list", "clover", "#ffb0cd", "#5e1133"),
     ("t_camera", "m_camera", "squircle", "#b4ccff", "#0a2a66"),
+    ("t_work", "m_work", "sunny", "#a6f2d1", "#003826"),
     ("t_qr", "m_qr", "sunny", "#d9c6ff", "#2e1066"),
     ("t_nav", "m_nav", "cookie6", "#ffcfa6", "#4a2200"),
     ("t_notes", "m_notes", "squircle", "#fbe38c", "#3d3000"),
@@ -334,6 +335,53 @@ def battery_assets():
     tile("bt_charge", "m_batt", "circle", hexc(teal[1]), hexc(teal[0]), size=56, glyph_size=34)
 
 
+# ---------- Work (Mi jornada) ----------
+def m_coin(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .09)
+    d.line([(s * .50, s * .10), (s * .50, s * .90)], fill=W, width=lw)
+    d.arc([s * .24, s * .20, s * .76, s * .52], start=110, end=350, fill=W, width=lw)
+    d.arc([s * .24, s * .48, s * .76, s * .80], start=290, end=170, fill=W, width=lw)
+    save(img, size, "m_coin")
+
+
+def m_check(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .11)
+    d.line([(s * .20, s * .54), (s * .42, s * .76), (s * .80, s * .28)], fill=W, width=lw, joint="curve")
+    save(img, size, "m_check")
+
+
+def m_clock(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .08)
+    d.ellipse([s * .12, s * .12, s * .88, s * .88], outline=W, width=lw)
+    d.line([(s * .50, s * .28), (s * .50, s * .52), (s * .68, s * .62)], fill=W, width=lw, joint="curve")
+    save(img, size, "m_clock")
+
+
+def m_cup(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .08)
+    d.rounded_rectangle([s * .16, s * .28, s * .70, s * .78], radius=s * .10, fill=W)
+    d.arc([s * .58, s * .36, s * .86, s * .66], start=270, end=90, fill=W, width=lw)
+    d.rounded_rectangle([s * .14, s * .82, s * .72, s * .90], radius=s * .04, fill=W)
+    save(img, size, "m_cup")
+
+
+def work_assets():
+    m_coin(); m_check(); m_clock(); m_cup()
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    mint_bg, mint_fg = "#a6f2d1", "#003826"
+    tile("w_cash", "m_coin", "sunny", hexc(mint_bg), hexc(mint_fg), size=56, glyph_size=32)
+    tile("w_in", "m_check", "circle", hexc(teal[1]), hexc(teal[0]), size=56, glyph_size=32)
+    tile("w_meet", "m_clock", "cookie9", hexc(coral[0]), hexc(coral[1]), size=56, glyph_size=32)
+    tile("w_rate", "m_coin", "clover", hexc(amber[0]), hexc(amber[1]), size=56, glyph_size=30)
+    tile("w_pay", "m_work", "squircle", hexc(lilac[0]), hexc(lilac[1]), size=56, glyph_size=30)
+    tile("w_clock", "m_clock", "circle", hexc(sky[0]), hexc(sky[1]), size=56, glyph_size=32)
+    tile("w_lunch", "m_cup", "cookie6", hexc(pink[0]), hexc(pink[1]), size=56, glyph_size=32)
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -371,7 +419,7 @@ if __name__ == "__main__":
     play(); pause()
     skip(forward=True); skip(forward=False)
     vol(plus=True); vol(plus=False)
-    m_music(); m_camera(); m_qr(); m_nav(); m_notes(); m_mic(); m_list()
+    m_music(); m_camera(); m_qr(); m_nav(); m_notes(); m_mic(); m_list(); m_work()
     for name, glyph, kind, bg, fg in TILES:
         tile(name, glyph, kind, hexc(bg), hexc(fg))
     dark_controls()
@@ -379,6 +427,7 @@ if __name__ == "__main__":
     music_assets()
     art_frames()
     battery_assets()
+    work_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)

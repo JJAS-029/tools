@@ -39,7 +39,9 @@
           "pages/battery/battery",
           "pages/bike/bike",
           "pages/watchbat/watchbat",
-          "pages/batedit/batedit"
+          "pages/batedit/batedit",
+          "pages/work/work",
+          "pages/workedit/workedit"
         ],
         "name": ".MainAbility"
       }

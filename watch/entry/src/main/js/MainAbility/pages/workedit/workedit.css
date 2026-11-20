@@ -1,0 +1,53 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.header {
+    width: 300px;
+    height: 46px;
+    margin-top: 24px;
+    font-size: 38px;
+    color: #a6f2d1;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.hint {
+    width: 300px;
+    height: 38px;
+    font-size: 30px;
+    color: #a9a4ad;
+    text-align: center;
+}
+
+.wheel {
+    width: 260px;
+    height: 220px;
+    margin-top: 6px;
+    color: #6f6a73;
+    font-size: 30px;
+    selected-color: #a6f2d1;
+    selected-font-size: 38px;
+}
+
+.save {
+    width: 240px;
+    height: 72px;
+    margin-top: 10px;
+    border-radius: 36px;
+    background-color: #80d5d0;
+    justify-content: center;
+    align-items: center;
+}
+
+.save-text {
+    width: 200px;
+    height: 44px;
+    font-size: 38px;
+    color: #003735;
+    text-align: center;
+}

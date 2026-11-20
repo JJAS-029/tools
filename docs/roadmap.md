@@ -21,12 +21,13 @@ necesita a los dos se prueba con el teléfono simulado.
   se cambian sus textos (ver `pages/bike`).
 
 ## Hecho ✅
-| Función | Dónde corre | Estado |
-|---|---|---|
-| Música (control, volumen con la corona y color dinámico M3) | reloj + teléfono | probado en el Previewer y en el S23 |
-| Playlists de Spotify | reloj + teléfono | probado en el S23 con tu cuenta |
-| Cámara (foto, video, temporizador y voltear) | reloj + teléfono | probado en el S23 |
-| Baterías: bici (50 km) y reloj (estimado real) | solo reloj | probado en el Previewer |
+| Función | Dónde corre | Hecho por | Estado |
+|---|---|---|---|
+| Música (control, volumen con la corona y color dinámico M3) | reloj + teléfono | Claude Code | probado en el Previewer y en el S23 |
+| Playlists de Spotify | reloj + teléfono | Claude Code | probado en el S23 con tu cuenta |
+| Cámara (foto, video, temporizador y voltear) | reloj + teléfono | Claude Code (foto) + Antigravity (video) | probado en el S23 |
+| Baterías: bici (50 km) y reloj (estimado real) | solo reloj | Claude Code | probado en el Previewer |
+| Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | solo reloj | Antigravity | probado en el Previewer |
 
 ---
 
@@ -35,8 +36,8 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 · 🟣 necesita Health Kit · ⚡ rápida (1 sesión).
 
 ### Fase 1: rápidas, sin esperar a Huawei
-1. ~~🎥 **Video en Cámara**~~ ✅ hecho.
-2. 💰 **Mi jornada: barra + dinero ganado** 🟢⚡
+1. ~~🎥 **Video en Cámara**~~ ✅ hecho (Antigravity).
+2. ~~💰 **Mi jornada: barra + dinero ganado**~~ ✅ hecho (Antigravity).
 3. 🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad** 🟢
 4. ⚖️ **Convertidor de unidades** 🟢⚡
 5. 🔢 **Contador con la corona** 🟢⚡

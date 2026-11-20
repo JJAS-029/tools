@@ -1,0 +1,20 @@
+<div class="page" onswipe="onSwipe">
+    <stack class="ring-box">
+        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ ringColor }};"></progress>
+        <div class="ring-center">
+            <text class="big">{{ bigText }}</text>
+            <text class="small" style="color: {{ smallColor }};">{{ smallText }}</text>
+        </div>
+    </stack>
+    <list class="list" ref="list">
+        <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})">
+            <div class="card" style="background-color: {{ $item.bg }};">
+                <image class="tile" show="{{ $item.icon !== '' }}" src="{{ $item.icon }}"></image>
+                <div class="labels" style="width: {{ $item.lw }}px; margin-left: {{ $item.lm }}px;">
+                    <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
+                    <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
+                </div>
+            </div>
+        </list-item>
+    </list>
+</div>
