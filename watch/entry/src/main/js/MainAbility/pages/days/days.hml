@@ -1,0 +1,14 @@
+<div class="page" onswipe="onSwipe">
+    <text class="header">Contador de días</text>
+    <list class="list" ref="list">
+        <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})" onlongpress="hold({{ $idx }})">
+            <div class="card" style="background-color: {{ $item.bg }};">
+                <div class="labels">
+                    <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
+                    <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
+                </div>
+            </div>
+        </list-item>
+        <list-item class="tail"></list-item>
+    </list>
+</div>

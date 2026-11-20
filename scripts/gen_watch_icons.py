@@ -678,6 +678,9 @@ def phase3_bike_timer_assets():
     tile("t_habits", "m_check", "sunny", hexc("#a6f2d1"), hexc("#003826"))
     text_badge("t_anki", "EN", "squircle", sky[0], sky[1], size=84)
     text_badge("t_vibe", "⚡", "cookie6", lilac[0], lilac[1], size=84)
+    text_badge("t_spend", "-$", "cookie9", "#a6f2d1", "#003826", size=84)
+    tile("t_days", "m_heart", "clover", hexc(pink[0]), hexc(pink[1]))
+    text_badge("t_simon", "4", "sunny", amber[0], amber[1], size=84)
 
 
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.

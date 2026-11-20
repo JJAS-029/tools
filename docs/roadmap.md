@@ -44,6 +44,9 @@ necesita a los dos se prueba con el teléfono simulado.
 | Hábitos del día (anillo ondulado M3 + racha diaria) | solo reloj | Antigravity | compilado (falta Previewer) |
 | Hora táctil en vibraciones (horas largas + cuartos cortos) | solo reloj | Antigravity | compilado (falta Previewer) |
 | Anki vocabulario inglés (mazo integrado de 15 tarjetas) | solo reloj | Antigravity | compilado (falta Previewer) |
+| Contador de días (Koala, viaje y racha de bici) | solo reloj | Antigravity | compilado (falta Previewer) |
+| Gastos rápidos con la corona y total de la semana | solo reloj | Antigravity | compilado (falta Previewer) |
+| Simón dice con vibraciones y récord | solo reloj | Antigravity | compilado (falta Previewer) |
 
 ---
 
@@ -78,13 +81,13 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 19. ~~🍅 **Pomodoro** + 🏋️ **Intervalos (HIIT)** con vibraciones~~ ✅ hecho (Antigravity).
 20. ~~💧 **Hábitos del día** (anillos M3)~~ ✅ hecho (Antigravity).
 21. ~~📳 **La hora en vibraciones**~~ ✅ hecho (Antigravity).
-22. 💞 **Contador de días** 🟢⚡
-23. 💵 **Gastos rápidos** 🟢
+22. ~~💞 **Contador de días**~~ ✅ hecho (Antigravity).
+23. ~~💵 **Gastos rápidos**~~ ✅ hecho (Antigravity).
 24. ~~🃏 **Anki con mazo de prueba**~~ ✅ hecho (Antigravity).
 25. 📜 **Teleprompter** (texto guardado en el reloj) 🟢
 26. ❤️ **Zonas de pulso** + 🚴 **Modo bici en vivo** (velocidad por GPS) 🟢
 27. 👋 **Gestos** (sacudir para la foto) 🟢
-28. 🐍 **Juegos** (Snake, 2048, Simón con vibraciones) 🟢
+28. ~~🐍 **Juegos** (Simón con vibraciones)~~ ✅ hecho (Antigravity).
 
 ### Fase 4: en cuanto llegue Wear Engine (alta viabilidad)
 29. 🚨 **Botón de emergencia (SOS)** 🟡

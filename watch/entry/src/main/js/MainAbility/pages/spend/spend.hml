@@ -1,0 +1,20 @@
+<div class="page" onswipe="onSwipe">
+    <div class="hero" onlongpress="resetWeek">
+        <text class="total">{{ totalText }}</text>
+        <text class="sub">{{ subText }}</text>
+    </div>
+    <!-- Tap chip to cycle category; turn crown to pick amount -->
+    <div class="chip" style="background-color: {{ catBg }};" onclick="nextCat">
+        <text class="chip-text" style="color: {{ catCol }};">{{ catText }}</text>
+    </div>
+    <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                 onchange="onPick"></picker-view>
+    <div class="controls">
+        <div class="btn-add" onclick="addSpend">
+            <text class="btn-add-txt">+ Agregar</text>
+        </div>
+        <div class="btn-undo" onclick="undo">
+            <image class="undo-ico" src="/common/images/reset.png"></image>
+        </div>
+    </div>
+</div>

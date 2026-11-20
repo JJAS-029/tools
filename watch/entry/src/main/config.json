@@ -62,7 +62,10 @@
           "pages/timer/timer",
           "pages/habits/habits",
           "pages/vibeclock/vibeclock",
-          "pages/anki/anki"
+          "pages/anki/anki",
+          "pages/days/days",
+          "pages/spend/spend",
+          "pages/simon/simon"
         ],
         "name": ".MainAbility"
       }

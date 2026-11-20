@@ -1,0 +1,14 @@
+<div class="page" onswipe="onSwipe">
+    <text class="header">{{ headerText }}</text>
+    <div class="grid-row">
+        <div class="pad" style="background-color: {{ bg0 }};" onclick="press(0)"></div>
+        <div class="pad" style="background-color: {{ bg1 }};" onclick="press(1)"></div>
+    </div>
+    <div class="grid-row">
+        <div class="pad" style="background-color: {{ bg2 }};" onclick="press(2)"></div>
+        <div class="pad" style="background-color: {{ bg3 }};" onclick="press(3)"></div>
+    </div>
+    <div class="go" onclick="startGame">
+        <text class="go-txt">{{ btnText }}</text>
+    </div>
+</div>
