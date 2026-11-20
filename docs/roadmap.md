@@ -37,7 +37,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | `decide.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
 | QR en el reloj (componente `qrcode` nativo) | `qr.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
 | Hoy No Circula CDMX (placa y holograma) | `hnc.hml` | solo reloj | Antigravity | probado en el Previewer |
-| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | *(solo Android)* | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
+| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | *(solo Android)* | solo teléfono | Antigravity + Claude Code (revisión: GPS en vivo, alarmas, permisos) | compilado y con pruebas unitarias; falta probar en el S23 |
 | Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | `places.hml`, `placego.hml`, `hwtest.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | `koala.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Bici Kit (checklist, mantenimiento por km y direccionales nocturnas) | `bikecare.hml`, `signal.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
@@ -176,7 +176,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 | Idea | De qué trata | Ojo |
 |---|---|---|
 | **🚴 Aviso a tu mamá** | El teléfono va en la mochila con GPS e internet. "Salí en bici" → SMS *"Salí en bici"* + link de Maps, uno **cada hora**, y "Llegué" para terminar. Con Wear Engine, el botón también en el reloj. | Google Maps → Compartir ubicación ya hace la versión en vivo; lo nuestro aporta el botón y los avisos solos. |
-| **📍 "¿Dónde estás?" automático** | Si tu mamá (o quien autorices) te manda un SMS con "dónde", el teléfono le contesta solo con tu ubicación. | Permisos de SMS: bien para uso personal, Play los restringe. |
+| **📍 "¿Dónde estás?" automático** | Si tu mamá (o quien autorices) te manda *"¿Dónde estás?"* (o "dónde andas"), el teléfono le contesta solo con tu ubicación (máx. 1 cada 3 min). Con la app cerrada necesita "Ubicación: permitir todo el tiempo". | Permisos de SMS: bien para uso personal, Play los restringe. |
 | **🔑 ¿Llevas todo?** | Al salir del Wi-Fi del trabajo o de la casa: "¿Llaves, cartera, cargador?", y llega al reloj. | — |
 
 ## 🟡 Reloj + teléfono (Wear Engine)
