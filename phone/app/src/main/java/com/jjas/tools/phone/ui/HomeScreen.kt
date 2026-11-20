@@ -1,5 +1,9 @@
 package com.jjas.tools.phone.ui
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -32,6 +36,7 @@ import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.material.icons.rounded.DirectionsBike
 import androidx.compose.material.icons.rounded.AttachMoney
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Refresh
@@ -53,7 +58,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -67,6 +74,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -75,6 +83,7 @@ import com.jjas.tools.phone.bridge.Protocol
 import com.jjas.tools.phone.bridge.WatchLink
 import com.jjas.tools.phone.brief.WeatherRepository
 import com.jjas.tools.phone.fx.FxRepository
+import com.jjas.tools.phone.safety.SafetyRepository
 import com.jjas.tools.phone.media.MediaRepository
 import com.jjas.tools.phone.spotify.SpotifyApi
 import com.jjas.tools.phone.spotify.SpotifyRepository
@@ -110,6 +119,7 @@ fun HomeScreen(hasAccess: Boolean, onGrantAccess: () -> Unit, spotify: SpotifyUi
             item { NowPlayingCard() }
             item { SpotifyCard(spotify) }
             item { CameraCard() }
+            item { SafetyCard() }
             item { FxCard() }
             item { WeatherCard() }
             item { LogCard() }
@@ -308,6 +318,102 @@ private fun CameraCard() {
         }
         Text("Fotos en Imágenes/JJAS Tools y videos en Películas/JJAS Tools.", style = MaterialTheme.typography.bodySmall,
             color = cs.onSurfaceVariant)
+    }
+}
+
+// ---------- Phase 2: Bike beacon, "¿Dónde estás?" SMS, Wi-Fi leave reminder ----------
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun SafetyCard() {
+    val ctx = LocalContext.current
+    val st by SafetyRepository.state.collectAsState()
+    val cs = MaterialTheme.colorScheme
+    var phone by remember(st.contactPhone) { mutableStateOf(st.contactPhone) }
+
+    val askPerms = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        SafetyRepository.setStatus("Permisos actualizados")
+    }
+
+    fun requestNeededPerms() {
+        val list = mutableListOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.RECEIVE_SMS,
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            list.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        askPerms.launch(list.toTypedArray())
+    }
+
+    val sub = when {
+        st.riding -> "En bici · avisando cada ${st.intervalMin} min"
+        st.lastSent.isNotEmpty() -> "Último SMS a las ${st.lastSent}"
+        else -> "Aviso en bici y ¿Dónde estás?"
+    }
+
+    ExpressiveCard {
+        CardTitle(
+            M3Shapes.Cookie12, cs.primary, cs.onPrimary, Icons.Rounded.DirectionsBike,
+            "Seguridad y bici", sub,
+        )
+        OutlinedTextField(
+            value = phone,
+            onValueChange = {
+                phone = it
+                SafetyRepository.updateContact(st.contactName, it)
+            },
+            label = { Text("Celular de ${st.contactName} (10 dígitos)") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (!st.riding) {
+                Button(onClick = { SafetyRepository.startRide(ctx) }) {
+                    Icon(Icons.Rounded.DirectionsBike, null, Modifier.size(18.dp))
+                    Spacer(Modifier.width(6.dp)); Text("Salí en bici")
+                }
+            } else {
+                Button(onClick = { SafetyRepository.stopRide(ctx) }) {
+                    Icon(Icons.Rounded.Stop, null, Modifier.size(18.dp))
+                    Spacer(Modifier.width(6.dp)); Text("Ya llegué")
+                }
+            }
+            FilledTonalButton(onClick = { SafetyRepository.cycleInterval() }) {
+                Text("Cada ${st.intervalMin} min")
+            }
+            OutlinedButton(onClick = { requestNeededPerms() }) {
+                Text("Permisos")
+            }
+        }
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("Responder \"dónde\" por SMS", style = MaterialTheme.typography.bodyMedium)
+                Text("Solo al número autorizado", style = MaterialTheme.typography.bodySmall,
+                    color = cs.onSurfaceVariant)
+            }
+            Switch(checked = st.autoReply, onCheckedChange = { SafetyRepository.setAutoReply(it) })
+        }
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("¿Llevas todo? al salir del Wi-Fi", style = MaterialTheme.typography.bodyMedium)
+                Text(st.leaveItems, style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant)
+            }
+            Switch(checked = st.leaveReminder, onCheckedChange = { SafetyRepository.setLeaveReminder(it) })
+        }
+        if (st.statusMsg.isNotEmpty()) {
+            Text(st.statusMsg, style = MaterialTheme.typography.bodySmall, color = cs.primary)
+        }
     }
 }
 

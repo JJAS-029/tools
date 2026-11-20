@@ -13,6 +13,7 @@ import com.jjas.tools.phone.brief.WeatherRepository
 import com.jjas.tools.phone.camera.CameraRepository
 import com.jjas.tools.phone.fx.FxRepository
 import com.jjas.tools.phone.media.MediaRepository
+import com.jjas.tools.phone.safety.SafetyRepository
 import com.jjas.tools.phone.spotify.SpotifyAuth
 import com.jjas.tools.phone.ui.HomeScreen
 import com.jjas.tools.phone.ui.SpotifyUi
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
         CameraRepository.init(this)
         FxRepository.init(this)
         WeatherRepository.init(this)
+        SafetyRepository.init(this)
         spotifyLogged.value = SpotifyAuth.isLoggedIn
         handleSpotifyCallback(intent)
         enableEdgeToEdge()

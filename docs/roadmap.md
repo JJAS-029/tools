@@ -35,7 +35,8 @@ necesita a los dos se prueba con el teléfono simulado.
 | Dividir la cuenta y propinas con la corona | solo reloj | Antigravity | probado en el Previewer |
 | Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | solo reloj | Antigravity | compilado (falta Previewer) |
 | QR en el reloj (componente `qrcode` nativo) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
+| Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | probado en el Previewer |
+| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
 
 ---
 
@@ -56,9 +57,9 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 10. ~~🚗 **Hoy No Circula**~~ ✅ hecho (Antigravity).
 
 ### Fase 2: teléfono solo (en paralelo, sin Huawei)
-10. 🚴 **Aviso a tu mamá cada hora** ("Salí en bici" / "Llegué") 🔵
-11. 📍 **"¿Dónde estás?" automático** por SMS 🔵
-12. 🔑 **¿Llevas todo?** al salir del Wi-Fi 🔵
+10. ~~🚴 **Aviso a tu mamá cada hora** ("Salí en bici" / "Llegué")~~ ✅ hecho (Antigravity).
+11. ~~📍 **"¿Dónde estás?" automático** por SMS~~ ✅ hecho (Antigravity).
+12. ~~🔑 **¿Llevas todo?** al salir del Wi-Fi~~ ✅ hecho (Antigravity).
 
 ### Fase 3: solo reloj, más trabajo
 13. 🔬 **Prueba de hardware en el reloj real:** micrófono, brújula, pulso y
