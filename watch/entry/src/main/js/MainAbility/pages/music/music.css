@@ -49,17 +49,10 @@
     text-overflow: ellipsis;
 }
 
-.track {
+.wave {
     width: 280px;
-    height: 14px;
-    margin-top: 10px;
-    border-radius: 7px;
-    flex-direction: row;
-}
-
-.fill {
-    height: 14px;
-    border-radius: 7px;
+    height: 24px;
+    margin-top: 6px;
 }
 
 .controls {

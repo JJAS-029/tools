@@ -1,6 +1,7 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import { tick, focusCrown } from '../../common/haptics.js';
+import { drawWavyRing } from '../../common/wavyring.js';
 import { load, save } from '../../common/store.js';
 
 const PROFILES = [
@@ -33,6 +34,14 @@ export default {
     },
     onShow() {
         focusCrown(this.$refs.slider);
+        this.drawRing();
+        setTimeout(() => { this.drawRing(); }, 80);
+    },
+    drawRing() {
+        drawWavyRing(this, 'ring', {
+            w: 200, h: 168, cy: 92, r: 72,
+            pct: this.pct, color: this.ringColor, track: this.chipBg
+        });
     },
     refresh() {
         const p = PROFILES[state.idx] || PROFILES[0];
@@ -53,6 +62,7 @@ export default {
             this.ringColor = p.accent;
             this.subText = 'libre';
         }
+        this.drawRing();
     },
     setVal(next) {
         const p = PROFILES[state.idx] || PROFILES[0];

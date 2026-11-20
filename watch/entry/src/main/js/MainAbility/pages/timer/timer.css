@@ -32,13 +32,6 @@
 .ring {
     width: 210px;
     height: 180px;
-    center-x: 105px;
-    center-y: 98px;
-    radius: 90px;
-    start-angle: 240deg;
-    total-angle: 240deg;
-    stroke-width: 14px;
-    background-color: #1d201f;
 }
 
 .ring-center {
@@ -98,10 +91,7 @@
     align-items: center;
 }
 
-.btn-rst-txt {
-    width: 66px;
-    height: 42px;
-    font-size: 36px;
-    color: #f1f3f1;
-    text-align: center;
+.rst-ico {
+    width: 38px;
+    height: 38px;
 }

@@ -1,6 +1,7 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import { tick, focusCrown } from '../../common/haptics.js';
+import { drawWavyRing } from '../../common/wavyring.js';
 import { load, save } from '../../common/store.js';
 import { row, INFO, ITEM, ACTION, TONAL } from '../../common/rows.js';
 import { defaultBike, bikeState, bikeCharge, fmtWhen, fmtDur, levelColor } from '../../common/battcalc.js';
@@ -49,6 +50,16 @@ export default {
     },
     onShow() {
         focusCrown(this.$refs.list);
+        if (bike) {
+            this.refresh();
+        }
+        setTimeout(() => { this.drawRing(); }, 80);
+    },
+    drawRing() {
+        drawWavyRing(this, 'ring', {
+            w: 210, h: 174, cy: 94, r: 76,
+            pct: this.pct, color: this.ringColor, track: '#2f2a20'
+        });
     },
     set(k, n, s) {
         const r = this.rows[k];
@@ -95,6 +106,7 @@ export default {
         }
         this.set(UNDO, 'Deshacer', has ? 'Quitar ' + b.trips[b.trips.length - 1].km + ' km' : 'Nada que quitar');
         this.set(RANGE, 'Autonomía', b.rangeKm + ' km por carga');
+        this.drawRing();
     },
     tap(i) {
         const r = this.rows[i];

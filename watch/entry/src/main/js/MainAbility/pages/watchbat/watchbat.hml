@@ -1,6 +1,6 @@
 <div class="page" onswipe="onSwipe">
     <stack class="ring-box">
-        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ ringColor }};"></progress>
+        <canvas id="ring" class="ring" ref="ring"></canvas>
         <div class="ring-center">
             <text class="big">{{ bigText }}</text>
             <text class="small">{{ smallText }}</text>

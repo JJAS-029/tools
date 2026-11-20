@@ -4,7 +4,7 @@
         <text class="chip-text" style="color: {{ accent }};">{{ presetText }}</text>
     </div>
     <stack class="ring-box">
-        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ accent }};"></progress>
+        <canvas id="ring" class="ring" ref="ring"></canvas>
         <div class="ring-center" onclick="toggle">
             <text class="big">{{ clockText }}</text>
             <text class="small" style="color: {{ accent }};">{{ phaseText }}</text>
@@ -15,7 +15,7 @@
             <text class="btn-go-txt" style="color: {{ onAccent }};">{{ goText }}</text>
         </div>
         <div class="btn-rst" onclick="reset">
-            <text class="btn-rst-txt">↺</text>
+            <image class="rst-ico" src="/common/images/reset.png"></image>
         </div>
     </div>
 </div>

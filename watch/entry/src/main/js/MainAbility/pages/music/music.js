@@ -1,11 +1,12 @@
 import router from '@system.router';
 import bridge from '../../common/bridge.js';
 import { tick, focusCrown } from '../../common/haptics.js';
+import { drawWavyBar } from '../../common/wavyring.js';
 import { PALETTES, paletteIndex } from '../../common/palette.js';
 
 const IMG = '/common/images/';
-const TRACK_W = 280;
 const FRAMES = 6;
+let wavePhase = 0;
 
 // image-animator frames: the shape turns and the note stays upright (common/images/art_<i>_<k>.png).
 function frames(i) {
@@ -30,19 +31,41 @@ export default {
         artFrames: frames(0),
         playIcon: IMG + 'play_p0.png',
         playRadius: 52,
-        fillWidth: 0,
+        progPct: 0.2,
         vol: 0
     },
     onInit() {
+        this.waveTimer = null;
         bridge.on('media.state', (s) => this.applyState(s));
         bridge.send('media.get');
     },
     onShow() {
         // The crown moves the volume slider (lite: only list/slider/picker take the crown).
         focusCrown(this.$refs.vol);
+        setTimeout(() => { this.drawWave(); }, 80);
     },
     onDestroy() {
+        this.stopWave();
         bridge.off('media.state');
+    },
+    drawWave() {
+        drawWavyBar(this, 'wave', {
+            w: 280, h: 24, pct: this.progPct,
+            color: this.pAccent, track: this.pSurface, phase: wavePhase
+        });
+    },
+    startWave() {
+        this.stopWave();
+        this.waveTimer = setInterval(() => {
+            wavePhase += 0.55;
+            this.drawWave();
+        }, 250);
+    },
+    stopWave() {
+        if (this.waveTimer) {
+            clearInterval(this.waveTimer);
+            this.waveTimer = null;
+        }
     },
     onVol(e) {
         const v = Math.round(e.progress !== undefined ? e.progress : e.value);
@@ -76,10 +99,11 @@ export default {
         this.playRadius = this.playing ? 30 : 52;
         if (this.playing !== wasPlaying) {
             this.animate(this.playing);
+            if (this.playing) { this.startWave(); } else { this.stopWave(); }
         }
 
-        const pct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
-        this.fillWidth = Math.round(TRACK_W * pct);
+        this.progPct = s.dur > 0 ? Math.min(1, s.pos / s.dur) : 0;
+        this.drawWave();
         if (s.vol !== undefined) {
             this.vol = s.vol;
         }

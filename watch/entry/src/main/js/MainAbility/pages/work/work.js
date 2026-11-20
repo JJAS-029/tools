@@ -1,6 +1,7 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import { tick, focusCrown } from '../../common/haptics.js';
+import { drawWavyRing } from '../../common/wavyring.js';
 import { load, save } from '../../common/store.js';
 import { row, ITEM, ACTION, TONAL } from '../../common/rows.js';
 import {
@@ -62,6 +63,13 @@ export default {
             this.refresh();
             this.startTicker();
         }
+        setTimeout(() => { this.drawRing(); }, 80);
+    },
+    drawRing() {
+        drawWavyRing(this, 'ring', {
+            w: 210, h: 174, cy: 94, r: 76,
+            pct: this.pct, color: this.ringColor, track: '#1c2b2a'
+        });
     },
     onHide() {
         this.stopTicker();
@@ -148,6 +156,7 @@ export default {
         this.set(START, 'Entrada', fmtClock(w.startMin));
         this.set(END, 'Salida', fmtClock(w.endMin));
         this.set(LUNCH, 'Comida', w.lunchMin > 0 ? w.lunchMin + ' min' : 'Pagada');
+        this.drawRing();
     },
     tap(i) {
         const r = this.rows[i];

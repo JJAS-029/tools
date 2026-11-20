@@ -11,10 +11,8 @@
     <text class="title">{{ title }}</text>
     <text class="artist">{{ artist }}</text>
 
-    <!-- Thick progress bar (M3 Expressive) -->
-    <div class="track" style="background-color: {{ pSurface }};">
-        <div class="fill" style="width: {{ fillWidth }}px; background-color: {{ pAccent }};"></div>
-    </div>
+    <!-- Sinusoidal wavy progress bar (M3 Expressive) -->
+    <canvas id="wave" class="wave" ref="wave"></canvas>
 
     <!-- Button group: the center one changes shape (pill ↔ rounded square) -->
     <div class="controls">

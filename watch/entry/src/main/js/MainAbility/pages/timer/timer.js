@@ -1,6 +1,9 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import { tick } from '../../common/haptics.js';
+import { drawWavyRing } from '../../common/wavyring.js';
+
+let wavePhase = 0;
 
 const PRESETS = [
     { name: 'Pomodoro ⇄', work: 25 * 60, rest: 5 * 60, rounds: 4 },
@@ -36,8 +39,18 @@ export default {
         this.ticker = null;
         this.loadPreset();
     },
+    onShow() {
+        this.drawRing();
+        setTimeout(() => { this.drawRing(); }, 80);
+    },
     onDestroy() {
         this.stopTick();
+    },
+    drawRing() {
+        drawWavyRing(this, 'ring', {
+            w: 210, h: 180, cy: 96, r: 78,
+            pct: this.pct, color: this.accent, track: this.chipBg, phase: wavePhase
+        });
     },
     stopTick() {
         if (this.ticker) {
@@ -71,6 +84,7 @@ export default {
             this.onAccent = '#561e15';
             this.chipBg = '#33201d';
         }
+        this.drawRing();
     },
     toggle() {
         tick();
@@ -83,6 +97,7 @@ export default {
         this.refresh();
         this.ticker = setInterval(() => {
             this.left--;
+            wavePhase += 0.65;
             if (this.left <= 0) {
                 this.advancePhase();
             } else {

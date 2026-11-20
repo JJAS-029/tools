@@ -1,6 +1,7 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
 import { focusCrown } from '../../common/haptics.js';
+import { drawWavyRing } from '../../common/wavyring.js';
 import { load, save, readBattery } from '../../common/store.js';
 import { row, INFO, ACTION } from '../../common/rows.js';
 import { defaultWatch, watchState, watchCharge, fmtWhen, fmtDur, levelColor } from '../../common/battcalc.js';
@@ -35,6 +36,16 @@ export default {
     },
     onShow() {
         focusCrown(this.$refs.list);
+        if (w) {
+            this.refresh();
+        }
+        setTimeout(() => { this.drawRing(); }, 80);
+    },
+    drawRing() {
+        drawWavyRing(this, 'ring', {
+            w: 210, h: 174, cy: 94, r: 76,
+            pct: this.pct, color: this.ringColor, track: '#2f2a20'
+        });
     },
     refresh() {
         const rows = [];
@@ -72,6 +83,7 @@ export default {
         rows.push(row({ kind: 'charge', n: 'Lo cargué', s: 'Al 100%' }, 'bt_charge.png', ACTION));
         rows.push(row({ kind: 'info', n: 'Tip', s: 'Ábrela al cargar' }, '', INFO));
         this.rows = rows;
+        this.drawRing();
     },
     tap(i) {
         const r = this.rows[i];

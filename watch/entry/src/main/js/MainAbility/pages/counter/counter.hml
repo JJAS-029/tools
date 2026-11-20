@@ -4,7 +4,7 @@
         <text class="chip-text" style="color: {{ accent }};">{{ chipText }}</text>
     </div>
     <stack class="ring-box">
-        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ ringColor }};"></progress>
+        <canvas id="ring" class="ring" ref="ring"></canvas>
         <div class="ring-center" onclick="inc">
             <text class="big">{{ count }}</text>
             <text class="small" style="color: {{ ringColor }};">{{ subText }}</text>

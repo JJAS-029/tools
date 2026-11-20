@@ -31,13 +31,6 @@
 .ring {
     width: 200px;
     height: 168px;
-    center-x: 100px;
-    center-y: 94px;
-    radius: 84px;
-    start-angle: 240deg;
-    total-angle: 240deg;
-    stroke-width: 14px;
-    background-color: #1d201f;
 }
 
 .ring-center {

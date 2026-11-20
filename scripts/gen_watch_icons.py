@@ -669,6 +669,12 @@ def phase3_bike_timer_assets():
     lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
     tile("t_bkit", "m_bike", "clover", hexc(amber[0]), hexc(amber[1]))
     tile("t_timer", "m_clock", "cookie12", hexc(coral[0]), hexc(coral[1]))
+    # Crisp reset arrow icon (lite font lacks the Unicode ↺ glyph)
+    img, d, s = canvas(40)
+    lw = int(s * .10)
+    d.arc([s * .16, s * .16, s * .84, s * .84], start=35, end=315, fill=W, width=lw)
+    d.polygon([(s * .74, s * .10), (s * .88, s * .34), (s * .60, s * .34)], fill=W)
+    save(img, 40, "reset")
 
 
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
