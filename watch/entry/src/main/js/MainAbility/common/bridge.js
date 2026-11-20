@@ -115,6 +115,9 @@ function mockSend(t, d) {
         mockCam.n++;
         setTimeout(function () { emit('cam.result', { ok: true, name: 'JJAS_prueba_' + mockCam.n + '.jpg' }); }, secs * 1000 + 300);
     }
+    if (t === 'fx.get') {
+        setTimeout(function () { emit('fx.rate', { usd: 20.15, date: 'simulado' }); }, 200);
+    }
     if (t === 'ping') {
         setTimeout(function () { emit('pong', { ts: d.ts }); }, 100);
     }

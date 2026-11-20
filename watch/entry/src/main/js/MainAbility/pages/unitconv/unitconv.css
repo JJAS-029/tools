@@ -1,0 +1,68 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.chip {
+    width: 240px;
+    height: 48px;
+    margin-top: 16px;
+    border-radius: 24px;
+    justify-content: center;
+    align-items: center;
+}
+
+.chip-text {
+    width: 220px;
+    height: 36px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.result-card {
+    width: 320px;
+    height: 76px;
+    margin-top: 12px;
+    border-radius: 38px;
+    justify-content: center;
+    align-items: center;
+}
+
+.res-val {
+    width: 296px;
+    height: 48px;
+    font-size: 38px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.wheel {
+    width: 280px;
+    height: 220px;
+    margin-top: 10px;
+    color: #6f6a73;
+    font-size: 30px;
+    selected-color: #f1f3f1;
+    selected-font-size: 38px;
+}
+
+.save {
+    width: 240px;
+    height: 68px;
+    margin-top: 4px;
+    border-radius: 34px;
+    background-color: #ffd27a;
+    justify-content: center;
+    align-items: center;
+}
+
+.save-text {
+    width: 200px;
+    height: 42px;
+    font-size: 36px;
+    color: #402d00;
+    text-align: center;
+}

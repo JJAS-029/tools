@@ -48,6 +48,12 @@ Las páginas son de 15 elementos. Los textos llegan recortados a 40 caracteres p
 Las fotos se guardan en `Pictures/JJAS Tools` y los videos (MP4, con sonido si
 se dio permiso de micrófono) en `Movies/JJAS Tools` (MediaStore).
 
+## Tipo de cambio (Convertidor)
+| t | Dir | d |
+|---|---|---|
+| `fx.get` | R→T | `{}`: pide el tipo de cambio diario USD → MXN |
+| `fx.rate` | T→R | `{usd, date}`: el reloj lo guarda en su caché local |
+
 ## QR
 | t | Dir | d |
 |---|---|---|

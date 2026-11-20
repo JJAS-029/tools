@@ -448,6 +448,52 @@ def metro_assets():
         metro_badge(lid, bg, fg)
 
 
+# ---------- Unit converter ----------
+def m_units(size=56):
+    """Minimal swap arrows glyph."""
+    img, d, s = canvas(size)
+    lw = int(s * .09)
+    # Top arrow ->
+    d.line([(s * .16, s * .34), (s * .78, s * .34)], fill=W, width=lw)
+    d.line([(s * .60, s * .18), (s * .80, s * .34), (s * .60, s * .50)], fill=W, width=lw, joint="curve")
+    # Bottom arrow <-
+    d.line([(s * .84, s * .66), (s * .22, s * .66)], fill=W, width=lw)
+    d.line([(s * .40, s * .50), (s * .20, s * .66), (s * .40, s * .82)], fill=W, width=lw, joint="curve")
+    save(img, size, "m_units")
+
+
+def text_badge(out_name, label, shape, bg, fg, size=56):
+    from PIL import ImageFont
+    img, d, s = canvas(size)
+    d.polygon(shape_points(shape, s), fill=hexc(bg))
+    fsize = int(s * (.44 if len(label) <= 2 else .34))
+    font = None
+    for path in ("C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf"):
+        try:
+            font = ImageFont.truetype(path, fsize)
+            break
+        except Exception:
+            pass
+    if font is None:
+        font = ImageFont.load_default()
+    bb = d.textbbox((0, 0), label, font=font)
+    tw, th = bb[2] - bb[0], bb[3] - bb[1]
+    d.text(((s - tw) / 2 - bb[0], (s - th) / 2 - bb[1]), label, fill=hexc(fg), font=font)
+    save(img, size, out_name)
+
+
+def units_assets():
+    m_units()
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    tile("t_units", "m_units", "clover", hexc(sky[0]), hexc(sky[1]))
+    text_badge("uc_usd", "$", "sunny", "#a6f2d1", "#003826")
+    text_badge("uc_lb", "lb", "cookie9", amber[0], amber[1])
+    text_badge("uc_f", "°F", "circle", coral[0], coral[1])
+    text_badge("uc_mi", "mi", "squircle", sky[0], sky[1])
+    text_badge("uc_oz", "oz", "clover", lilac[0], lilac[1])
+    text_badge("uc_ft", "ft", "cookie6", teal[0], teal[1])
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -495,6 +541,7 @@ if __name__ == "__main__":
     battery_assets()
     work_assets()
     metro_assets()
+    units_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)

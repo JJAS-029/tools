@@ -29,6 +29,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | Baterías: bici (50 km) y reloj (estimado real) | solo reloj | Claude Code | probado en el Previewer |
 | Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | solo reloj | Antigravity | probado en el Previewer |
 | Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | solo reloj | Antigravity | probado en el Previewer |
+| Convertidor de unidades (USD, lb, °F, mi, oz, ft) con la corona | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 
 ---
 
@@ -40,8 +41,9 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 1. ~~🎥 **Video en Cámara**~~ ✅ hecho (Antigravity).
 2. ~~💰 **Mi jornada: barra + dinero ganado**~~ ✅ hecho (Antigravity).
 3. ~~🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad**~~ ✅ hecho (Antigravity).
-4. ⚖️ **Convertidor de unidades** 🟢⚡
-5. 🔢 **Contador con la corona** 🟢⚡
+4. ~~⚖️ **Convertidor de unidades**~~ ✅ hecho (Antigravity).
+5. ☀️ **Now Brief (Resumen del día)** 🟢⚡ (bici, reloj, jornada, Tarjeta MI, dólar; con Wear Engine suma clima/lluvia y calendario).
+6. 🔢 **Contador con la corona** 🟢⚡
 6. 🧾 **Dividir la cuenta y propinas** 🟢⚡
 7. 🎲 **Para decidir** (dado, moneda, ruleta) 🟢⚡
 8. 💸 **QR en el reloj** (cobro con CLABE, contacto, WhatsApp) 🟢⚡
@@ -122,6 +124,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 ## 🟢 Solo reloj
 | Idea | De qué trata | Ojo |
 |---|---|---|
+| **☀️ Now Brief (Resumen del día)** | Una sola pantalla de resumen al despertar o durante el día, con tarjetas M3 tocables que abren cada app: saludo + fecha, **pila de la bici** (avisa si ≤ 25 %), **batería del reloj**, **Mi jornada** (turno / dinero hoy), **Tarjeta MI** (avisa si quedan ≤ 2 viajes) y **dólar**. Con Wear Engine suma **clima/lluvia (Open-Meteo, gratis)**, **próximo evento del calendario** y **batería del S23**. | Lee los mismos datos ya guardados en `storage`; no necesita segundo plano. |
 | **💰 Mi jornada** | **Anillo M3** que se llena de tu hora de entrada a la de salida ("faltan 1 h 20 min"), con la comida marcada. **Calculadora de dinero:** pones tu **pago por hora** (editable con la corona) o tu sueldo de la nómina (quincenal o mensual) y las horas por día, y la app saca el pago por hora. Tocas **"Llegué"** (o usa la hora fija de entrada, p. ej. 9:00) y ves en vivo **"llevas \$432.50 hoy"**. Extras: total de la semana y de la quincena, horas extra (al pasar tu hora de salida, con su propio pago), descontar la comida si no te la pagan, y **"esta junta ha costado \$X"** con un cronómetro. | Al abrir la app se calcula desde la hora de entrada; no necesita correr en segundo plano. Los datos se quedan en el reloj. |
 | **🚇 Metro CDMX** | Las 12 líneas y unas 195 estaciones guardadas en la app (unos KB). Eliges línea y dirección, giras la corona y ves **cuál sigue, los transbordos y la terminal**. **Ruta A → B** calculada en el reloj (camino más corto con transbordos) y "vibra 1 estación antes de bajar" tocando *Siguiente* o con un tiempo promedio por tramo. Después: Metrobús, Monterrey y Guadalajara. | **El GPS no funciona bajo tierra:** solo sirve afuera para "la estación más cercana es Insurgentes, 300 m". |
 | **💳 Tarjeta de Movilidad** | Pones el saldo al recargar y tocas *Viaje* en cada entrada (Metro \$5, Metrobús \$6…): "te quedan ~7 viajes". Va dentro de Metro. | El saldo es un cálculo, no lee la tarjeta. |

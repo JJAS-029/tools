@@ -44,7 +44,9 @@
           "pages/workedit/workedit",
           "pages/metro/metro",
           "pages/metroline/metroline",
-          "pages/metrocard/metrocard"
+          "pages/metrocard/metrocard",
+          "pages/units/units",
+          "pages/unitconv/unitconv"
         ],
         "name": ".MainAbility"
       }

@@ -32,7 +32,9 @@ import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.material.icons.rounded.AttachMoney
 import androidx.compose.material.icons.rounded.PhotoCamera
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material.icons.rounded.MusicNote
@@ -70,6 +72,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jjas.tools.phone.bridge.Protocol
 import com.jjas.tools.phone.bridge.WatchLink
+import com.jjas.tools.phone.fx.FxRepository
 import com.jjas.tools.phone.media.MediaRepository
 import com.jjas.tools.phone.spotify.SpotifyApi
 import com.jjas.tools.phone.spotify.SpotifyRepository
@@ -105,6 +108,7 @@ fun HomeScreen(hasAccess: Boolean, onGrantAccess: () -> Unit, spotify: SpotifyUi
             item { NowPlayingCard() }
             item { SpotifyCard(spotify) }
             item { CameraCard() }
+            item { FxCard() }
             item { LogCard() }
         }
     }
@@ -301,6 +305,29 @@ private fun CameraCard() {
         }
         Text("Fotos en Imágenes/JJAS Tools y videos en Películas/JJAS Tools.", style = MaterialTheme.typography.bodySmall,
             color = cs.onSurfaceVariant)
+    }
+}
+
+// ---------- Exchange rate (USD -> MXN) ----------
+@Composable
+private fun FxCard() {
+    val fx by FxRepository.state.collectAsState()
+    val cs = MaterialTheme.colorScheme
+    ExpressiveCard {
+        CardTitle(
+            M3Shapes.Sunny, cs.primary, cs.onPrimary, Icons.Rounded.AttachMoney,
+            "Tipo de cambio",
+            "1 USD = $${"%.2f".format(fx.usd)} MXN" + if (fx.date.isNotEmpty()) " (${fx.date})" else "",
+        )
+        Text("Simular reloj", style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+        FilledTonalButton(enabled = !fx.loading, onClick = { fromWatch("fx.get") }) {
+            Icon(Icons.Rounded.Refresh, null, Modifier.size(18.dp))
+            Spacer(Modifier.width(6.dp))
+            Text(if (fx.loading) "Consultando…" else "Actualizar dólar")
+        }
+        if (fx.error.isNotEmpty()) {
+            Text(fx.error, style = MaterialTheme.typography.bodySmall, color = cs.error)
+        }
     }
 }
 

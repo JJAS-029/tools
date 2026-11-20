@@ -1,0 +1,14 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to swap direction (e.g. lb -> kg <-> kg -> lb) -->
+    <div class="chip" style="background-color: {{ chipBg }};" onclick="flip">
+        <text class="chip-text" style="color: {{ chipColor }};">{{ chipText }}</text>
+    </div>
+    <div class="result-card" style="background-color: {{ chipBg }};">
+        <text class="res-val" style="color: {{ chipColor }};">{{ resText }}</text>
+    </div>
+    <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                 onchange="onPick"></picker-view>
+    <div class="save" show="{{ isRate }}" onclick="saveRate">
+        <text class="save-text">Guardar</text>
+    </div>
+</div>
