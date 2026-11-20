@@ -1,0 +1,13 @@
+<div class="page" onswipe="onSwipe">
+    <div class="chip">
+        <text class="chip-text">{{ name }}</text>
+    </div>
+    <div class="dial" style="background-color: {{ dialBg }};">
+        <text class="arrow" style="color: {{ dialCol }};">{{ arrow }}</text>
+        <text class="dist" style="color: {{ dialCol }};">{{ distText }}</text>
+        <text class="dir">{{ dirText }}</text>
+    </div>
+    <div class="btn" onclick="updateHere">
+        <text class="btn-txt">Actualizar aquí</text>
+    </div>
+</div>

@@ -17,6 +17,7 @@ export default {
             { name: 'Baterías', sub: 'Bici y reloj', icon: IMG + 't_batt.png', uri: 'pages/battery/battery' },
             { name: 'Jornada', sub: 'Turno y pago', icon: IMG + 't_work.png', uri: 'pages/work/work' },
             { name: 'Metro', sub: 'CDMX y MI', icon: IMG + 't_metro.png', uri: 'pages/metro/metro' },
+            { name: 'Lugares', sub: 'GPS y brújula', icon: IMG + 't_places.png', uri: 'pages/places/places' },
             { name: 'Unidades', sub: 'lb, °F, USD...', icon: IMG + 't_units.png', uri: 'pages/units/units' },
             { name: 'Contador', sub: 'Agua y reps', icon: IMG + 't_count.png', uri: 'pages/counter/counter' },
             { name: 'Propinas', sub: 'Dividir cuenta', icon: IMG + 't_tip.png', uri: 'pages/tip/tip' },

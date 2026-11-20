@@ -52,7 +52,10 @@
           "pages/tip/tip",
           "pages/decide/decide",
           "pages/qr/qr",
-          "pages/hnc/hnc"
+          "pages/hnc/hnc",
+          "pages/places/places",
+          "pages/placego/placego",
+          "pages/hwtest/hwtest"
         ],
         "name": ".MainAbility"
       }

@@ -539,6 +539,23 @@ def quick_tools_assets():
     text_badge("t_hnc", "CDMX", "clover", teal[0], teal[1], size=84)
 
 
+def m_pin(size=56):
+    img, d, s = canvas(size)
+    d.ellipse([s * .22, s * .10, s * .78, s * .66], fill=W)
+    d.polygon([(s * .26, s * .52), (s * .74, s * .52), (s * .50, s * .92)], fill=W)
+    d.ellipse([s * .38, s * .26, s * .62, s * .50], fill=(0, 0, 0, 0))
+    save(img, size, "m_pin")
+
+
+def places_assets():
+    m_pin()
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    tile("t_places", "m_pin", "cookie9", hexc(teal[0]), hexc(teal[1]))
+    text_badge("pl_car", "A", "squircle", sky[0], sky[1])
+    text_badge("pl_park", "P", "circle", amber[0], amber[1])
+    text_badge("pl_hw", "HW", "clover", lilac[0], lilac[1])
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -589,6 +606,7 @@ if __name__ == "__main__":
     units_assets()
     brief_assets()
     quick_tools_assets()
+    places_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)

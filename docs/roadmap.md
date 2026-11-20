@@ -37,6 +37,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | QR en el reloj (componente `qrcode` nativo) | solo reloj | Antigravity | compilado (falta Previewer) |
 | Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | probado en el Previewer |
 | Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
+| Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 
 ---
 
@@ -62,9 +63,8 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 12. ~~🔑 **¿Llevas todo?** al salir del Wi-Fi~~ ✅ hecho (Antigravity).
 
 ### Fase 3: solo reloj, más trabajo
-13. 🔬 **Prueba de hardware en el reloj real:** micrófono, brújula, pulso y
-    acelerómetro. Define el teclado, Lugares y los gestos.
-14. 📍 **Lugares** (tags con GPS y flecha) 🟢
+13. ~~🔬 **Prueba de hardware en el reloj real**~~ ✅ hecho (Antigravity — dentro de Lugares → Probar sensores).
+14. ~~📍 **Lugares** (tags con GPS y flecha)~~ ✅ hecho (Antigravity).
 15. ⌨️ **Teclado con la corona** (autocompleta palabras) 🟢
 16. 🐨 **Koala tamagotchi** 🟢
 17. 🔧 **Mantenimiento de la bici por km** + ✅ **Checklist antes de salir** 🟢
