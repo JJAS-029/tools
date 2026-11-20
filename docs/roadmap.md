@@ -17,6 +17,9 @@ necesita a los dos se prueba con el teléfono simulado.
 - **La corona** solo mueve `list`, `slider` y `picker-view`, y **el `class` no
   acepta datos**: para cambiar cosas hay que usar `style` y `show`. Compila con
   `bash scripts/check_watch.sh` antes de abrir el Previewer.
+- **SMS en Samsung:** `divideMessage()` con emojis o acentos falla con
+  `SecurityException` (`getGroupIdLevel1`). La app manda esos mensajes en texto
+  plano, y esos envíos no aparecen en "Enviados" del teléfono aunque sí llegan.
 - **Poca memoria por pantalla:** las listas se crean una sola vez y luego solo
   se cambian sus textos (ver `pages/bike`).
 
@@ -37,7 +40,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | `decide.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
 | QR en el reloj (componente `qrcode` nativo) | `qr.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
 | Hoy No Circula CDMX (placa y holograma) | `hnc.hml` | solo reloj | Antigravity | probado en el Previewer |
-| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | *(solo Android)* | solo teléfono | Antigravity + Claude Code (revisión: GPS en vivo, alarmas, permisos) | compilado y con pruebas unitarias; falta probar en el S23 |
+| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | *(solo Android)* | solo teléfono | Antigravity + Claude Code (revisión: GPS en vivo, alarmas, permisos) | **probado en el S23 con SMS reales** (2026-11-20): salida con ubicación en vivo, "¿Dónde estás?" respondido solo, "Ya llegué" y cancelación del aviso |
 | Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | `places.hml`, `placego.hml`, `hwtest.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | `koala.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Bici Kit (checklist, mantenimiento por km y direccionales nocturnas) | `bikecare.hml`, `signal.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
