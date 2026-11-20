@@ -36,6 +36,7 @@ import androidx.compose.material.icons.rounded.AttachMoney
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Stop
+import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material.icons.rounded.MusicNote
 import androidx.compose.material.icons.rounded.NotificationsActive
@@ -72,6 +73,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jjas.tools.phone.bridge.Protocol
 import com.jjas.tools.phone.bridge.WatchLink
+import com.jjas.tools.phone.brief.WeatherRepository
 import com.jjas.tools.phone.fx.FxRepository
 import com.jjas.tools.phone.media.MediaRepository
 import com.jjas.tools.phone.spotify.SpotifyApi
@@ -109,6 +111,7 @@ fun HomeScreen(hasAccess: Boolean, onGrantAccess: () -> Unit, spotify: SpotifyUi
             item { SpotifyCard(spotify) }
             item { CameraCard() }
             item { FxCard() }
+            item { WeatherCard() }
             item { LogCard() }
         }
     }
@@ -327,6 +330,33 @@ private fun FxCard() {
         }
         if (fx.error.isNotEmpty()) {
             Text(fx.error, style = MaterialTheme.typography.bodySmall, color = cs.error)
+        }
+    }
+}
+
+// ---------- Now Brief weather (Open-Meteo CDMX) ----------
+@Composable
+private fun WeatherCard() {
+    val w by WeatherRepository.state.collectAsState()
+    val cs = MaterialTheme.colorScheme
+    val sub = if (w.updated.isNotEmpty()) {
+        "${w.temp.toInt()}° (${w.min.toInt()}°/${w.max.toInt()}°) · Lluvia ${w.rainPct}% (${w.updated})"
+    } else {
+        "Clima CDMX para Now Brief"
+    }
+    ExpressiveCard {
+        CardTitle(
+            M3Shapes.Cookie9, cs.tertiary, cs.onTertiary, Icons.Rounded.WbSunny,
+            "Now Brief · Clima", sub,
+        )
+        Text("Simular reloj", style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+        FilledTonalButton(enabled = !w.loading, onClick = { fromWatch("brief.get") }) {
+            Icon(Icons.Rounded.Refresh, null, Modifier.size(18.dp))
+            Spacer(Modifier.width(6.dp))
+            Text(if (w.loading) "Consultando…" else "Actualizar clima")
+        }
+        if (w.error.isNotEmpty()) {
+            Text(w.error, style = MaterialTheme.typography.bodySmall, color = cs.error)
         }
     }
 }

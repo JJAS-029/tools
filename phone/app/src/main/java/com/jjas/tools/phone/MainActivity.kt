@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationManagerCompat
+import com.jjas.tools.phone.brief.WeatherRepository
 import com.jjas.tools.phone.camera.CameraRepository
 import com.jjas.tools.phone.fx.FxRepository
 import com.jjas.tools.phone.media.MediaRepository
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         SpotifyAuth.init(this)
         CameraRepository.init(this)
         FxRepository.init(this)
+        WeatherRepository.init(this)
         spotifyLogged.value = SpotifyAuth.isLoggedIn
         handleSpotifyCallback(intent)
         enableEdgeToEdge()

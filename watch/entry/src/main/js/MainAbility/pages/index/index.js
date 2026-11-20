@@ -10,6 +10,7 @@ export default {
     },
     data: {
         apps: [
+            { name: 'Now Brief', sub: 'Resumen del día', icon: IMG + 't_brief.png', uri: 'pages/brief/brief' },
             { name: 'Música', sub: 'Reproduciendo', icon: IMG + 't_music.png', uri: 'pages/music/music' },
             { name: 'Playlists', sub: 'Spotify', icon: IMG + 't_list.png', uri: 'pages/playlists/playlists' },
             { name: 'Cámara', sub: 'Foto y video', icon: IMG + 't_camera.png', uri: 'pages/shutter/shutter' },

@@ -118,6 +118,11 @@ function mockSend(t, d) {
     if (t === 'fx.get') {
         setTimeout(function () { emit('fx.rate', { usd: 20.15, date: 'simulado' }); }, 200);
     }
+    if (t === 'brief.get') {
+        setTimeout(function () {
+            emit('brief.weather', { temp: 19, max: 24, min: 11, rainPct: 60, wind: 14, updated: 'sim' });
+        }, 250);
+    }
     if (t === 'ping') {
         setTimeout(function () { emit('pong', { ts: d.ts }); }, 100);
     }

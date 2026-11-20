@@ -54,6 +54,12 @@ se dio permiso de micrófono) en `Movies/JJAS Tools` (MediaStore).
 | `fx.get` | R→T | `{}`: pide el tipo de cambio diario USD → MXN |
 | `fx.rate` | T→R | `{usd, date}`: el reloj lo guarda en su caché local |
 
+## Now Brief (Clima)
+| t | Dir | d |
+|---|---|---|
+| `brief.get` | R→T | `{}`: pide el clima de hoy (CDMX, Open-Meteo) |
+| `brief.weather` | T→R | `{temp, max, min, rainPct, wind, updated}` |
+
 ## QR
 | t | Dir | d |
 |---|---|---|

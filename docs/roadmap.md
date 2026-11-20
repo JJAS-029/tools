@@ -29,7 +29,8 @@ necesita a los dos se prueba con el teléfono simulado.
 | Baterías: bici (50 km) y reloj (estimado real) | solo reloj | Claude Code | probado en el Previewer |
 | Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | solo reloj | Antigravity | probado en el Previewer |
 | Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | solo reloj | Antigravity | probado en el Previewer |
-| Convertidor de unidades (USD, lb, °F, mi, oz, ft) con la corona | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
+| Convertidor de unidades (USD, lb, °F, mi, oz, ft) + dólar vía puente | reloj + teléfono | Antigravity | compilado y con pruebas unitarias |
+| Now Brief (resumen del día, clima + alertas, efemérides, bici, jornada, MI) | reloj + teléfono | Antigravity | probado en el Previewer |
 
 ---
 
@@ -42,7 +43,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 2. ~~💰 **Mi jornada: barra + dinero ganado**~~ ✅ hecho (Antigravity).
 3. ~~🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad**~~ ✅ hecho (Antigravity).
 4. ~~⚖️ **Convertidor de unidades**~~ ✅ hecho (Antigravity).
-5. ☀️ **Now Brief (Resumen del día)** 🟢⚡ (bici, reloj, jornada, Tarjeta MI, dólar; con Wear Engine suma clima/lluvia y calendario).
+5. ~~☀️ **Now Brief (Resumen del día)**~~ ✅ hecho (Antigravity).
 6. 🔢 **Contador con la corona** 🟢⚡
 6. 🧾 **Dividir la cuenta y propinas** 🟢⚡
 7. 🎲 **Para decidir** (dado, moneda, ruleta) 🟢⚡

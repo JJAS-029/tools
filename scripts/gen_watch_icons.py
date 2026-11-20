@@ -494,6 +494,43 @@ def units_assets():
     text_badge("uc_ft", "ft", "cookie6", teal[0], teal[1])
 
 
+# ---------- Now Brief ----------
+def m_sun(size=56):
+    img, d, s = canvas(size)
+    lw = int(s * .08)
+    d.ellipse([s * .28, s * .28, s * .72, s * .72], fill=W)
+    for k in range(8):
+        ang = k * math.pi / 4
+        x1 = s * .5 + math.cos(ang) * s * .30
+        y1 = s * .5 + math.sin(ang) * s * .30
+        x2 = s * .5 + math.cos(ang) * s * .44
+        y2 = s * .5 + math.sin(ang) * s * .44
+        d.line([(x1, y1), (x2, y2)], fill=W, width=lw)
+    save(img, size, "m_sun")
+
+
+def m_star(size=56):
+    """4-point sparkle (Samsung/Pixel Now Brief vibe)."""
+    img, d, s = canvas(size)
+    cx = cy = s / 2
+    pts = [
+        (cx, s * .08), (s * .60, s * .40),
+        (s * .92, cy), (s * .60, s * .60),
+        (cx, s * .92), (s * .40, s * .60),
+        (s * .08, cy), (s * .40, s * .40),
+    ]
+    d.polygon(pts, fill=W)
+    save(img, size, "m_star")
+
+
+def brief_assets():
+    m_sun(); m_star()
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    tile("t_brief", "m_star", "sunny", hexc(amber[0]), hexc(amber[1]))
+    tile("br_sun", "m_sun", "cookie9", hexc(amber[0]), hexc(amber[1]), size=56, glyph_size=34)
+    tile("br_star", "m_star", "clover", hexc(lilac[0]), hexc(lilac[1]), size=56, glyph_size=34)
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -542,6 +579,7 @@ if __name__ == "__main__":
     work_assets()
     metro_assets()
     units_assets()
+    brief_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)

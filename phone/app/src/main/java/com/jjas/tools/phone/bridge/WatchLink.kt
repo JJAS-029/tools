@@ -1,5 +1,6 @@
 package com.jjas.tools.phone.bridge
 
+import com.jjas.tools.phone.brief.WeatherRepository
 import com.jjas.tools.phone.camera.CameraRepository
 import com.jjas.tools.phone.fx.FxRepository
 import com.jjas.tools.phone.media.MediaRepository
@@ -42,6 +43,7 @@ object WatchLink {
             "media.get" -> MediaRepository.pushState()
             "media.cmd" -> MediaRepository.command(msg.d.optString("a"), msg.d.optInt("v", -1))
             "fx.get" -> FxRepository.fetchAndSend()
+            "brief.get" -> WeatherRepository.fetchAndSend()
             else -> when {
                 msg.t.startsWith("sp.") -> SpotifyRepository.handle(msg.t, msg.d)
                 msg.t.startsWith("cam.") -> CameraRepository.handle(msg.t, msg.d)
