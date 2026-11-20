@@ -14,12 +14,11 @@ export default {
     data: {
         mode: 'conv',
         unitId: 'usd',
-        revParam: '0',
         isRate: false,
         rev: false,
         chipBg: '#162722',
         chipColor: '#a6f2d1',
-        chipText: 'USD → MXN',
+        chipText: 'USD → MXN ⇄',
         resText: '$200.00 MXN',
         range: [],
         sel: 0,
@@ -27,62 +26,72 @@ export default {
     },
     onInit() {
         this.isRate = this.mode === 'rate';
-        this.rev = this.revParam === '1';
+        this.rev = false;
+
+        // Build picker-view range SYNCHRONOUSLY once in onInit() so lite never
+        // mutates range after mount or overlaps instances.
+        if (this.isRate) {
+            this.chipBg = '#2f2a20';
+            this.chipColor = '#ffd27a';
+            this.chipText = '1 USD en MXN';
+            vals = [];
+            const r = [];
+            for (let v = 1400; v <= 2600; v += 25) {
+                const f = v / 100;
+                vals.push(f);
+                r.push('$' + f.toFixed(2));
+            }
+            this.range = r;
+            this.sel = this.closestIdx(usdRate);
+            this.curVal = vals[this.sel];
+            this.resText = '$' + this.curVal.toFixed(2) + ' MXN';
+        } else {
+            unit = getUnit(this.unitId);
+            this.chipBg = unit.bg;
+            this.chipColor = unit.color;
+            // Pure numbers in the wheel so swapping direction never changes range.
+            vals = buildValues(unit.id, false);
+            const r = [];
+            for (let i = 0; i < vals.length; i++) {
+                r.push('' + vals[i]);
+            }
+            this.range = r;
+            this.sel = defaultIndex(unit.id, false, vals);
+            this.curVal = vals[this.sel];
+            this.updateConvUi();
+        }
+
+        // Load saved USD rate asynchronously; only updates text, never range.
         load('unitcfg', defaultUnitCfg(), (cfg) => {
             usdRate = Number(cfg.usdRate) || 20.0;
             if (this.isRate) {
-                this.setupRate();
+                this.sel = this.closestIdx(usdRate);
+                this.curVal = vals[this.sel];
+                this.resText = '$' + this.curVal.toFixed(2) + ' MXN';
             } else {
-                unit = getUnit(this.unitId);
-                this.chipBg = unit.bg;
-                this.chipColor = unit.color;
-                this.setupConv();
+                this.updateConvUi();
             }
         });
     },
     onShow() {
         focusCrown(this.$refs.wheel);
     },
-    setupRate() {
-        this.chipBg = '#2f2a20';
-        this.chipColor = '#ffd27a';
-        this.chipText = '1 USD en MXN';
-        vals = [];
-        const r = [];
-        for (let v = 1400; v <= 2600; v += 25) {
-            const f = v / 100;
-            vals.push(f);
-            r.push('$' + f.toFixed(2));
-        }
-        this.range = r;
+    closestIdx(target) {
         let best = 0;
-        let diff = Math.abs(vals[0] - usdRate);
+        let diff = Math.abs(vals[0] - target);
         for (let i = 1; i < vals.length; i++) {
-            const d = Math.abs(vals[i] - usdRate);
+            const d = Math.abs(vals[i] - target);
             if (d < diff) { diff = d; best = i; }
         }
-        this.sel = best;
-        this.curVal = vals[best];
-        this.resText = '$' + this.curVal.toFixed(2) + ' MXN';
-        focusCrown(this.$refs.wheel);
+        return best;
     },
-    setupConv() {
+    updateConvUi() {
+        if (!unit) {
+            return;
+        }
         const from = this.rev ? unit.b : unit.a;
         const to = this.rev ? unit.a : unit.b;
         this.chipText = from + ' → ' + to + ' ⇄';
-        vals = buildValues(unit.id, this.rev);
-        const r = [];
-        for (let i = 0; i < vals.length; i++) {
-            r.push((unit.id === 'usd' ? '$' : '') + vals[i] + ' ' + from);
-        }
-        this.range = r;
-        this.sel = defaultIndex(unit.id, this.rev, vals);
-        this.curVal = vals[this.sel];
-        this.updateResult();
-        focusCrown(this.$refs.wheel);
-    },
-    updateResult() {
-        const to = this.rev ? unit.a : unit.b;
         const out = convert(unit.id, this.curVal, this.rev, usdRate);
         this.resText = fmtVal(out, unit.id, this.rev) + ' ' + to;
     },
@@ -93,7 +102,7 @@ export default {
             if (this.isRate) {
                 this.resText = '$' + this.curVal.toFixed(2) + ' MXN';
             } else {
-                this.updateResult();
+                this.updateConvUi();
             }
         }
         tick();
@@ -103,11 +112,8 @@ export default {
             return;
         }
         tick();
-        // Reload page cleanly so picker-view range is never mutated in place on lite.
-        router.replace({
-            uri: 'pages/unitconv/unitconv',
-            params: { mode: 'conv', unitId: unit.id, revParam: this.rev ? '0' : '1' }
-        });
+        this.rev = !this.rev;
+        this.updateConvUi();
     },
     saveRate() {
         usdRate = this.curVal;
