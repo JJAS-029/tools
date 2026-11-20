@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "JJAS Tools"
     },
     {
       "name": "MainAbility_desc",
-      "value": "description"
+      "value": "Herramientas para tu reloj: baterías, lugares, koala, metro y más"
     },
     {
       "name": "MainAbility_label",
-      "value": "label"
+      "value": "JJAS Tools"
     }
   ]
 }

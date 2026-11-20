@@ -1,7 +1,7 @@
 {
   "app": {
     "bundleName": "com.jjas.tools.watch",
-    "vendor": "example",
+    "vendor": "jjas",
     "version": {
       "code": 1000000,
       "name": "1.0.0"
@@ -71,6 +71,58 @@
           "pages/ride/ride"
         ],
         "name": ".MainAbility"
+      }
+    ],
+    "reqPermissions": [
+      {
+        "name": "ohos.permission.VIBRATE",
+        "reason": "Vibración al tocar, temporizadores y avisos",
+        "usedScene": {
+          "ability": [
+            ".MainAbility"
+          ],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.LOCATION",
+        "reason": "Lugares (distancia y dirección) y modo bici con GPS",
+        "usedScene": {
+          "ability": [
+            ".MainAbility"
+          ],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.ACTIVITY_MOTION",
+        "reason": "Pasos para alimentar al Koala",
+        "usedScene": {
+          "ability": [
+            ".MainAbility"
+          ],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_HEALTH_DATA",
+        "reason": "Zonas de pulso en el modo bici",
+        "usedScene": {
+          "ability": [
+            ".MainAbility"
+          ],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.ACCELEROMETER",
+        "reason": "Sacudir la muñeca para tomar la foto",
+        "usedScene": {
+          "ability": [
+            ".MainAbility"
+          ],
+          "when": "inuse"
+        }
       }
     ]
   }

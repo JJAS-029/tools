@@ -708,6 +708,34 @@ def art_frames():
             save(img, size, f"art_{i}_{k}")
 
 
+def app_icon():
+    """App icon (watch launcher 104 px) and for AppGallery (216 and 512 px, square).
+    Same style as the phone app header: purple M3 "sunny" with the watch."""
+    from pathlib import Path as _P
+    store = _P(__file__).resolve().parent.parent / "docs/store"
+    store.mkdir(parents=True, exist_ok=True)
+    res = _P(__file__).resolve().parent.parent / "watch/entry/src/main/resources/base/media/icon.png"
+    for size, dst, square in ((104, res, False), (216, store / "icon_216.png", True), (512, store / "icon_512.png", True)):
+        img, d, s = canvas(size)
+        bg = hexc("#1d1b20")
+        if square:
+            d.rectangle([0, 0, s, s], fill=bg)
+        else:
+            d.ellipse([0, 0, s, s], fill=bg)
+        inner = int(s * 0.80)
+        off = (s - inner) // 2
+        tile_img = Image.new("RGBA", (inner, inner), (0, 0, 0, 0))
+        td = ImageDraw.Draw(tile_img)
+        td.polygon(shape_points("sunny", inner), fill=hexc("#d9c6ff"))
+        g = Image.open(OUT / "m_watch.png").convert("RGBA").resize((int(inner * 0.5),) * 2, Image.LANCZOS)
+        tint = Image.new("RGBA", g.size, hexc("#2e1066"))
+        tint.putalpha(g.getchannel("A"))
+        go = (inner - g.size[0]) // 2
+        tile_img.alpha_composite(tint, (go, go))
+        img.alpha_composite(tile_img, (off, off))
+        img.resize((size, size), Image.LANCZOS).save(dst)
+
+
 def dark_controls():
     """Dark-glyph versions for buttons on light (pastel) backgrounds."""
     for src, dst, col in (("play", "play_d", "#00391c"), ("pause", "pause_d", "#00391c")):
@@ -730,6 +758,7 @@ if __name__ == "__main__":
     music_assets()
     art_frames()
     battery_assets()
+    app_icon()
     work_assets()
     metro_assets()
     units_assets()

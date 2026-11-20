@@ -6,7 +6,10 @@
  * Previewer. When Wear Engine is approved, the P2P implementation goes
  * in realSend() and the init() receiver.
  */
-const MOCK = true;
+import { PUBLIC } from './flavor.js';
+
+// Public version: no simulated phone (it would show fake data).
+const MOCK = !PUBLIC;
 
 const handlers = {};
 

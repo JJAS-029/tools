@@ -1,5 +1,6 @@
 import router from '@system.router';
 import bridge from '../../common/bridge.js';
+import { PUBLIC } from '../../common/flavor.js';
 import { tick, focusCrown } from '../../common/haptics.js';
 import { load, save, readBattery } from '../../common/store.js';
 import { defaultBike, bikeState } from '../../common/battcalc.js';
@@ -72,7 +73,7 @@ export default {
     applyWeather(w) {
         const adv = weatherAdvice(w);
         if (adv.level === 'idle') {
-            this.setRow(WEATHER, 'Clima CDMX', 'Toca para actualizar', C_ITEM);
+            this.setRow(WEATHER, 'Clima CDMX', PUBLIC ? 'Con la app del teléfono' : 'Toca para actualizar', C_ITEM);
             return;
         }
         const pal = adv.level === 'warn' ? C_WARN : (adv.level === 'caution' ? C_CAUT : C_OK);
