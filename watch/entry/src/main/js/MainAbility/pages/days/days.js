@@ -44,7 +44,7 @@ export default {
         this.rows[0].s = 'Con Koala';
 
         this.rows[1].n = tDays === 0 ? '¡Hoy!' : 'Faltan ' + tDays + ' d';
-        this.rows[1].s = 'Próximo viaje';
+        this.rows[1].s = 'Viaje · -1 día';
 
         this.rows[2].n = (st.bikeStreak || 0) + ' días';
         this.rows[2].s = 'Racha bici · +1';
@@ -55,10 +55,12 @@ export default {
             return;
         }
         tick();
+        const now = new Date().getTime();
         if (r.kind === 'koala') {
             st.koalaTs -= DAY_MS; // +1 day elapsed
         } else if (r.kind === 'trip') {
-            st.tripTs += DAY_MS;  // +1 day remaining
+            // Decrement countdown by 1 day (never below today)
+            st.tripTs = Math.max(now, st.tripTs - DAY_MS);
         } else if (r.kind === 'bike') {
             st.bikeStreak = (st.bikeStreak || 0) + 1;
         }
@@ -72,7 +74,7 @@ export default {
         }
         const now = new Date().getTime();
         if (r.kind === 'koala') { st.koalaTs = now; }
-        else if (r.kind === 'trip') { st.tripTs = now + 7 * DAY_MS; }
+        else if (r.kind === 'trip') { st.tripTs = now + 30 * DAY_MS; }
         else if (r.kind === 'bike') { st.bikeStreak = 0; }
         save('days', st);
         try { vibrator.vibrate({ mode: 'long' }); } catch (e) {}

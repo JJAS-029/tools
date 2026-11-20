@@ -1,5 +1,5 @@
 <div class="page" onswipe="onSwipe">
-    <text class="header">Contador de días</text>
+    <text class="header">Días</text>
     <list class="list" ref="list">
         <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})" onlongpress="hold({{ $idx }})">
             <div class="card" style="background-color: {{ $item.bg }};">
