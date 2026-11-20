@@ -33,6 +33,9 @@ necesita a los dos se prueba con el teléfono simulado.
 | Now Brief (resumen del día, clima + alertas, efemérides, bici, jornada, MI) | reloj + teléfono | Antigravity | probado en el Previewer |
 | Contador con la corona (Agua, Reps y Libre con metas) | solo reloj | Antigravity | probado en el Previewer |
 | Dividir la cuenta y propinas con la corona | solo reloj | Antigravity | probado en el Previewer |
+| Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | solo reloj | Antigravity | compilado (falta Previewer) |
+| QR en el reloj (componente `qrcode` nativo) | solo reloj | Antigravity | compilado (falta Previewer) |
+| Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 
 ---
 
@@ -48,9 +51,9 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 5. ~~☀️ **Now Brief (Resumen del día)**~~ ✅ hecho (Antigravity).
 6. ~~🔢 **Contador con la corona**~~ ✅ hecho (Antigravity).
 7. ~~🧾 **Dividir la cuenta y propinas**~~ ✅ hecho (Antigravity).
-7. 🎲 **Para decidir** (dado, moneda, ruleta) 🟢⚡
-8. 💸 **QR en el reloj** (cobro con CLABE, contacto, WhatsApp) 🟢⚡
-9. 🚗 **Hoy No Circula** 🟢⚡
+8. ~~🎲 **Para decidir** (dado, moneda, ruleta)~~ ✅ hecho (Antigravity).
+9. ~~💸 **QR en el reloj** (cobro con CLABE, contacto, WhatsApp)~~ ✅ hecho (Antigravity).
+10. ~~🚗 **Hoy No Circula**~~ ✅ hecho (Antigravity).
 
 ### Fase 2: teléfono solo (en paralelo, sin Huawei)
 10. 🚴 **Aviso a tu mamá cada hora** ("Salí en bici" / "Llegué") 🔵

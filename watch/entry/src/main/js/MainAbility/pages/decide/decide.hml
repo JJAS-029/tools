@@ -1,0 +1,13 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to switch mode: Dado / Moneda / Cenar -->
+    <div class="chip" style="background-color: {{ chipBg }};" onclick="nextMode">
+        <text class="chip-text" style="color: {{ accent }};">{{ modeText }}</text>
+    </div>
+    <div class="orb" style="background-color: {{ orbBg }};" onclick="roll">
+        <text class="result" style="color: {{ orbCol }};">{{ resText }}</text>
+        <text class="sub" style="color: {{ subCol }};">{{ subText }}</text>
+    </div>
+    <div class="go" style="background-color: {{ accent }};" onclick="roll">
+        <text class="go-txt" style="color: {{ onAccent }};">{{ btnText }}</text>
+    </div>
+</div>

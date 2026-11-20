@@ -20,7 +20,9 @@ export default {
             { name: 'Unidades', sub: 'lb, °F, USD...', icon: IMG + 't_units.png', uri: 'pages/units/units' },
             { name: 'Contador', sub: 'Agua y reps', icon: IMG + 't_count.png', uri: 'pages/counter/counter' },
             { name: 'Propinas', sub: 'Dividir cuenta', icon: IMG + 't_tip.png', uri: 'pages/tip/tip' },
-            { name: 'QR', sub: 'Pronto', icon: IMG + 't_qr.png', uri: '' },
+            { name: 'Decidir', sub: 'Dado y moneda', icon: IMG + 't_decide.png', uri: 'pages/decide/decide' },
+            { name: 'No Circula', sub: 'CDMX', icon: IMG + 't_hnc.png', uri: 'pages/hnc/hnc' },
+            { name: 'QR', sub: 'Cobro y contacto', icon: IMG + 't_qr.png', uri: 'pages/qr/qr' },
             { name: 'Navegar', sub: 'Pronto', icon: IMG + 't_nav.png', uri: '' },
             { name: 'Notas', sub: 'Pronto', icon: IMG + 't_notes.png', uri: '' },
             { name: 'Grabadora', sub: 'Pronto', icon: IMG + 't_mic.png', uri: '' }

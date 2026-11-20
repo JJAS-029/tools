@@ -1,0 +1,19 @@
+<div class="page" onswipe="onSwipe">
+    <text class="header">Hoy No Circula</text>
+    <div class="hero" style="background-color: {{ heroBg }};">
+        <text class="status" style="color: {{ heroCol }};">{{ titleText }}</text>
+        <text class="reason">{{ reasonText }}</text>
+        <text class="sticker" style="color: {{ stickerHex }};">{{ stickerText }}</text>
+    </div>
+    <!-- Tap to cycle plate last digit (0-9) or hologram (00, 0, 1, 2) -->
+    <div class="controls">
+        <div class="pill" onclick="nextDigit">
+            <text class="pill-lbl">Placa</text>
+            <text class="pill-val" style="color: {{ stickerHex }};">{{ digit }}</text>
+        </div>
+        <div class="pill" onclick="nextHolo">
+            <text class="pill-lbl">Holo</text>
+            <text class="pill-val">{{ holo }}</text>
+        </div>
+    </div>
+</div>

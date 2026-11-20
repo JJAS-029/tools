@@ -1,0 +1,10 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to switch between saved QR codes -->
+    <div class="chip" onclick="nextQr">
+        <text class="chip-text">{{ label }}</text>
+    </div>
+    <div class="qr-box" onclick="nextQr">
+        <qrcode class="qr" value="{{ qrValue }}" type="rect"></qrcode>
+    </div>
+    <text class="sub">{{ subText }}</text>
+</div>

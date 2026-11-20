@@ -13,7 +13,7 @@ export default {
         pct: 0,
         ringColor: '#80d5d0',
         bigText: '--',
-        smallText: 'Leyendo...',
+        smallText: '...',
         rows: [],
         level: -1,
         charging: false
@@ -41,7 +41,7 @@ export default {
         const lvl = this.level;
         if (lvl < 0) {
             this.bigText = '--';
-            this.smallText = 'Sin lectura';
+            this.smallText = 'Sin dato';
             rows.push(row({ kind: 'info', n: 'Sin lectura', s: 'Prueba en el reloj' }, '', INFO));
             this.rows = rows;
             return;
@@ -52,9 +52,9 @@ export default {
         this.ringColor = levelColor(lvl);
         this.bigText = lvl + '%';
         if (this.charging) {
-            this.smallText = 'Cargando';
+            this.smallText = 'Carga';
         } else {
-            this.smallText = s.hoursLeft > 0 ? '≈ ' + fmtDur(s.hoursLeft * 3600000) : 'Calculando';
+            this.smallText = s.hoursLeft > 0 ? '≈' + fmtDur(s.hoursLeft * 3600000) : 'Sin dato';
         }
 
         if (!s.charged) {

@@ -535,6 +535,8 @@ def quick_tools_assets():
     lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
     text_badge("t_count", "+1", "cookie12", lilac[0], lilac[1], size=84)
     text_badge("t_tip", "%", "squircle", amber[0], amber[1], size=84)
+    text_badge("t_decide", "?", "cookie9", pink[0], pink[1], size=84)
+    text_badge("t_hnc", "CDMX", "clover", teal[0], teal[1], size=84)
 
 
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.

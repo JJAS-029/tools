@@ -49,7 +49,10 @@
           "pages/unitconv/unitconv",
           "pages/brief/brief",
           "pages/counter/counter",
-          "pages/tip/tip"
+          "pages/tip/tip",
+          "pages/decide/decide",
+          "pages/qr/qr",
+          "pages/hnc/hnc"
         ],
         "name": ".MainAbility"
       }
