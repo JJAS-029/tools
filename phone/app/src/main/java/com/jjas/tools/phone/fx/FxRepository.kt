@@ -36,7 +36,13 @@ object FxRepository {
         val cached = p.getFloat("usd", 20f).toDouble()
         val date = p.getString("date", "") ?: ""
         _state.value = FxState(usd = cached, date = date)
+        // Before it only updated with the button and showed the $20.00 placeholder:
+        // now it updates on its own if it has never fetched or the data is >6 h old.
+        val fetchedAt = p.getLong("fetchedAt", 0L)
+        if (System.currentTimeMillis() - fetchedAt > STALE_MS) fetchAndSend()
     }
+
+    private const val STALE_MS = 6 * 60 * 60 * 1000L
 
     fun fetchAndSend() {
         _state.value = _state.value.copy(loading = true, error = "")
@@ -45,7 +51,8 @@ object FxRepository {
             if (res != null) {
                 val (rate, date) = res
                 val rounded = Math.round(rate * 100.0) / 100.0
-                prefs?.edit()?.putFloat("usd", rounded.toFloat())?.putString("date", date)?.apply()
+                prefs?.edit()?.putFloat("usd", rounded.toFloat())?.putString("date", date)
+                    ?.putLong("fetchedAt", System.currentTimeMillis())?.apply()
                 _state.value = FxState(usd = rounded, date = date, loading = false, error = "")
                 send(rounded, date)
             } else {
