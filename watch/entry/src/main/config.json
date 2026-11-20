@@ -41,7 +41,10 @@
           "pages/watchbat/watchbat",
           "pages/batedit/batedit",
           "pages/work/work",
-          "pages/workedit/workedit"
+          "pages/workedit/workedit",
+          "pages/metro/metro",
+          "pages/metroline/metroline",
+          "pages/metrocard/metrocard"
         ],
         "name": ".MainAbility"
       }

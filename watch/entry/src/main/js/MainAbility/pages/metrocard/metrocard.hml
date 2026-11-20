@@ -1,0 +1,24 @@
+<div class="page" onswipe="onSwipe">
+    <div class="hero">
+        <text class="bal">{{ balText }}</text>
+        <text class="trips">{{ tripsText }}</text>
+    </div>
+    <list class="list" ref="list" show="{{ !picking }}">
+        <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})">
+            <div class="card" style="background-color: {{ $item.bg }};">
+                <div class="labels">
+                    <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
+                    <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
+                </div>
+            </div>
+        </list-item>
+        <list-item class="tail"></list-item>
+    </list>
+    <div class="pick-box" show="{{ picking }}">
+        <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                     onchange="onPick"></picker-view>
+        <div class="save" onclick="confirmTopup">
+            <text class="save-text">{{ pickBtn }}</text>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | Cámara (foto, video, temporizador y voltear) | reloj + teléfono | Claude Code (foto) + Antigravity (video) | probado en el S23 |
 | Baterías: bici (50 km) y reloj (estimado real) | solo reloj | Claude Code | probado en el Previewer |
 | Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | solo reloj | Antigravity | probado en el Previewer |
+| Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | solo reloj | Antigravity | probado en el Previewer |
 
 ---
 
@@ -38,7 +39,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 ### Fase 1: rápidas, sin esperar a Huawei
 1. ~~🎥 **Video en Cámara**~~ ✅ hecho (Antigravity).
 2. ~~💰 **Mi jornada: barra + dinero ganado**~~ ✅ hecho (Antigravity).
-3. 🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad** 🟢
+3. ~~🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad**~~ ✅ hecho (Antigravity).
 4. ⚖️ **Convertidor de unidades** 🟢⚡
 5. 🔢 **Contador con la corona** 🟢⚡
 6. 🧾 **Dividir la cuenta y propinas** 🟢⚡

@@ -1,0 +1,15 @@
+<div class="page" onswipe="onSwipe">
+    <text class="header">Metro CDMX</text>
+    <list class="list" ref="list">
+        <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})">
+            <div class="card" style="background-color: {{ $item.bg }};">
+                <image class="tile" src="{{ $item.icon }}"></image>
+                <div class="labels">
+                    <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
+                    <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
+                </div>
+            </div>
+        </list-item>
+        <list-item class="tail"></list-item>
+    </list>
+</div>

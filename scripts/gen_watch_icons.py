@@ -382,6 +382,72 @@ def work_assets():
     tile("w_lunch", "m_cup", "cookie6", hexc(pink[0]), hexc(pink[1]), size=56, glyph_size=32)
 
 
+# ---------- Metro CDMX + Tarjeta MI ----------
+def m_metro(size=56):
+    """Minimal front train glyph."""
+    img, d, s = canvas(size)
+    lw = int(s * .07)
+    d.rounded_rectangle([s * .18, s * .12, s * .82, s * .76], radius=s * .14, fill=W)
+    d.rounded_rectangle([s * .28, s * .24, s * .72, s * .48], radius=s * .06, fill=(0, 0, 0, 0))
+    d.ellipse([s * .28, s * .56, s * .40, s * .68], fill=(0, 0, 0, 0))
+    d.ellipse([s * .60, s * .56, s * .72, s * .68], fill=(0, 0, 0, 0))
+    d.line([(s * .28, s * .80), (s * .18, s * .92)], fill=W, width=lw)
+    d.line([(s * .72, s * .80), (s * .82, s * .92)], fill=W, width=lw)
+    save(img, size, "m_metro")
+
+
+def m_card(size=56):
+    img, d, s = canvas(size)
+    d.rounded_rectangle([s * .08, s * .20, s * .92, s * .80], radius=s * .10, fill=W)
+    d.rectangle([s * .08, s * .34, s * .92, s * .46], fill=(0, 0, 0, 0))
+    d.rounded_rectangle([s * .18, s * .58, s * .46, s * .68], radius=s * .03, fill=(0, 0, 0, 0))
+    save(img, size, "m_card")
+
+
+def metro_badge(lid, bg, fg, size=56):
+    """Official-color M3 squircle badge with the line number/letter."""
+    from PIL import ImageFont
+    img, d, s = canvas(size)
+    d.polygon(shape_points("squircle", s), fill=hexc(bg))
+    fsize = int(s * (.48 if len(lid) == 1 else .38))
+    font = None
+    for path in ("C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf"):
+        try:
+            font = ImageFont.truetype(path, fsize)
+            break
+        except Exception:
+            pass
+    if font is None:
+        font = ImageFont.load_default()
+    bb = d.textbbox((0, 0), lid, font=font)
+    tw, th = bb[2] - bb[0], bb[3] - bb[1]
+    d.text(((s - tw) / 2 - bb[0], (s - th) / 2 - bb[1]), lid, fill=hexc(fg), font=font)
+    save(img, size, f"ml_{lid}")
+
+
+def metro_assets():
+    m_metro(); m_card()
+    coral = MUSIC_PALETTES[1]
+    tile("t_metro", "m_metro", "cookie6", hexc(coral[0]), hexc(coral[1]))
+    tile("mi_card", "m_card", "squircle", hexc("#a6f2d1"), hexc("#003826"), size=56, glyph_size=34)
+    badges = [
+        ("1", "#f28ab2", "#3d0a1e"),
+        ("2", "#64b5f6", "#072642"),
+        ("3", "#b5c95a", "#263007"),
+        ("4", "#7ce0d3", "#07302b"),
+        ("5", "#ffd54f", "#382a00"),
+        ("6", "#ff7961", "#400d06"),
+        ("7", "#ffab40", "#3d2200"),
+        ("8", "#66bb6a", "#08300b"),
+        ("9", "#c49a6c", "#301f0c"),
+        ("A", "#ba68c8", "#300d38"),
+        ("B", "#80cbc4", "#08302c"),
+        ("12", "#e6c26e", "#332506"),
+    ]
+    for lid, bg, fg in badges:
+        metro_badge(lid, bg, fg)
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -428,6 +494,7 @@ if __name__ == "__main__":
     art_frames()
     battery_assets()
     work_assets()
+    metro_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)
