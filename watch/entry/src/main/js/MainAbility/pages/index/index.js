@@ -27,6 +27,8 @@ export default {
             { name: 'Gastos', sub: 'Semana rápida', icon: IMG + 't_spend.png', uri: 'pages/spend/spend' },
             { name: 'Días', sub: 'Rachas y metas', icon: IMG + 't_days.png', uri: 'pages/days/days' },
             { name: 'Simón', sub: 'Juego memoria', icon: IMG + 't_simon.png', uri: 'pages/simon/simon' },
+            { name: 'Teclado', sub: 'Notas rápidas', icon: IMG + 't_kbd.png', uri: 'pages/kbd/kbd' },
+            { name: 'Prompter', sub: 'Leer con corona', icon: IMG + 't_prompt.png', uri: 'pages/prompter/prompter' },
             { name: 'Unidades', sub: 'lb, °F, USD...', icon: IMG + 't_units.png', uri: 'pages/units/units' },
             { name: 'Contador', sub: 'Agua y reps', icon: IMG + 't_count.png', uri: 'pages/counter/counter' },
             { name: 'Propinas', sub: 'Dividir cuenta', icon: IMG + 't_tip.png', uri: 'pages/tip/tip' },

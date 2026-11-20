@@ -1,0 +1,27 @@
+<div class="page" onswipe="onSwipe">
+    <div class="box" onlongpress="clearText">
+        <text class="txt">{{ text }}</text>
+    </div>
+    <!-- Autocomplete suggestions (tap to complete word) -->
+    <div class="sugs">
+        <div class="sug" onclick="pickSug(0)">
+            <text class="sug-txt">{{ sug0 }}</text>
+        </div>
+        <div class="sug" onclick="pickSug(1)">
+            <text class="sug-txt">{{ sug1 }}</text>
+        </div>
+    </div>
+    <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                 onchange="onPick"></picker-view>
+    <div class="controls">
+        <div class="btn-add" onclick="addChar">
+            <text class="btn-add-txt">+ {{ curChar }}</text>
+        </div>
+        <div class="btn-del" onclick="backspace">
+            <text class="btn-del-txt">⌫</text>
+        </div>
+        <div class="btn-ok" onclick="saveNote">
+            <text class="btn-ok-txt">OK</text>
+        </div>
+    </div>
+</div>

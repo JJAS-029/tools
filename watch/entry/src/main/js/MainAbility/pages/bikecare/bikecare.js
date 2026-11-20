@@ -121,12 +121,12 @@ export default {
             r4.sub = '#c4c7c5';
 
             const r5 = this.rows[5];
-            r5.kind = 'signal';
-            r5.n = 'Direccionales';
-            r5.s = 'Flechas nocturnas';
-            r5.bg = '#452b0d';
-            r5.color = '#ffab40';
-            r5.sub = '#f1f3f1';
+            r5.kind = 'ride';
+            r5.n = 'Modo bici vivo';
+            r5.s = 'Velocidad GPS y pulso';
+            r5.bg = '#162722';
+            r5.color = '#a6f2d1';
+            r5.sub = '#c4c7c5';
         }
     },
     toggleTab() {
@@ -142,6 +142,11 @@ export default {
         if (r.kind === 'signal') {
             tick();
             router.replace({ uri: 'pages/signal/signal' });
+            return;
+        }
+        if (r.kind === 'ride') {
+            tick();
+            router.replace({ uri: 'pages/ride/ride' });
             return;
         }
         if (r.kind === 'check') {

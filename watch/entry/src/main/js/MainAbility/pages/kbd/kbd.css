@@ -1,0 +1,123 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.box {
+    width: 300px;
+    height: 54px;
+    margin-top: 20px;
+    border-radius: 27px;
+    background-color: #1d201f;
+    justify-content: center;
+    align-items: center;
+}
+
+.txt {
+    width: 274px;
+    height: 38px;
+    font-size: 30px;
+    color: #f1f3f1;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.sugs {
+    width: 320px;
+    height: 46px;
+    margin-top: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sug {
+    width: 154px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: #2b2633;
+    justify-content: center;
+    align-items: center;
+}
+
+.sug-txt {
+    width: 140px;
+    height: 34px;
+    font-size: 26px;
+    color: #d0bcff;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.wheel {
+    width: 220px;
+    height: 154px;
+    margin-top: 4px;
+    color: #6f6a73;
+    font-size: 28px;
+    selected-color: #a6f2d1;
+    selected-font-size: 38px;
+}
+
+.controls {
+    width: 320px;
+    height: 68px;
+    margin-top: 4px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-add {
+    width: 126px;
+    height: 64px;
+    border-radius: 32px;
+    background-color: #a6f2d1;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-add-txt {
+    width: 112px;
+    height: 38px;
+    font-size: 30px;
+    color: #003826;
+    text-align: center;
+}
+
+.btn-del {
+    width: 84px;
+    height: 64px;
+    border-radius: 32px;
+    background-color: #1d201f;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-del-txt {
+    width: 70px;
+    height: 38px;
+    font-size: 30px;
+    color: #ffb4ab;
+    text-align: center;
+}
+
+.btn-ok {
+    width: 92px;
+    height: 64px;
+    border-radius: 32px;
+    background-color: #80d5d0;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-ok-txt {
+    width: 80px;
+    height: 38px;
+    font-size: 30px;
+    color: #003735;
+    text-align: center;
+}

@@ -1,6 +1,7 @@
 import router from '@system.router';
+import bridge from '../../common/bridge.js';
 import { tick } from '../../common/haptics.js';
-import { load } from '../../common/store.js';
+import { load, save } from '../../common/store.js';
 
 // Local starter slots; with Wear Engine the phone syncs real QR items into storage ('qrs').
 const DEFAULT_QRS = [
@@ -26,6 +27,17 @@ export default {
             this.idx = 0;
             this.refresh();
         });
+        bridge.on('qr.list', (list) => {
+            if (list && list.length > 0) {
+                items = list;
+                save('qrs', items);
+                this.idx = 0;
+                this.refresh();
+            }
+        });
+    },
+    onDestroy() {
+        bridge.off('qr.list');
     },
     refresh() {
         const it = items[this.idx] || DEFAULT_QRS[0];

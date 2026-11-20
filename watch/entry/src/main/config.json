@@ -65,7 +65,10 @@
           "pages/anki/anki",
           "pages/days/days",
           "pages/spend/spend",
-          "pages/simon/simon"
+          "pages/simon/simon",
+          "pages/kbd/kbd",
+          "pages/prompter/prompter",
+          "pages/ride/ride"
         ],
         "name": ".MainAbility"
       }

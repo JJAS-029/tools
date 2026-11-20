@@ -48,6 +48,10 @@ necesita a los dos se prueba con el teléfono simulado.
 | Contador de días (Koala, viaje y racha de bici) | `days.hml` | solo reloj | Antigravity | probado en el Previewer |
 | Gastos rápidos con la corona y total de la semana | `spend.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
 | Simón dice con vibraciones y récord | `simon.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Teclado con la corona (autocompletado en español y notas rápidas) | `kbd.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Teleprompter (guiones y tus notas del teclado con la corona) | `prompter.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Modo bici en vivo (velocidad GPS, zonas de pulso con alerta y autonomía) | `ride.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Gestos en Cámara (sacudir la muñeca para disparar) | `shutter.hml` | solo reloj | Antigravity | compilado (falta reloj real) |
 
 ---
 
@@ -75,7 +79,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 ### Fase 3: solo reloj, más trabajo
 13. ~~🔬 **Prueba de hardware en el reloj real**~~ ✅ hecho (Antigravity — dentro de Lugares → Probar sensores).
 14. ~~📍 **Lugares** (tags con GPS y flecha)~~ ✅ hecho (Antigravity).
-15. ⌨️ **Teclado con la corona** (autocompleta palabras) 🟢
+15. ~~⌨️ **Teclado con la corona** (autocompleta palabras)~~ ✅ hecho (Antigravity).
 16. ~~🐨 **Koala tamagotchi**~~ ✅ hecho (Antigravity — diseño pixel art de `koala_monitor`).
 17. ~~🔧 **Mantenimiento de la bici por km** + ✅ **Checklist antes de salir**~~ ✅ hecho (Antigravity).
 18. ~~↩️ **Direccionales en la muñeca**~~ ✅ hecho (Antigravity — dentro de Bici Kit).
@@ -85,9 +89,9 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 22. ~~💞 **Contador de días**~~ ✅ hecho (Antigravity).
 23. ~~💵 **Gastos rápidos**~~ ✅ hecho (Antigravity).
 24. ~~🃏 **Anki con mazo de prueba**~~ ✅ hecho (Antigravity).
-25. 📜 **Teleprompter** (texto guardado en el reloj) 🟢
-26. ❤️ **Zonas de pulso** + 🚴 **Modo bici en vivo** (velocidad por GPS) 🟢
-27. 👋 **Gestos** (sacudir para la foto) 🟢
+25. ~~📜 **Teleprompter** (texto guardado en el reloj)~~ ✅ hecho (Antigravity).
+26. ~~❤️ **Zonas de pulso** + 🚴 **Modo bici en vivo** (velocidad por GPS)~~ ✅ hecho (Antigravity — dentro de Bici Kit → Mantto).
+27. ~~👋 **Gestos** (sacudir para la foto)~~ ✅ hecho (Antigravity — en Cámara).
 28. ~~🐍 **Juegos** (Simón con vibraciones)~~ ✅ hecho (Antigravity).
 
 ### Fase 4: en cuanto llegue Wear Engine (alta viabilidad)

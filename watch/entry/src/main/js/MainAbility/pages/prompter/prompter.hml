@@ -1,0 +1,12 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to switch script; turn crown to scroll smoothly -->
+    <div class="chip" onclick="nextDoc">
+        <text class="chip-text">{{ docTitle }}</text>
+    </div>
+    <list class="list" ref="list">
+        <list-item for="{{ lines }}" class="row">
+            <text class="line">{{ $item }}</text>
+        </list-item>
+        <list-item class="tail"></list-item>
+    </list>
+</div>

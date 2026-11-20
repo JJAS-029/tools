@@ -1,7 +1,10 @@
 import router from '@system.router';
+import sensor from '@system.sensor';
 import vibrator from '@system.vibrator';
 import bridge from '../../common/bridge.js';
 import { tick } from '../../common/haptics.js';
+
+let lastShake = 0;
 
 const IMG = '/common/images/';
 const TIMERS = [0, 3, 10];
@@ -82,9 +85,25 @@ export default {
             }
         });
         bridge.send('cam.open');
+        // Shake-to-shoot gesture using accelerometer (while screen is open)
+        try {
+            sensor.subscribeAccelerometer({
+                interval: 'normal',
+                success: (d) => {
+                    const mag = Math.sqrt(d.x * d.x + d.y * d.y + d.z * d.z);
+                    const now = new Date().getTime();
+                    if (mag > 22 && now - lastShake > 2500 && !this.busy) {
+                        lastShake = now;
+                        this.shoot();
+                    }
+                },
+                fail: () => {}
+            });
+        } catch (e) {}
     },
     onDestroy() {
         this.stopClock();
+        try { sensor.unsubscribeAccelerometer(); } catch (e) {}
         bridge.off('cam.state');
         bridge.off('cam.count');
         bridge.off('cam.rec.state');
