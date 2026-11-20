@@ -28,7 +28,7 @@ const mockMedia = {
     vol: 50
 };
 
-const mockCam = { front: false, n: 0 };
+const mockCam = { front: false, video: false, n: 0, v: 0 };
 
 function copy(o) {
     const r = {};
@@ -79,7 +79,27 @@ function mockSend(t, d) {
     }
     // Camera: the phone opens, counts down and "takes" the photo.
     if (t === 'cam.open') {
-        setTimeout(function () { emit('cam.state', { open: true, front: mockCam.front }); }, 400);
+        setTimeout(function () { emit('cam.state', { open: true, front: mockCam.front, mode: mockCam.video ? 'video' : 'photo' }); }, 400);
+    }
+    if (t === 'cam.mode') {
+        mockCam.video = d.m === 'video';
+        setTimeout(function () { emit('cam.state', { open: true, front: mockCam.front, mode: d.m }); }, 200);
+    }
+    if (t === 'cam.rec' && d.a === 'start') {
+        const rs = d.timer || 0;
+        for (let q = rs; q >= 1; q--) {
+            (function (s, wait) {
+                setTimeout(function () { emit('cam.count', { s: s }); }, wait);
+            })(q, (rs - q) * 1000);
+        }
+        setTimeout(function () { emit('cam.rec.state', { on: true }); }, rs * 1000 + 300);
+    }
+    if (t === 'cam.rec' && d.a === 'stop') {
+        mockCam.v++;
+        setTimeout(function () {
+            emit('cam.rec.state', { on: false });
+            emit('cam.result', { ok: true, name: 'JJAS_video_' + mockCam.v + '.mp4', video: true });
+        }, 400);
     }
     if (t === 'cam.flip') {
         mockCam.front = !mockCam.front;

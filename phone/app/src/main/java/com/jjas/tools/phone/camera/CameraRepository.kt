@@ -18,8 +18,8 @@ object CameraRepository {
     private var activity = WeakReference<CameraActivity>(null)
     private val main = Handler(Looper.getMainLooper())
 
-    /** Shot requested before the camera was open: fired as soon as it opens. */
-    private var pendingTimer: Int? = null
+    /** Command received before the camera was open: run as soon as it opens. */
+    private var pending: ((CameraActivity) -> Unit)? = null
 
     fun init(context: Context) {
         appContext = context.applicationContext
@@ -28,20 +28,30 @@ object CameraRepository {
     fun handle(t: String, d: JSONObject) {
         main.post {
             val cam = activity.get()
+            val timer = d.optInt("timer", 0).coerceIn(0, 10)
             when (t) {
-                "cam.open" -> if (cam == null) open() else sendState(cam.isFront)
-                "cam.shoot" -> {
-                    val timer = d.optInt("timer", 0).coerceIn(0, 10)
-                    if (cam == null) {
-                        pendingTimer = timer
-                        open()
-                    } else {
-                        cam.shoot(timer)
-                    }
+                "cam.open" -> if (cam == null) open() else sendState(cam)
+                "cam.shoot" -> withCamera(cam) { it.shoot(timer) }
+                "cam.mode" -> {
+                    val video = d.optString("m") == "video"
+                    withCamera(cam) { it.setMode(video) }
+                }
+                "cam.rec" -> when (d.optString("a")) {
+                    "start" -> withCamera(cam) { it.startRec(timer) }
+                    "stop" -> cam?.stopRec()
                 }
                 "cam.flip" -> cam?.flip()
-                "cam.close" -> cam?.finish()
+                "cam.close" -> cam?.closeFromWatch()
             }
+        }
+    }
+
+    private fun withCamera(cam: CameraActivity?, action: (CameraActivity) -> Unit) {
+        if (cam == null) {
+            pending = action
+            open()
+        } else {
+            action(cam)
         }
     }
 
@@ -69,27 +79,38 @@ object CameraRepository {
     fun detach(cam: CameraActivity) {
         if (activity.get() === cam) {
             activity = WeakReference(null)
-            pendingTimer = null
+            pending = null
             WatchLink.send(Protocol.encode("cam.state", JSONObject().put("open", false)))
         }
     }
 
-    /** The camera is ready: report state and fire a pending shot, if any. */
+    /** The camera is ready: report state and run a pending command, if any. */
     fun onReady(cam: CameraActivity) {
-        sendState(cam.isFront)
-        pendingTimer?.let {
-            pendingTimer = null
-            cam.shoot(it)
+        sendState(cam)
+        pending?.let {
+            pending = null
+            it(cam)
         }
     }
 
-    fun sendState(front: Boolean) =
-        WatchLink.send(Protocol.encode("cam.state", JSONObject().put("open", true).put("front", front)))
+    fun sendState(cam: CameraActivity) =
+        WatchLink.send(
+            Protocol.encode(
+                "cam.state",
+                JSONObject().put("open", true).put("front", cam.isFront)
+                    .put("mode", if (cam.isVideo) "video" else "photo").put("rec", cam.isRecording),
+            )
+        )
 
     fun sendCount(s: Int) = WatchLink.send(Protocol.encode("cam.count", JSONObject().put("s", s)))
 
-    fun sendResult(ok: Boolean, text: String) =
+    fun sendRec(on: Boolean) = WatchLink.send(Protocol.encode("cam.rec.state", JSONObject().put("on", on)))
+
+    fun sendResult(ok: Boolean, text: String, video: Boolean = false) =
         WatchLink.send(
-            Protocol.encode("cam.result", JSONObject().put("ok", ok).put(if (ok) "name" else "msg", text))
+            Protocol.encode(
+                "cam.result",
+                JSONObject().put("ok", ok).put(if (ok) "name" else "msg", text).put("video", video),
+            )
         )
 }

@@ -1,8 +1,8 @@
 # Plan de funciones (roadmap)
 
 Última actualización: 2026-11-19. Mientras Huawei aprueba **Wear Engine**, solo
-podemos hacer lo que corre **solo en el reloj**. Todo lo que necesita al teléfono
-se prueba con el teléfono simulado.
+podemos hacer lo que corre **solo en el reloj** o **solo en el teléfono**. Lo que
+necesita a los dos se prueba con el teléfono simulado.
 
 ## Límites del reloj (Fit 3, apps JS "lite")
 - **Las apps no corren en segundo plano.** Solo funcionan mientras están
@@ -11,6 +11,9 @@ se prueba con el teléfono simulado.
   Huawei Health los pasa al reloj solos.
 - **No hay mapas ni conexión propia a internet.** Calles e imágenes las tiene
   que dibujar el teléfono y mandarlas.
+- **No se puede escribir:** no hay teclado ni campo de texto, y casi seguro **no
+  hay micrófono** para las apps (falta confirmarlo en el reloj real). Todo se
+  diseña con plantillas, listas y la corona.
 - **La corona** solo mueve `list`, `slider` y `picker-view`, y **el `class` no
   acepta datos**: para cambiar cosas hay que usar `style` y `show`. Compila con
   `bash scripts/check_watch.sh` antes de abrir el Previewer.
@@ -22,126 +25,181 @@ se prueba con el teléfono simulado.
 |---|---|---|
 | Música (control, volumen con la corona y color dinámico M3) | reloj + teléfono | probado en el Previewer y en el S23 |
 | Playlists de Spotify | reloj + teléfono | probado en el S23 con tu cuenta |
-| Cámara (obturador, temporizador y voltear) | reloj + teléfono | probado en el S23 |
+| Cámara (foto, video, temporizador y voltear) | reloj + teléfono | probado en el S23 |
 | Baterías: bici (50 km) y reloj (estimado real) | solo reloj | probado en el Previewer |
 
-## Siguiente: viable ya, sin depender de Huawei 🟢
-### 1. Lugares (tags con GPS)
-Guardas lugares con nombre (bici, carro, casa del Koala, trabajo…). Tocas uno y
-te dice **a qué distancia está y hacia dónde ir**.
-- **Viabilidad: alta.** El Fit 3 tiene GPS propio (`@system.geolocation`).
-- **Dirección:** si el Fit 3 trae brújula (tú crees que sí; lo confirmamos en el
-  reloj real), la flecha apunta de verdad con `@system.sensor` (compass). Si no,
-  se calcula con el **rumbo de tus últimos pasos** más el punto cardinal ("380 m
-  al noreste").
-- **Mapa (con Wear Engine):** el teléfono descarga la zona (OpenStreetMap o el
-  mapa estático de Google), dibuja el tag y tu posición, y le manda al reloj una
-  **imagen de unos 400×400**. Hay que confirmar que la app del reloj puede mostrar
-  una imagen recibida por P2P (que se guarda en su almacenamiento interno).
-- **Extra:** si tienes la app abierta al llegar a un tag, te propone "¿Registrar
-  viaje a Casa Koala?" para Baterías.
+---
 
-### 2. Contador con la corona
-Para vasos de agua, repeticiones o vueltas. **Viabilidad: alta.** Es un
-`picker-view` o `slider`.
+# Ruta sugerida (todas las ideas)
+Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear Engine)
+· 🟣 necesita Health Kit · ⚡ rápida (1 sesión).
 
-### 3. Pomodoro y temporizadores con patrones de vibración
-**Viabilidad: media.** Mientras la app está abierta funciona bien; con la app
-cerrada el aviso tendría que venir del teléfono.
+### Fase 1: rápidas, sin esperar a Huawei
+1. ~~🎥 **Video en Cámara**~~ ✅ hecho.
+2. 💰 **Mi jornada: barra + dinero ganado** 🟢⚡
+3. 🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad** 🟢
+4. ⚖️ **Convertidor de unidades** 🟢⚡
+5. 🔢 **Contador con la corona** 🟢⚡
+6. 🧾 **Dividir la cuenta y propinas** 🟢⚡
+7. 🎲 **Para decidir** (dado, moneda, ruleta) 🟢⚡
+8. 💸 **QR en el reloj** (cobro con CLABE, contacto, WhatsApp) 🟢⚡
+9. 🚗 **Hoy No Circula** 🟢⚡
 
-### 4. Dividir la cuenta y propinas
-**Viabilidad: alta.** Una calculadora rápida que se maneja con la corona.
+### Fase 2: teléfono solo (en paralelo, sin Huawei)
+10. 🚴 **Aviso a tu mamá cada hora** ("Salí en bici" / "Llegué") 🔵
+11. 📍 **"¿Dónde estás?" automático** por SMS 🔵
+12. 🔑 **¿Llevas todo?** al salir del Wi-Fi 🔵
 
-### 5. Hábitos del día (agua, medicinas, estirarse)
-Anillos M3. **Viabilidad: alta** para registrarlos. Los recordatorios llegarían
-como notificaciones del teléfono.
+### Fase 3: solo reloj, más trabajo
+13. 🔬 **Prueba de hardware en el reloj real:** micrófono, brújula, pulso y
+    acelerómetro. Define el teclado, Lugares y los gestos.
+14. 📍 **Lugares** (tags con GPS y flecha) 🟢
+15. ⌨️ **Teclado con la corona** (autocompleta palabras) 🟢
+16. 🐨 **Koala tamagotchi** 🟢
+17. 🔧 **Mantenimiento de la bici por km** + ✅ **Checklist antes de salir** 🟢
+18. ↩️ **Direccionales en la muñeca** 🟢⚡
+19. 🍅 **Pomodoro** + 🏋️ **Intervalos (HIIT)** con vibraciones 🟢
+20. 💧 **Hábitos del día** (anillos M3) 🟢
+21. 📳 **La hora en vibraciones** 🟢⚡
+22. 💞 **Contador de días** 🟢⚡
+23. 💵 **Gastos rápidos** 🟢
+24. 🃏 **Anki con mazo de prueba** 🟢
+25. 📜 **Teleprompter** (texto guardado en el reloj) 🟢
+26. ❤️ **Zonas de pulso** + 🚴 **Modo bici en vivo** (velocidad por GPS) 🟢
+27. 👋 **Gestos** (sacudir para la foto) 🟢
+28. 🐍 **Juegos** (Snake, 2048, Simón con vibraciones) 🟢
 
-## Después de Wear Engine 🟡
-### 6. Kilómetros de la bici desde tus entrenamientos
-Tus salidas en bici se registran en Huawei Health. **La app del reloj no puede
-leer ese historial.** El camino es **Huawei Health Kit** en la app del teléfono:
-- Lee los entrenamientos de ciclismo (distancia), descuenta los km de la
-  batería de la bici y se los manda al reloj.
-- **Viabilidad: media.** Hay que solicitar Health Kit en AppGallery Connect,
-  otra revisión como la de Wear Engine, con los permisos de "actividad/ejercicio".
-- **Plan B:** botón "Iniciar viaje" en Baterías que mida los km con GPS. Pero
-  no puede correr al mismo tiempo que un entrenamiento del reloj, porque en
-  pantalla solo corre una app a la vez.
+### Fase 4: en cuanto llegue Wear Engine (alta viabilidad)
+29. 🚨 **Botón de emergencia (SOS)** 🟡
+30. 📅 **Eventos y tareas** + 📝 **Notas rápidas** 🟡
+31. 🗓️ **Calendario M3** 🟡
+32. 🖱️ **Control de la PC** (el S23 como teclado y mouse Bluetooth) 🟡
+33. 📊 **Estado del escritorio** 🟡
+34. 🔕 **No molestar y Silencio** desde el reloj 🟡
+35. 🚴 **Botón "Salí en bici" en el reloj** (conecta la fase 2) 🟡⚡
+36. 🔋 **Recordatorio de cargar la bici** 🟡⚡
+37. 🃏 **Anki conectado a AnkiDroid** · 💵 **Gastos a Google Sheets** 🟡
+38. 🗺️ **Indicaciones de Google Maps** · 🌧️ **¿Me voy en bici?** 🟡
+39. ✨ **Gemini** (y/o 🤖 Claude) · 🗣️ **Traductor** 🟡
+40. 🎤 **Letras de canciones** · 🎵 **¿Qué canción es?** 🟡
+41. 📍 **Mapa en Lugares** (imagen que dibuja el teléfono) 🟡
+42. 💌 **Botón "pensando en ti"** 🟡⚡
 
-### 7. Llamar por WhatsApp desde el reloj
-Contestar llamadas de WhatsApp en el reloj ya funciona. **Marcar desde el reloj
-sí parece viable:**
-- En el reloj eliges un contacto favorito y el teléfono abre la llamada de
-  WhatsApp con un intent de contacto (`vnd.com.whatsapp.voip.call`).
-- El audio debería irse al reloj igual que cuando contestas.
-- También sirve para llamadas normales (`ACTION_CALL`).
-- **Viabilidad: media.** WhatsApp no tiene una API oficial para esto (es un
-  truco conocido que podría dejar de funcionar). Necesita permiso de contactos
-  y de "mostrar sobre otras apps", que ya tenemos.
-- **Mensajes rápidos ("Ya voy", "Llegué"):** solo se pueden enviar como
-  **respuesta a una notificación** de WhatsApp que ya tengas. WhatsApp no deja
-  enviar mensajes nuevos sin que toques "Enviar".
+### Fase 5: con Wear Engine, hay que probar o usan trucos
+43. 📞 **Llamar por WhatsApp** y llamadas normales 🟡
+44. 🟦 **Modos de Samsung** (Trabajo, Dormir…) 🟡
+45. 🏠 **Google Home** · 📺 **Control de la tele** 🟡
+46. 🖼️ **Fotos y stickers de WhatsApp** · 🔊 **Audios transcritos** 🟡
+47. 💬 **"Ya llegué"** como respuesta al último chat de WhatsApp 🟡
+48. 📒 **Notas de Keep** (solo personal) · 🎙️ **Grabadora / dictado** 🟡
 
-### 8. Calendario con diseño propio (M3)
-No podemos cambiar el firmware, pero sí hacer **nuestro propio calendario**:
-- El teléfono lee la agenda (Google/Samsung, `CalendarContract`) y manda el
-  día y la semana al reloj, con chips de colores por calendario.
-- **Viabilidad: alta** en cuanto haya Wear Engine.
+### Fase 6: necesitan Health Kit (otra solicitud a Huawei)
+49. 🚲 **Km de la bici desde tus entrenamientos** 🟣
+50. ⏰ **Alarma inteligente por tendencias de sueño** 🟣 (versión aproximada sin
+    Health Kit: ciclos de 90 min).
 
-### 9. Modos y rutinas de Samsung desde el reloj (Trabajo, Dormir…)
-Botones en el reloj: Trabajo, Dormir, Manejo, No molestar, Silencio.
-- **No molestar y Silencio: viabilidad alta.** La app del teléfono los cambia por
-  sí misma (con el permiso de acceso a No molestar).
-- **Modos de Samsung: viabilidad media, hay que probarlo.** No tienen API pública.
-  Ideas, en orden:
-  1. Que la rutina de Samsung se active con una **condición que provoquemos**
-     (por ejemplo, abrir una pantalla de JJAS Tools o un cambio que
-     controlemos).
-  2. Mandar al reloj **atajos de Modos** si Samsung expone algún intent o
-     acceso directo.
-  3. Plan B: nuestros propios "modos" que hagan lo mismo (No molestar, volumen,
-     brillo, Wi-Fi o Bluetooth donde Android lo permita).
+### No viables 🔴
+| Idea | Por qué |
+|---|---|
+| Detección de caídas | La app tendría que vigilar todo el tiempo y no corre en segundo plano. |
+| Escuchar audios de WhatsApp en el reloj | Las apps lite no reproducen audio (transcritos sí, fase 5). |
+| Walkie-talkie con voz | Mismo motivo; solo se puede la versión transcrita. |
+| Alarma de sueño en vivo | No puede medir toda la noche (por tendencias sí, fase 6). |
+| Llamar directo al 911 desde una app | Android solo abre el marcador; hay que tocar "llamar". |
+| Sistema operativo propio / flashear el Fit 3 | Ver "Detalles". |
 
-### 10. Ya planeadas (plan original)
-QR en el reloj (el reloj lite tiene un componente `qrcode` nativo), indicaciones
-de Google Maps, notas de Keep y grabadora de voz, que se graba en el teléfono.
+### Descartadas (ya vienen en el Fit 3)
+- Encontrar mi teléfono · Linterna · Respiración guiada.
+- 🌎 **Alerta sísmica:** no hay que programarla; instala una app de alerta
+  sísmica en el S23 y activa sus notificaciones en Huawei Health.
 
-## Lluvia de ideas (2026-11-19): evaluación
-| Idea | Viabilidad | Cómo | Qué lo complica |
-|---|---|---|---|
-| **🐨 Tamagotchi de Koala** | 🟢 Alta, solo reloj | Koala animado (`image-animator`) con hambre, ánimo y energía. Lo alimentas con **tus pasos** (sensor de pasos) y lo haces feliz con **tus viajes en bici** (Baterías). Como la app no corre en segundo plano, al abrirla se calcula lo que pasó mientras estuvo cerrada, como los tamagotchis reales. | Solo memoria por pantalla: animaciones de pocos cuadros. |
-| **🎙️ Dictado / transcribir voz** | 🟡 Media | Si el reloj puede grabar, el audio va al teléfono, el teléfono lo transcribe y el texto vuelve al reloj o se guarda en Keep. | **Por verificar:** que una app lite pueda usar el micrófono. Si no, se graba con el micrófono del teléfono (lo que ya está en el plan). |
-| **🖼️ Ver fotos de WhatsApp** | 🟡 Media | El teléfono toma la vista previa de la imagen que trae la notificación de WhatsApp, la reduce y la manda al reloj. | Solo funciona con las que llegan como notificación; WhatsApp no tiene API. |
-| **🔊 Audios de WhatsApp** | 🟡 Transcritos, 🔴 escucharlos | **Escucharlos en el reloj no es viable:** las apps lite no tienen reproductor de audio y el Fit 3 no reproduce audio de apps. **Transcribirlos sí:** el teléfono convierte el audio en texto y el reloj lo muestra. | Hay que poder leer el archivo de voz desde el teléfono (carpeta de medios de WhatsApp): por verificar. |
-| **⏰ Alarma inteligente (ciclos de sueño)** | 🔴 En vivo / 🟡 **por tendencias** | En vivo no se puede (la app no puede medir toda la noche). **Tu idea sí se puede:** la app del teléfono lee tu historial de sueño (**Health Kit**), calcula cada semana cuánto tardas en dormirte y cuánto duran tus ciclos, y te propone la mejor hora: al tocar "Me voy a dormir" en el reloj te sugiere despertar al final de un ciclo (p. ej. 6:50 en vez de 7:15) y **pone la alarma en el teléfono** (`AlarmClock`), que suena también en el reloj. | Necesita Health Kit (otra solicitud a Huawei). Sin Health Kit: versión aproximada con ciclos de 90 min y tu hora de dormir. |
-| **🤖 Conexión con Claude** | 🟡 Media (con Wear Engine) | El reloj manda una pregunta (dictada, si hay micrófono, o de una lista) → el teléfono la manda a la API de Claude → la respuesta corta vuelve al reloj. También serviría para **resumir chats** o **audios transcritos**. | Necesita una API key de Anthropic guardada solo en el teléfono (cuesta por uso). Respuestas cortas para la pantalla. |
-| **🎭 Stickers de WhatsApp** | 🟡 Media | Igual que las fotos, si la notificación trae la imagen del sticker. | Muchas veces la notificación solo dice "Sticker" sin imagen. |
-| **📻 Walkie-talkie teléfono ↔ reloj** | 🔴 Baja | El reloj no puede reproducir audio de apps. Versión posible: lo que hablas en el teléfono llega **transcrito** al reloj, y del reloj al teléfono por dictado, si hay micrófono. | Sin reproductor de audio en lite. |
-| **🃏 Anki / vocabulario de inglés** | 🟢 Alta | **AnkiDroid tiene una API pública** (ContentProvider): el teléfono lee tus tarjetas pendientes, el reloj te las muestra (tocas para voltear y calificas *Otra vez / Bien*) y la respuesta se registra en AnkiDroid. Mientras no haya Wear Engine, un mazo de prueba guardado en el reloj. | Tener AnkiDroid instalado. |
-| **⚖️ Convertidor de unidades** | 🟢 Alta, solo reloj | Libras↔kg, °F↔°C, millas↔km, oz↔g, pies↔m y USD↔MXN (tipo de cambio del teléfono o puesto a mano). El número se gira con la corona (`picker-view`). | — |
-| **🤚 Detección de caídas** | 🔴 No | Tendría que vigilar todo el tiempo y la app no corre en segundo plano. | — |
-| **👋 Gestos (sacudir o girar la muñeca)** | 🟡 Solo con la app abierta | Con el acelerómetro (`@system.sensor`), solo en pantallas abiertas: **sacudir para tomar la foto** en Cámara o girar la muñeca para pasar la diapositiva. | No funciona en todo el sistema como el Apple Watch. |
-| **🎥 Grabar video en Cámara** | 🟢 Alta | Botón de grabar y detener en el reloj, con cronómetro; el teléfono graba con CameraX (`VideoCapture`) y lo guarda en Movies/JJAS Tools. | — (**se nos pasó, va primero**) |
-| **🧭 Aprovechar más el hardware** | — | Brújula → flecha real en Lugares. GPS → Lugares y velocidad en bici. Pasos → Koala. Micrófono → dictado, si se puede. | Una sola app abierta a la vez y nada en segundo plano. |
+---
 
-## Ideas mías (para valorar)
-| Idea | Viabilidad | De qué trata |
+# Detalles por idea
+
+## 🟢 Solo reloj
+| Idea | De qué trata | Ojo |
 |---|---|---|
-| **🎤 Letras de canciones** | 🟡 | El teléfono busca la letra sincronizada de la canción que suena (por ejemplo LRCLIB, que es gratuita) y el reloj la muestra línea por línea en vivo, con los colores de Música. |
-| **🗣️ Traductor de bolsillo** | 🟡 | Dictas (o eliges) una frase y Claude te la regresa en inglés. Combina con Anki para practicar. |
-| **📜 Teleprompter** | 🟢 | Un texto del teléfono (o de Keep) que lees en el reloj y avanzas con la corona: discursos, recetas, listas. |
-| **🎲 Para decidir** | 🟢 | Dado, moneda o ruleta que giras con la corona ("¿quién paga?", "¿qué cenamos?"). |
-| **💞 Contador de días** | 🟢 | Días con el Koala, días para un viaje, racha de días en bici. |
-| **🅿️ Parquímetro** | 🟢 | Guarda dónde dejaste el carro (Lugares) y cuánto pagaste; vibra cuando se acerca la hora. El aviso con la app cerrada llega como notificación del teléfono. |
-| **🏋️ Intervalos (HIIT)** | 🟢 | Rutinas de trabajo y descanso con vibraciones distintas, sin teléfono. |
-| **🚴 Modo bici en vivo** | 🟡 | Velocidad por GPS y autonomía restante mientras ruedas. No corre al mismo tiempo que un entrenamiento del reloj. |
+| **💰 Mi jornada** | **Anillo M3** que se llena de tu hora de entrada a la de salida ("faltan 1 h 20 min"), con la comida marcada. **Calculadora de dinero:** pones tu **pago por hora** (editable con la corona) o tu sueldo de la nómina (quincenal o mensual) y las horas por día, y la app saca el pago por hora. Tocas **"Llegué"** (o usa la hora fija de entrada, p. ej. 9:00) y ves en vivo **"llevas \$432.50 hoy"**. Extras: total de la semana y de la quincena, horas extra (al pasar tu hora de salida, con su propio pago), descontar la comida si no te la pagan, y **"esta junta ha costado \$X"** con un cronómetro. | Al abrir la app se calcula desde la hora de entrada; no necesita correr en segundo plano. Los datos se quedan en el reloj. |
+| **🚇 Metro CDMX** | Las 12 líneas y unas 195 estaciones guardadas en la app (unos KB). Eliges línea y dirección, giras la corona y ves **cuál sigue, los transbordos y la terminal**. **Ruta A → B** calculada en el reloj (camino más corto con transbordos) y "vibra 1 estación antes de bajar" tocando *Siguiente* o con un tiempo promedio por tramo. Después: Metrobús, Monterrey y Guadalajara. | **El GPS no funciona bajo tierra:** solo sirve afuera para "la estación más cercana es Insurgentes, 300 m". |
+| **💳 Tarjeta de Movilidad** | Pones el saldo al recargar y tocas *Viaje* en cada entrada (Metro \$5, Metrobús \$6…): "te quedan ~7 viajes". Va dentro de Metro. | El saldo es un cálculo, no lee la tarjeta. |
+| **⚖️ Convertidor** | Libras↔kg, °F↔°C, millas↔km, oz↔g, pies↔m y USD↔MXN (tipo de cambio puesto a mano; con Wear Engine, del teléfono). El número se gira con la corona (`picker-view`). | — |
+| **🔢 Contador** | Vasos de agua, repeticiones o vueltas con la corona (`picker-view` o `slider`). | — |
+| **🧾 Dividir la cuenta** | Total, personas y % de propina con la corona. | — |
+| **🎲 Para decidir** | Dado, moneda o ruleta que giras con la corona ("¿quién paga?", "¿qué cenamos?"). | — |
+| **💸 QR** | Tu CLABE o link de cobro, tu contacto o tu WhatsApp como QR (componente `qrcode` nativo). | Datos sensibles: solo en tu reloj. |
+| **🚗 Hoy No Circula** | Placa y holograma una vez; cada día te dice si circulas. | Las contingencias necesitan internet (con Wear Engine). |
+| **📍 Lugares** | Guardas lugares con nombre (bici, carro, casa del Koala, trabajo…) y te dice **a qué distancia está y hacia dónde ir** con el GPS (`@system.geolocation`). Flecha real si hay brújula (`@system.sensor`); si no, rumbo de tus últimos pasos + punto cardinal ("380 m al noreste"). Al llegar a un tag con la app abierta: "¿Registrar viaje a Casa Koala?" para Baterías. También sirve de **parquímetro** (dónde dejaste el carro y cuánto pagaste). | Con la app abierta. |
+| **⌨️ Teclado con la corona** | La corona elige letras y el reloj **completa palabras** con una lista de palabras frecuentes en español ("llam…" → *llamar*). | Lento, para 2 o 3 palabras. Destraba notas, eventos y Gemini sin micrófono. |
+| **🐨 Koala tamagotchi** | Koala animado (`image-animator`) con hambre, ánimo y energía. Lo alimentas con **tus pasos** y lo haces feliz con **tus viajes en bici**. Al abrirlo se calcula lo que pasó mientras estuvo cerrado. | Animaciones de pocos cuadros. |
+| **🔧 Mantenimiento de bici** | Con los km de Baterías: "lubricar la cadena cada 300 km", "frenos cada 1,000 km". *Hecho* y vuelve a contar. | — |
+| **✅ Checklist antes de salir** | Llantas, luces, casco, batería, candado; al final, "Salí en bici". | — |
+| **↩️ Direccionales** | De noche, flecha naranja grande parpadeando a máximo brillo; corona a la izquierda o a la derecha. | — |
+| **🍅 Pomodoro / 🏋️ HIIT** | Trabajo y descanso con vibraciones distintas. | Con la app cerrada, el aviso tendría que venir del teléfono. |
+| **💧 Hábitos** | Agua, medicinas, estirarse, con anillos M3. | Los recordatorios llegarían como notificaciones del teléfono. |
+| **📳 Hora en vibraciones** | Tocas y vibra la hora (largas = horas, cortas = cuartos), sin mirar. | — |
+| **💞 Contador de días** | Días con el Koala, días para un viaje, racha de días en bici. | — |
+| **💵 Gastos rápidos** | Monto con la corona + categoría y total de la semana. | Con Wear Engine se pasan a una hoja de Google. |
+| **🃏 Anki** | Mazo de prueba en el reloj (tocas para voltear y calificas *Otra vez / Bien*). Con Wear Engine, tus tarjetas reales de **AnkiDroid** (tiene API pública). | Tener AnkiDroid. |
+| **📜 Teleprompter** | Texto que lees y avanzas con la corona: discursos, recetas, listas. | Con Wear Engine, el texto viene del teléfono o de Keep. |
+| **❤️ Zonas de pulso / 🚴 Modo bici en vivo** | Ritmo cardiaco (`@system.sensor`) y velocidad por GPS; vibra si te pasas de zona; autonomía restante. | No corre al mismo tiempo que un entrenamiento del reloj. |
+| **👋 Gestos** | Con el acelerómetro: sacudir para tomar la foto, girar la muñeca para pasar diapositiva. | Solo con la pantalla abierta. |
+| **🐍 Juegos** | Snake, 2048, Simón dice con vibraciones. | Pocos cuadros para la memoria. |
 
-## Orden sugerido (sin esperar a Huawei)
-1. 🎥 Video en Cámara (rápido y se prueba completo en el S23).
-2. 📍 Lugares (GPS, brújula si la tiene).
-3. 🐨 Koala tamagotchi.
-4. ⚖️ Convertidor de unidades.
-5. 🃏 Anki con mazo de prueba en el reloj; con Wear Engine se conecta a AnkiDroid.
+## 🔵 Solo teléfono
+| Idea | De qué trata | Ojo |
+|---|---|---|
+| **🚴 Aviso a tu mamá** | El teléfono va en la mochila con GPS e internet. "Salí en bici" → SMS *"Salí en bici"* + link de Maps, uno **cada hora**, y "Llegué" para terminar. Con Wear Engine, el botón también en el reloj. | Google Maps → Compartir ubicación ya hace la versión en vivo; lo nuestro aporta el botón y los avisos solos. |
+| **📍 "¿Dónde estás?" automático** | Si tu mamá (o quien autorices) te manda un SMS con "dónde", el teléfono le contesta solo con tu ubicación. | Permisos de SMS: bien para uso personal, Play los restringe. |
+| **🔑 ¿Llevas todo?** | Al salir del Wi-Fi del trabajo o de la casa: "¿Llaves, cartera, cargador?", y llega al reloj. | — |
+
+## 🟡 Reloj + teléfono (Wear Engine)
+| Idea | De qué trata | Ojo |
+|---|---|---|
+| **🎥 Video en Cámara** | Grabar y detener con cronómetro; CameraX (`VideoCapture`) lo guarda en Movies/JJAS Tools. | — |
+| **🚨 SOS** | Pantalla SOS (primera de la lista): **mantener 3 s** → SMS con tu ubicación a tus contactos y llamada directa a un contacto (mamá). | Al 911 solo abre el marcador. **Antes revisa** si tu Fit 3 trae *SOS de emergencia* en Huawei Health. |
+| **📅 Eventos y tareas** | Tipo + cuándo ("en 30 min", "hoy 5 pm", "mañana 9 am") → evento (`CalendarContract`) o tarea en **Google Tasks** (OAuth, como Spotify). El recordatorio llega al reloj. | Texto con plantillas o el teclado de la corona. |
+| **📝 Notas rápidas** | Plantillas (*Llamar a… / Enviar… / Revisar…*) + persona + hora. Mínimo: botón **"Anótalo"** que guarda la hora y el lugar ("Pendiente de las 10:32"). | Con micrófono sería dictado. |
+| **🗓️ Calendario M3** | El teléfono lee la agenda y manda el día y la semana con chips de colores. | — |
+| **🖱️ Control de la PC** | El S23 se hace pasar por **teclado y mouse Bluetooth** (`BluetoothHidDevice`, Android 9+): diapositivas, pausa, volumen y **bloquear la PC (Win+L)**. Sin instalar nada en la PC. | Emparejar el S23 con la laptop una vez. |
+| **📊 Estado del escritorio** | Llamadas perdidas, quién escribió (solo nombres) y batería del celular. | — |
+| **🔕 No molestar / Silencio** | La app del teléfono los cambia con el permiso de acceso a No molestar. | — |
+| **🔋 Cargar la bici** | Cuando Baterías calcule que queda poco, el teléfono manda una notificación que llega al reloj aunque la app esté cerrada. | — |
+| **🗺️ Maps** | Indicaciones de Google Maps leídas de su notificación. | — |
+| **🌧️ ¿Me voy en bici?** | Semáforo de lluvia (3 h), viento y calidad del aire de CDMX. | — |
+| **✨ Gemini / 🤖 Claude** | Pregunta guardada, del teclado o dictada → API → respuesta corta. Gemini tiene **nivel gratuito**; Claude cuesta por uso. También para resumir chats o audios. | La API key solo en el teléfono. |
+| **🗣️ Traductor** | Frase elegida o escrita → en inglés. Combina con Anki. | — |
+| **🎤 Letras** | Letra sincronizada (LRCLIB, gratuita) línea por línea con los colores de Música. | — |
+| **🎵 ¿Qué canción es?** | El teléfono la reconoce con su micrófono y la guarda en Spotify. | Tiene que estar cerca. |
+| **📍 Mapa en Lugares** | El teléfono dibuja la zona (OpenStreetMap o mapa estático) y manda una imagen de ~400×400. | Confirmar que el reloj muestra una imagen recibida por P2P. |
+| **💌 "Pensando en ti"** | Un toque → SMS a Koala con un mensaje elegido, y contador. | WhatsApp no deja mandar mensajes nuevos. |
+| **📞 Llamar por WhatsApp** | El teléfono abre la llamada con un intent de contacto (`vnd.com.whatsapp.voip.call`); también llamadas normales (`ACTION_CALL`). | Truco sin API oficial; podría dejar de funcionar. |
+| **🟦 Modos de Samsung** | Sin API pública. Ideas: una condición que provoquemos para la rutina, atajos si Samsung expone un intent, o modos propios (No molestar, volumen, brillo). | Hay que probar. |
+| **🏠 Google Home / 📺 Tele** | **Google Home APIs para Android** (equipos Matter o de Google Home) y control por red local (Samsung, Roku o Google TV). | Registrar el proyecto; depende de tus aparatos. |
+| **🖼️ WhatsApp: fotos, stickers y audios** | Imagen de la notificación reducida al reloj; audios **transcritos** por el teléfono. | Solo lo que llega como notificación; el archivo de voz está por verificar. |
+| **💬 "Ya llegué"** | Contesta el último chat de WhatsApp como respuesta a su notificación. | Solo como respuesta. |
+| **📒 Keep / 🎙️ Grabadora** | Notas de Keep (gkeepapi, no oficial, solo personal) y grabadora en el teléfono. | La grabadora depende del micrófono. |
+
+## 🟣 Health Kit
+- **🚲 Km de la bici:** Health Kit lee tus entrenamientos de ciclismo y descuenta
+  los km de Baterías. Plan B: "Iniciar viaje" con GPS en Baterías.
+- **⏰ Alarma por tendencias:** lee tu historial de sueño, calcula cuánto tardas
+  en dormirte y cuánto duran tus ciclos, y al tocar "Me voy a dormir" te propone
+  despertar al final de un ciclo y **pone la alarma en el teléfono**
+  (`AlarmClock`), que suena también en el reloj.
+
+## ⌚ ¿Flashear el Fit 3 o hacerle un sistema propio?
+**No es viable**, aunque se vea sencillo por fuera:
+- El firmware está **firmado por Huawei** y el arranque bloqueado: sin sus llaves
+  no se instala otro sistema, y un intento fallido **lo deja inservible**.
+- No hay documentación del chip, la pantalla, el GPS ni los sensores: **meses o
+  años de ingeniería inversa**, sin garantía, y se pierde Huawei Health.
+- **Si algún día quieres control total:** **Bangle.js 2** (apps en JavaScript,
+  GPS, segundo plano, Gadgetbridge) o **PineTime** (barato, firmware libre). Un
+  **Galaxy Watch con Wear OS** trae de fábrica micrófono, Gemini, Google Home, SOS,
+  detección de caídas e internet.
+
+---
 
 ## Publicarla para otros usuarios (evaluación 2026-11-19)
 **Sí se puede.** Pero no todo lo que hicimos se puede publicar tal cual. Conviene
@@ -157,22 +215,22 @@ separar las funciones en **públicas** y **personales**.
 ### Qué se puede publicar y qué no
 | Función | ¿Pública? | Por qué |
 |---|---|---|
-| Baterías, Lugares, Koala, Convertidor, Contador, Dado, Intervalos | ✅ | Solo usan el reloj. |
+| Todo lo 🟢 (Baterías, Jornada, Metro, Lugares, Koala, Convertidor…) | ✅ | Solo usan el reloj. |
 | Control de música (cualquier app) | ✅ | Usa la API oficial de Android (MediaSession). |
 | Cámara (foto y video) | ✅ | |
-| Calendario, Anki (AnkiDroid), Maps (notificaciones), QR | ✅ | APIs públicas; hay que explicar bien los permisos. |
-| **Playlists de Spotify** | ⚠️ Solo con truco | Desde 2025 Spotify solo da cuota amplia a **empresas**; en modo desarrollo son **5 usuarios máximo**. Opción: que cada usuario ponga su propio Client ID (para usuarios avanzados). |
-| **Notas de Keep (gkeepapi)** | ❌ Solo personal | API no oficial con el token de tu cuenta de Google: no apta para la tienda. |
-| **Trucos de WhatsApp** (llamar, fotos y audios) | ⚠️ Riesgoso | No hay API oficial; Play puede rechazarla. Mejor dejarlos como función personal. |
-| **Claude** | ⚠️ | No se puede incluir nuestra API key: cada usuario pone la suya, o hace falta un servidor propio con costo. |
+| Calendario, Anki (AnkiDroid), Maps (notificaciones), QR, Control de la PC | ✅ | APIs públicas; hay que explicar bien los permisos. |
+| SOS, aviso de ubicación y "¿Dónde estás?" (SMS) | ⚠️ | Play restringe los permisos de SMS; habría que justificarlo o usar otro canal. |
+| **Playlists de Spotify** | ⚠️ Solo con truco | Desde 2025 Spotify solo da cuota amplia a **empresas**; en modo desarrollo son **5 usuarios máximo**. Opción: que cada usuario ponga su propio Client ID. |
+| **Notas de Keep (gkeepapi)** | ❌ Solo personal | API no oficial con el token de tu cuenta de Google. |
+| **Trucos de WhatsApp** (llamar, fotos y audios) | ⚠️ Riesgoso | No hay API oficial; Play puede rechazarla. Mejor como función personal. |
+| **Claude / Gemini** | ⚠️ | No se puede incluir nuestra API key: cada usuario pone la suya, o hace falta un servidor propio. |
 
 ### Cambios necesarios antes de publicar
 - **Quitar `QUERY_ALL_PACKAGES`:** Play lo restringe. Se cambia por `<queries>` para
   las apps de música.
-- **Política de privacidad** (notificaciones, ubicación, cámara, contactos):
+- **Política de privacidad** (notificaciones, ubicación, cámara, contactos, SMS):
   todo se procesa en el dispositivo.
 - **No usar marcas** (Spotify, WhatsApp, Huawei) en el nombre ni en el ícono.
-  Nombre propio, por ejemplo "JJAS Tools" u otro.
 - **Interruptor "funciones personales":** una opción de compilación que deja
   fuera Keep, WhatsApp y Spotify en la versión pública.
 - **Probar en otros relojes** (Fit 4, Band…) o limitarla al Fit 3.
@@ -180,16 +238,7 @@ separar las funciones en **públicas** y **personales**.
 
 ### Plan sugerido
 1. Seguir construyendo con la separación pública/personal desde ahora.
-2. **v1 pública:** Baterías, Lugares, Koala, Convertidor, Música, Cámara.
+2. **v1 pública:** Baterías, Jornada, Metro, Lugares, Koala, Convertidor, Música,
+   Cámara.
 3. Prueba cerrada en Play con 12 amigos durante 14 días, y publicar.
-4. Agregar Calendario, Anki y Maps en versiones siguientes.
-
-## Descartadas (ya vienen en el Fit 3)
-- Encontrar mi teléfono.
-- Linterna.
-
-## Ideas sueltas por evaluar
-- **"Salí de casa" / "Llegué":** un botón en el reloj que, por medio del
-  teléfono, contesta el último chat de WhatsApp con "Ya llegué".
-- **Recordatorio de cargar la bici:** cuando Baterías calcule que queda poco, el
-  teléfono te manda una notificación que llega al reloj aunque la app esté cerrada.
+4. Agregar Calendario, Anki, Maps y Control de la PC en versiones siguientes.

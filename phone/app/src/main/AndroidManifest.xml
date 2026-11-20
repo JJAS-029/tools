@@ -6,6 +6,8 @@
     <!-- Camera shutter from the watch -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- Sound for videos recorded from the watch (optional: silent without it) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- Lets it open Spotify from the background when the watch asks to play. -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 

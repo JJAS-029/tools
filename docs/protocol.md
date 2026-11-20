@@ -35,14 +35,18 @@ Las páginas son de 15 elementos. Los textos llegan recortados a 40 caracteres p
 | t | Dir | d |
 |---|---|---|
 | `cam.open` | R→T | `{}`: abre la cámara en el teléfono (encima de la pantalla de bloqueo) |
-| `cam.shoot` | R→T | `{timer: 0\|3\|10}`: si la cámara está cerrada, la abre y dispara |
-| `cam.flip` | R→T | `{}`: frontal ↔ trasera |
-| `cam.close` | R→T | `{}`: al salir de la pantalla del reloj |
-| `cam.state` | T→R | `{open, front?}` |
+| `cam.shoot` | R→T | `{timer: 0\|3\|10}`: si la cámara está cerrada, la abre y dispara (cambia a foto si estaba en video) |
+| `cam.mode` | R→T | `{m: "photo"\|"video"}`: se ignora mientras hay una foto o un video en curso |
+| `cam.rec` | R→T | `{a: "start", timer}` (cambia a video si hace falta y graba tras el temporizador) o `{a: "stop"}` (detiene, o cancela el temporizador) |
+| `cam.flip` | R→T | `{}`: frontal ↔ trasera (no mientras graba) |
+| `cam.close` | R→T | `{}`: al salir de la pantalla del reloj; si está grabando, primero guarda el video |
+| `cam.state` | T→R | `{open, front?, mode?: "photo"\|"video", rec?}` |
 | `cam.count` | T→R | `{s}`: cada segundo del temporizador |
-| `cam.result` | T→R | `{ok, name}` o `{ok: false, msg}` |
+| `cam.rec.state` | T→R | `{on}`: empezó o terminó la grabación. El reloj cuenta los segundos por su cuenta. |
+| `cam.result` | T→R | `{ok, name, video}` o `{ok: false, msg, video}` |
 
-Las fotos se guardan en `Pictures/JJAS Tools` (MediaStore).
+Las fotos se guardan en `Pictures/JJAS Tools` y los videos (MP4, con sonido si
+se dio permiso de micrófono) en `Movies/JJAS Tools` (MediaStore).
 
 ## QR
 | t | Dir | d |

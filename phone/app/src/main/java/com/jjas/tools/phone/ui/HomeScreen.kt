@@ -33,6 +33,8 @@ import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material.icons.rounded.PhotoCamera
+import androidx.compose.material.icons.rounded.Stop
+import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material.icons.rounded.MusicNote
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Pause
@@ -288,8 +290,16 @@ private fun CameraCard() {
                 Icon(Icons.Rounded.Timer, null, Modifier.size(18.dp))
                 Spacer(Modifier.width(6.dp)); Text("Foto en 3 s")
             }
+            Button(onClick = { fromWatch("cam.rec", JSONObject().put("a", "start").put("timer", 3)) }) {
+                Icon(Icons.Rounded.Videocam, null, Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp)); Text("Grabar en 3 s")
+            }
+            FilledTonalButton(onClick = { fromWatch("cam.rec", JSONObject().put("a", "stop")) }) {
+                Icon(Icons.Rounded.Stop, null, Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp)); Text("Detener")
+            }
         }
-        Text("Las fotos se guardan en Imágenes/JJAS Tools.", style = MaterialTheme.typography.bodySmall,
+        Text("Fotos en Imágenes/JJAS Tools y videos en Películas/JJAS Tools.", style = MaterialTheme.typography.bodySmall,
             color = cs.onSurfaceVariant)
     }
 }

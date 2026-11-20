@@ -1,10 +1,11 @@
 <div class="page" onswipe="onSwipe">
-    <div class="chip">
-        <text class="chip-text">{{ chip }}</text>
+    <!-- Tap the chip: photo <-> video -->
+    <div class="chip" style="background-color: {{ chipBg }};" onclick="toggleMode">
+        <text class="chip-text" style="color: {{ chipColor }};">{{ chip }}</text>
     </div>
     <text class="status" style="color: {{ statusColor }};">{{ status }}</text>
 
-    <!-- M3 "cookie" shutter: dims while the photo is being taken -->
+    <!-- Photo: M3 "cookie" shutter. Video: red dot to record, square to stop -->
     <image class="shutter" src="{{ shutterIcon }}" onclick="shoot"></image>
 
     <div class="row">

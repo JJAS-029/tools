@@ -205,6 +205,19 @@ def shutter(size=150, name="shutter", bg="#b4ccff", fg="#0a2a66"):
     save(img, size, name)
 
 
+def rec_button(size=150, name="rec", bg="#ffb4ab", fg="#93000a", stop=False):
+    """Video button: M3 cookie in light red with a dark red dot (record) or square (stop)."""
+    img, d, s = canvas(size)
+    d.polygon(shape_points("cookie12", s), fill=hexc(bg))
+    if stop:
+        r = s * .17
+        d.rounded_rectangle([s / 2 - r, s / 2 - r, s / 2 + r, s / 2 + r], radius=s * .05, fill=hexc(fg))
+    else:
+        r = s * .21
+        d.ellipse([s / 2 - r, s / 2 - r, s / 2 + r, s / 2 + r], fill=hexc(fg))
+    save(img, size, name)
+
+
 # ---------- Music: per-song palettes (Material You style) ----------
 # accent (button/art), on (dark glyph), container (side pills), surface (track)
 MUSIC_PALETTES = [
@@ -367,4 +380,6 @@ if __name__ == "__main__":
     art_frames()
     battery_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
+    rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
+    rec_button(name="rec_stop", stop=True)
     print(f"Icons written to {OUT}")
