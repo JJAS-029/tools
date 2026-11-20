@@ -36,3 +36,6 @@ Thumbs.db
 
 # Huawei forms (personal data)
 exceles/
+
+# Python
+__pycache__/
