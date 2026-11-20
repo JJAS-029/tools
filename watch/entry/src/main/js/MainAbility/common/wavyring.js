@@ -1,11 +1,10 @@
 /**
  * Material 3 Expressive Wavy Progress indicators for HarmonyOS Lite <canvas>.
- * Uses native ctx.arc() for the smooth remaining track and circular brush
- * stamping (filled circles along the sine curve) for the wavy active segment,
- * which completely eliminates ui_canvas thick-line horizontal artifacts.
+ * Uses native ctx.arc() + stroke() for the smooth remaining track and a 2-rect
+ * rounded brush (fillRect only) for the sinusoidal active wave:
+ *   - zero lineTo() -> zero ui_canvas horizontal artifacts
+ *   - zero path fill() -> 100% supported on liteWearable & Previewer
  */
-
-const TWO_PI = Math.PI * 2;
 
 function getCtx(page, id) {
     if (!page) {
@@ -30,6 +29,20 @@ function getCtx(page, id) {
     }
 }
 
+/** Draws a rounded dot of diameter `d` using only fillRect (universally supported). */
+function stampDot(ctx, x, y, d) {
+    const r = d / 2;
+    const x0 = Math.round(x - r);
+    const y0 = Math.round(y - r);
+    if (d >= 8) {
+        const trim = 2;
+        ctx.fillRect(x0 + trim, y0, d - trim * 2, d);
+        ctx.fillRect(x0, y0 + trim, d, d - trim * 2);
+    } else {
+        ctx.fillRect(x0, y0, d, d);
+    }
+}
+
 /**
  * Draws a 250-degree M3 Expressive wavy arc (active = wavy, remaining = smooth).
  */
@@ -46,7 +59,6 @@ export function drawWavyRing(page, id, opts) {
     const amp = opts.amp || 5.0;
     const waves = opts.waves || 10;
     const lw = opts.lw || 11;
-    const br = lw / 2;
     const pct = Math.max(0, Math.min(100, Number(opts.pct) || 0)) / 100;
     const phase = Number(opts.phase) || 0;
 
@@ -71,23 +83,19 @@ export function drawWavyRing(page, id, opts) {
         ctx.stroke();
     }
 
-    // 2. Active wavy sinusoidal arc (stamped circles = zero lineTo artifacts)
+    // 2. Active wavy sinusoidal arc (fillRect brush = crisp, zero artifacts)
     const activeEnd = splitRad - gapRad * 0.4;
     if (pct > 0.01 && activeEnd > startRad + 0.03) {
         ctx.fillStyle = opts.color || '#d0bcff';
         const arcLen = (activeEnd - startRad) * R;
-        const steps = Math.max(16, Math.round(arcLen / 2.2));
+        const steps = Math.max(18, Math.round(arcLen / 2.2));
         for (let j = 0; j <= steps; j++) {
             const frac = j / steps;
             const a = startRad + (activeEnd - startRad) * frac;
             const env = Math.sin(Math.min(1, frac * 6) * (Math.PI / 2)) *
                         Math.sin(Math.min(1, (1 - frac) * 6) * (Math.PI / 2));
             const rr = R + amp * env * Math.sin(waves * (a - startRad) + phase);
-            const x = cx + Math.cos(a) * rr;
-            const y = cy + Math.sin(a) * rr;
-            ctx.beginPath();
-            ctx.arc(x, y, br, 0, TWO_PI, false);
-            ctx.fill();
+            stampDot(ctx, cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, lw);
         }
     }
 }
@@ -111,7 +119,6 @@ export function drawWavyBar(page, id, opts) {
     const freq = opts.freq || 0.22;
     const phase = Number(opts.phase) || 0;
     const lw = opts.lw || 6;
-    const br = lw / 2;
 
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
@@ -120,10 +127,10 @@ export function drawWavyBar(page, id, opts) {
     const trackX0 = pct > 0.02 ? splitX + 8 : pad;
     if (trackX0 < w - pad) {
         ctx.fillStyle = opts.track || '#2b2633';
-        ctx.fillRect(Math.round(trackX0), Math.round(cy - br), Math.round(w - pad - trackX0), lw);
+        ctx.fillRect(Math.round(trackX0), Math.round(cy - lw / 2), Math.round(w - pad - trackX0), lw);
     }
 
-    // 2. Active sinusoidal wave (stamped circles = zero artifacts)
+    // 2. Active sinusoidal wave (fillRect brush)
     if (pct > 0.01 && splitX > pad + 2) {
         ctx.fillStyle = opts.color || '#d0bcff';
         const span = splitX - pad;
@@ -134,9 +141,7 @@ export function drawWavyBar(page, id, opts) {
             const env = Math.sin(Math.min(1, frac * 6) * (Math.PI / 2)) *
                         Math.sin(Math.min(1, (1 - frac) * 6) * (Math.PI / 2));
             const y = cy + amp * env * Math.sin(x * freq + phase);
-            ctx.beginPath();
-            ctx.arc(x, y, br, 0, TWO_PI, false);
-            ctx.fill();
+            stampDot(ctx, x, y, lw);
         }
     }
 }
