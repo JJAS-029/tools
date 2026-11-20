@@ -1,0 +1,20 @@
+<div class="page" onswipe="onSwipe">
+    <div class="chip">
+        <text class="chip-text">{{ progText }}</text>
+    </div>
+    <div class="card" style="background-color: {{ cardBg }};" onclick="flip">
+        <text class="word" style="color: {{ cardCol }};">{{ mainText }}</text>
+        <text class="hint">{{ subText }}</text>
+    </div>
+    <div class="actions" show="{{ flipped }}">
+        <div class="btn-again" onclick="grade(false)">
+            <text class="btn-again-txt">Otra vez</text>
+        </div>
+        <div class="btn-ok" onclick="grade(true)">
+            <text class="btn-ok-txt">Bien</text>
+        </div>
+    </div>
+    <div class="tap-btn" show="{{ !flipped }}" onclick="flip">
+        <text class="tap-txt">Voltear</text>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="page" onswipe="onSwipe" onclick="buzzTime">
+    <div class="chip">
+        <text class="chip-text">Hora táctil</text>
+    </div>
+    <div class="orb" style="background-color: {{ orbBg }};">
+        <text class="clock">{{ clockText }}</text>
+        <text class="pulse">{{ pulseText }}</text>
+    </div>
+    <text class="hint">Largas = horas · Cortas = cuartos</text>
+</div>

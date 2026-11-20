@@ -59,7 +59,10 @@
           "pages/koala/koala",
           "pages/bikecare/bikecare",
           "pages/signal/signal",
-          "pages/timer/timer"
+          "pages/timer/timer",
+          "pages/habits/habits",
+          "pages/vibeclock/vibeclock",
+          "pages/anki/anki"
         ],
         "name": ".MainAbility"
       }

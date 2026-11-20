@@ -40,7 +40,10 @@ necesita a los dos se prueba con el teléfono simulado.
 | Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 | Bici Kit (checklist, mantenimiento por km y direccionales nocturnas) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Pomodoro e Intervalos HIIT con patrones de vibración | solo reloj | Antigravity | compilado (falta Previewer) |
+| Pomodoro e Intervalos HIIT con patrones de vibración | solo reloj | Antigravity | probado en el Previewer |
+| Hábitos del día (anillo ondulado M3 + racha diaria) | solo reloj | Antigravity | compilado (falta Previewer) |
+| Hora táctil en vibraciones (horas largas + cuartos cortos) | solo reloj | Antigravity | compilado (falta Previewer) |
+| Anki vocabulario inglés (mazo integrado de 15 tarjetas) | solo reloj | Antigravity | compilado (falta Previewer) |
 
 ---
 
@@ -73,11 +76,11 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 17. ~~🔧 **Mantenimiento de la bici por km** + ✅ **Checklist antes de salir**~~ ✅ hecho (Antigravity).
 18. ~~↩️ **Direccionales en la muñeca**~~ ✅ hecho (Antigravity — dentro de Bici Kit).
 19. ~~🍅 **Pomodoro** + 🏋️ **Intervalos (HIIT)** con vibraciones~~ ✅ hecho (Antigravity).
-20. 💧 **Hábitos del día** (anillos M3) 🟢
-21. 📳 **La hora en vibraciones** 🟢⚡
+20. ~~💧 **Hábitos del día** (anillos M3)~~ ✅ hecho (Antigravity).
+21. ~~📳 **La hora en vibraciones**~~ ✅ hecho (Antigravity).
 22. 💞 **Contador de días** 🟢⚡
 23. 💵 **Gastos rápidos** 🟢
-24. 🃏 **Anki con mazo de prueba** 🟢
+24. ~~🃏 **Anki con mazo de prueba**~~ ✅ hecho (Antigravity).
 25. 📜 **Teleprompter** (texto guardado en el reloj) 🟢
 26. ❤️ **Zonas de pulso** + 🚴 **Modo bici en vivo** (velocidad por GPS) 🟢
 27. 👋 **Gestos** (sacudir para la foto) 🟢

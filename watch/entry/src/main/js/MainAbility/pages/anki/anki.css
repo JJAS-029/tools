@@ -1,0 +1,114 @@
+.page {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+}
+
+.chip {
+    width: 240px;
+    height: 44px;
+    margin-top: 16px;
+    border-radius: 22px;
+    background-color: #1f2531;
+    justify-content: center;
+    align-items: center;
+}
+
+.chip-text {
+    width: 220px;
+    height: 36px;
+    font-size: 30px;
+    color: #a8c8ff;
+    text-align: center;
+}
+
+.card {
+    width: 320px;
+    height: 204px;
+    margin-top: 14px;
+    border-radius: 48px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.word {
+    width: 292px;
+    height: 52px;
+    font-size: 38px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.hint {
+    width: 292px;
+    height: 44px;
+    margin-top: 8px;
+    font-size: 28px;
+    color: #c4c7c5;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.actions {
+    width: 320px;
+    height: 76px;
+    margin-top: 18px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-again {
+    width: 152px;
+    height: 70px;
+    border-radius: 35px;
+    background-color: #5c1d1a;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-again-txt {
+    width: 140px;
+    height: 40px;
+    font-size: 30px;
+    color: #ffb4ab;
+    text-align: center;
+}
+
+.btn-ok {
+    width: 152px;
+    height: 70px;
+    border-radius: 35px;
+    background-color: #a6f2d1;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-ok-txt {
+    width: 140px;
+    height: 40px;
+    font-size: 32px;
+    color: #003826;
+    text-align: center;
+}
+
+.tap-btn {
+    width: 240px;
+    height: 70px;
+    margin-top: 18px;
+    border-radius: 35px;
+    background-color: #1d201f;
+    justify-content: center;
+    align-items: center;
+}
+
+.tap-txt {
+    width: 210px;
+    height: 40px;
+    font-size: 32px;
+    color: #f1f3f1;
+    text-align: center;
+}
