@@ -18,6 +18,8 @@ export default {
             { name: 'Jornada', sub: 'Turno y pago', icon: IMG + 't_work.png', uri: 'pages/work/work' },
             { name: 'Metro', sub: 'CDMX y MI', icon: IMG + 't_metro.png', uri: 'pages/metro/metro' },
             { name: 'Unidades', sub: 'lb, °F, USD...', icon: IMG + 't_units.png', uri: 'pages/units/units' },
+            { name: 'Contador', sub: 'Agua y reps', icon: IMG + 't_count.png', uri: 'pages/counter/counter' },
+            { name: 'Propinas', sub: 'Dividir cuenta', icon: IMG + 't_tip.png', uri: 'pages/tip/tip' },
             { name: 'QR', sub: 'Pronto', icon: IMG + 't_qr.png', uri: '' },
             { name: 'Navegar', sub: 'Pronto', icon: IMG + 't_nav.png', uri: '' },
             { name: 'Notas', sub: 'Pronto', icon: IMG + 't_notes.png', uri: '' },

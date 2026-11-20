@@ -47,7 +47,9 @@
           "pages/metrocard/metrocard",
           "pages/units/units",
           "pages/unitconv/unitconv",
-          "pages/brief/brief"
+          "pages/brief/brief",
+          "pages/counter/counter",
+          "pages/tip/tip"
         ],
         "name": ".MainAbility"
       }

@@ -14,6 +14,7 @@ export default {
     data: {
         mode: 'conv',
         unitId: 'usd',
+        revParam: '0',
         isRate: false,
         rev: false,
         chipBg: '#162722',
@@ -26,6 +27,7 @@ export default {
     },
     onInit() {
         this.isRate = this.mode === 'rate';
+        this.rev = this.revParam === '1';
         load('unitcfg', defaultUnitCfg(), (cfg) => {
             usdRate = Number(cfg.usdRate) || 20.0;
             if (this.isRate) {
@@ -101,8 +103,11 @@ export default {
             return;
         }
         tick();
-        this.rev = !this.rev;
-        this.setupConv();
+        // Reload page cleanly so picker-view range is never mutated in place on lite.
+        router.replace({
+            uri: 'pages/unitconv/unitconv',
+            params: { mode: 'conv', unitId: unit.id, revParam: this.rev ? '0' : '1' }
+        });
     },
     saveRate() {
         usdRate = this.curVal;

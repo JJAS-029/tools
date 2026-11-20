@@ -31,6 +31,8 @@ necesita a los dos se prueba con el teléfono simulado.
 | Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | solo reloj | Antigravity | probado en el Previewer |
 | Convertidor de unidades (USD, lb, °F, mi, oz, ft) + dólar vía puente | reloj + teléfono | Antigravity | compilado y con pruebas unitarias |
 | Now Brief (resumen del día, clima + alertas, efemérides, bici, jornada, MI) | reloj + teléfono | Antigravity | probado en el Previewer |
+| Contador con la corona (Agua, Reps y Libre con metas) | solo reloj | Antigravity | probado en el Previewer |
+| Dividir la cuenta y propinas con la corona | solo reloj | Antigravity | probado en el Previewer |
 
 ---
 
@@ -44,8 +46,8 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 3. ~~🚇 **Metro CDMX** + 💳 **Tarjeta de Movilidad**~~ ✅ hecho (Antigravity).
 4. ~~⚖️ **Convertidor de unidades**~~ ✅ hecho (Antigravity).
 5. ~~☀️ **Now Brief (Resumen del día)**~~ ✅ hecho (Antigravity).
-6. 🔢 **Contador con la corona** 🟢⚡
-6. 🧾 **Dividir la cuenta y propinas** 🟢⚡
+6. ~~🔢 **Contador con la corona**~~ ✅ hecho (Antigravity).
+7. ~~🧾 **Dividir la cuenta y propinas**~~ ✅ hecho (Antigravity).
 7. 🎲 **Para decidir** (dado, moneda, ruleta) 🟢⚡
 8. 💸 **QR en el reloj** (cobro con CLABE, contacto, WhatsApp) 🟢⚡
 9. 🚗 **Hoy No Circula** 🟢⚡

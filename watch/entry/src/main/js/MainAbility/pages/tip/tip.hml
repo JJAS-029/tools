@@ -1,0 +1,17 @@
+<div class="page" onswipe="onSwipe">
+    <div class="hero">
+        <text class="each">{{ eachText }}</text>
+        <text class="meta">{{ metaText }}</text>
+    </div>
+    <!-- Tap to cycle tip % or people count; turn the crown for the bill amount -->
+    <div class="tabs">
+        <div class="pill" onclick="nextTip">
+            <text class="pill-txt">{{ tipTab }}</text>
+        </div>
+        <div class="pill" onclick="nextPeople">
+            <text class="pill-txt">{{ pplTab }}</text>
+        </div>
+    </div>
+    <picker-view class="wheel" ref="wheel" type="text" range="{{ range }}" selected="{{ sel }}"
+                 onchange="onPick"></picker-view>
+</div>

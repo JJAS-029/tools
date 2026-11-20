@@ -1,0 +1,27 @@
+<div class="page" onswipe="onSwipe">
+    <!-- Tap chip to switch profile: Agua / Reps / Libre -->
+    <div class="chip" style="background-color: {{ chipBg }};" onclick="nextProfile">
+        <text class="chip-text" style="color: {{ accent }};">{{ chipText }}</text>
+    </div>
+    <stack class="ring-box">
+        <progress class="ring" type="arc" percent="{{ pct }}" style="color: {{ ringColor }};"></progress>
+        <div class="ring-center" onclick="inc">
+            <text class="big">{{ count }}</text>
+            <text class="small" style="color: {{ ringColor }};">{{ subText }}</text>
+        </div>
+    </stack>
+    <!-- Crown controls the slider natively -->
+    <slider class="crown-bar" ref="slider" min="0" max="{{ maxVal }}" value="{{ count }}"
+            style="selected-color: {{ ringColor }};" onchange="onSlide"></slider>
+    <div class="controls">
+        <div class="btn-sm" onclick="dec">
+            <text class="btn-sm-txt">−1</text>
+        </div>
+        <div class="btn-plus" style="background-color: {{ accent }};" onclick="inc">
+            <text class="btn-plus-txt" style="color: {{ onAccent }};">+1</text>
+        </div>
+        <div class="btn-sm" onclick="reset">
+            <text class="btn-sm-txt">0</text>
+        </div>
+    </div>
+</div>

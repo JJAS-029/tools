@@ -531,6 +531,12 @@ def brief_assets():
     tile("br_star", "m_star", "clover", hexc(lilac[0]), hexc(lilac[1]), size=56, glyph_size=34)
 
 
+def quick_tools_assets():
+    lilac, coral, sky, amber, pink, teal = MUSIC_PALETTES
+    text_badge("t_count", "+1", "cookie12", lilac[0], lilac[1], size=84)
+    text_badge("t_tip", "%", "squircle", amber[0], amber[1], size=84)
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -580,6 +586,7 @@ if __name__ == "__main__":
     metro_assets()
     units_assets()
     brief_assets()
+    quick_tools_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)
