@@ -1,8 +1,11 @@
 /**
  * Material 3 Expressive Wavy Progress indicators for HarmonyOS Lite <canvas>.
- * Uses native ctx.arc() for smooth tracks (avoids ui_canvas line-join artifacts)
- * and floating-point sinusoidal polylines for the wavy active segment.
+ * Uses native ctx.arc() for the smooth remaining track and circular brush
+ * stamping (filled circles along the sine curve) for the wavy active segment,
+ * which completely eliminates ui_canvas thick-line horizontal artifacts.
  */
+
+const TWO_PI = Math.PI * 2;
 
 function getCtx(page, id) {
     if (!page) {
@@ -43,6 +46,7 @@ export function drawWavyRing(page, id, opts) {
     const amp = opts.amp || 5.0;
     const waves = opts.waves || 10;
     const lw = opts.lw || 11;
+    const br = lw / 2;
     const pct = Math.max(0, Math.min(100, Number(opts.pct) || 0)) / 100;
     const phase = Number(opts.phase) || 0;
 
@@ -56,48 +60,40 @@ export function drawWavyRing(page, id, opts) {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
 
-    ctx.lineWidth = lw;
-    ctx.lineCap = 'round';
-
-    // 1. Remaining smooth track arc (native ctx.arc avoids ui_canvas horizontal artifact)
+    // 1. Remaining smooth track arc
     const trackStart = splitRad + gapRad;
     if (trackStart < endRad - 0.04) {
+        ctx.lineWidth = lw;
+        ctx.lineCap = 'round';
         ctx.strokeStyle = opts.track || '#26232a';
         ctx.beginPath();
         ctx.arc(cx, cy, R, trackStart, endRad, false);
         ctx.stroke();
     }
 
-    // 2. Active wavy sinusoidal arc (short independent segments with round caps = zero miter glitches)
+    // 2. Active wavy sinusoidal arc (stamped circles = zero lineTo artifacts)
     const activeEnd = splitRad - gapRad * 0.4;
-    if (pct > 0.01 && activeEnd > startRad + 0.04) {
-        ctx.strokeStyle = opts.color || '#d0bcff';
-        const stepsA = Math.max(18, Math.round(52 * pct));
-        let px = 0;
-        let py = 0;
-        for (let j = 0; j <= stepsA; j++) {
-            const frac = j / stepsA;
+    if (pct > 0.01 && activeEnd > startRad + 0.03) {
+        ctx.fillStyle = opts.color || '#d0bcff';
+        const arcLen = (activeEnd - startRad) * R;
+        const steps = Math.max(16, Math.round(arcLen / 2.2));
+        for (let j = 0; j <= steps; j++) {
+            const frac = j / steps;
             const a = startRad + (activeEnd - startRad) * frac;
             const env = Math.sin(Math.min(1, frac * 6) * (Math.PI / 2)) *
                         Math.sin(Math.min(1, (1 - frac) * 6) * (Math.PI / 2));
             const rr = R + amp * env * Math.sin(waves * (a - startRad) + phase);
             const x = cx + Math.cos(a) * rr;
             const y = cy + Math.sin(a) * rr;
-            if (j > 0) {
-                ctx.beginPath();
-                ctx.moveTo(px, py);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-            }
-            px = x;
-            py = y;
+            ctx.beginPath();
+            ctx.arc(x, y, br, 0, TWO_PI, false);
+            ctx.fill();
         }
     }
 }
 
 /**
  * Draws an M3 Expressive horizontal wavy progress bar (for Music).
- * Active portion = sine wave; remaining portion = straight track.
  */
 export function drawWavyBar(page, id, opts) {
     const ctx = getCtx(page, id);
@@ -114,44 +110,33 @@ export function drawWavyBar(page, id, opts) {
     const amp = opts.amp || 5;
     const freq = opts.freq || 0.22;
     const phase = Number(opts.phase) || 0;
+    const lw = opts.lw || 6;
+    const br = lw / 2;
 
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
 
-    ctx.lineWidth = opts.lw || 6;
-    ctx.lineCap = 'round';
-
     // 1. Remaining straight track
     const trackX0 = pct > 0.02 ? splitX + 8 : pad;
     if (trackX0 < w - pad) {
-        ctx.strokeStyle = opts.track || '#2b2633';
-        ctx.beginPath();
-        ctx.moveTo(trackX0, cy);
-        ctx.lineTo(w - pad, cy);
-        ctx.stroke();
+        ctx.fillStyle = opts.track || '#2b2633';
+        ctx.fillRect(Math.round(trackX0), Math.round(cy - br), Math.round(w - pad - trackX0), lw);
     }
 
-    // 2. Active sinusoidal wave (independent round-cap segments = crisp on lite)
+    // 2. Active sinusoidal wave (stamped circles = zero artifacts)
     if (pct > 0.01 && splitX > pad + 2) {
-        ctx.strokeStyle = opts.color || '#d0bcff';
+        ctx.fillStyle = opts.color || '#d0bcff';
         const span = splitX - pad;
-        const steps = Math.max(10, Math.round(span / 4));
-        let px = 0;
-        let py = 0;
+        const steps = Math.max(12, Math.round(span / 2));
         for (let i = 0; i <= steps; i++) {
             const frac = i / steps;
             const x = pad + span * frac;
             const env = Math.sin(Math.min(1, frac * 6) * (Math.PI / 2)) *
                         Math.sin(Math.min(1, (1 - frac) * 6) * (Math.PI / 2));
             const y = cy + amp * env * Math.sin(x * freq + phase);
-            if (i > 0) {
-                ctx.beginPath();
-                ctx.moveTo(px, py);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-            }
-            px = x;
-            py = y;
+            ctx.beginPath();
+            ctx.arc(x, y, br, 0, TWO_PI, false);
+            ctx.fill();
         }
     }
 }
