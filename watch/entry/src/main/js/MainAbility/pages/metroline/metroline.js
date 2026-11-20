@@ -59,7 +59,7 @@ export default {
         } else if (this.curIdx === len - 1) {
             this.hintText = 'Terminal';
         } else {
-            this.hintText = 'Toca: aquí · Mantén: bajar';
+            this.hintText = 'Toca: aquí · Mantén: fin';
         }
 
         for (let i = 0; i < len; i++) {
