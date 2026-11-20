@@ -556,6 +556,115 @@ def places_assets():
     text_badge("pl_hw", "HW", "clover", lilac[0], lilac[1])
 
 
+# ---------- Koala Científico (pixel art ported from JJAS-029/koala_monitor) ----------
+def draw_koala_sprite(out_name, eyes="open", arms="normal", hat=False, heart_y=None, z_y=None, sweat=False, size=120):
+    """Exact pixel-art Koala Científico from koala_monitor/media/koala.js."""
+    C = 7  # pixel cell size
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    ox, oy = size / 2, size - 14  # (0,0) = center of feet, y negative up
+
+    def cel(x, y, w, h, col):
+        x0 = int(round(ox + x * C))
+        y0 = int(round(oy + y * C))
+        x1 = int(round(ox + (x + w) * C))
+        y1 = int(round(oy + (y + h) * C))
+        if x1 > x0 and y1 > y0:
+            d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=hexc(col))
+
+    P = "#9AA3AD"
+    # Legs
+    for px in (-3, 1):
+        cel(px, -2, 2, 2, "#737B85")
+        cel(px - 0.2, -0.5, 2.4, 0.5, "#5C636C")
+    # Ears
+    cel(-5.5, -10, 2, 3, P); cel(-6, -9.5, 3, 2, P); cel(-5, -9.3, 1, 1.4, "#E3E6EA")
+    cel(3.5, -10, 2, 3, P); cel(3, -9.5, 3, 2, P); cel(4, -9.3, 1, 1.4, "#E3E6EA")
+    # Body 8x6
+    cel(-4, -8, 8, 6, P)
+    cel(3.5, -8, 0.5, 4, "#7D8590")
+    # Lab coat + blue shirt + red pen
+    cel(-4, -4, 8, 2, "#F2F2F2")
+    cel(3.2, -4, 0.8, 2, "#CFD3D8")
+    cel(-4, -2.4, 8, 0.4, "#CFD3D8")
+    cel(-1, -4, 2, 0.7, "#7FB8E0"); cel(-0.5, -3.3, 1, 0.6, "#7FB8E0")
+    cel(-3.2, -3.2, 1.4, 0.25, "#CFD3D8")
+    cel(-2.8, -3.8, 0.3, 0.7, "#E0524D")
+    # Safety goggles on forehead
+    cel(-4, -7.9, 8, 0.5, "#3A4A5A")
+    cel(-3.2, -8.4, 2.2, 1.2, "#3A4A5A"); cel(-3, -8.2, 1.8, 0.8, "#7FD3F0")
+    cel(1, -8.4, 2.2, 1.2, "#3A4A5A"); cel(1.2, -8.2, 1.8, 0.8, "#7FD3F0")
+    cel(-2.9, -8.15, 0.45, 0.35, "#FFFFFF"); cel(1.3, -8.15, 0.45, 0.35, "#FFFFFF")
+    # Eyes
+    if eyes == "open":
+        cel(-2.6, -6.7, 1.0, 1.0, "#141414")
+        cel(1.6, -6.7, 1.0, 1.0, "#141414")
+    elif eyes == "blink" or eyes == "sleep":
+        cel(-2.6, -6.2, 1.1, 0.35, "#141414")
+        cel(1.5, -6.2, 1.1, 0.35, "#141414")
+    elif eyes == "happy":
+        for ex in (-2.6, 1.6):
+            cel(ex, -6.3, 0.4, 0.4, "#141414")
+            cel(ex + 0.3, -6.6, 0.4, 0.4, "#141414")
+            cel(ex + 0.6, -6.3, 0.4, 0.4, "#141414")
+    elif eyes == "sad":
+        cel(-2.6, -6.5, 1.0, 0.9, "#141414")
+        cel(1.6, -6.5, 1.0, 0.9, "#141414")
+        cel(-2.6, -6.8, 0.9, 0.25, "#7D8590")
+        cel(1.7, -6.8, 0.9, 0.25, "#7D8590")
+    # Nose
+    cel(-1.1, -6.0, 2.2, 1.8, "#2B2B2B")
+    cel(-0.7, -5.8, 0.5, 0.4, "#4A4A4A")
+    # Arms
+    if arms == "up":
+        cel(-5.6, -5.6, 1.6, 2.0, "#F2F2F2")
+        cel(4.0, -5.6, 1.6, 2.0, "#F2F2F2")
+    else:
+        cel(-5.6, -4.0, 1.6, 1.6, "#F2F2F2"); cel(-5.6, -2.8, 1.6, 0.4, P)
+        cel(4.0, -4.0, 1.6, 1.6, "#F2F2F2"); cel(4.0, -2.8, 1.6, 0.4, P)
+    # Nightcap when sleeping
+    if hat:
+        cel(-3.4, -9.8, 6.8, 1.2, "#5B6EE1")
+        cel(-2.6, -11.0, 5.0, 1.3, "#5B6EE1")
+        cel(-1.0, -12.0, 3.4, 1.1, "#5B6EE1")
+        cel(2.0, -12.4, 1.6, 0.9, "#5B6EE1")
+        cel(3.3, -12.8, 1.2, 1.2, "#FFE7A0")
+        cel(-1.8, -9.6, 0.5, 0.5, "#FFE7A0")
+        cel(1.2, -9.5, 0.5, 0.5, "#FFE7A0")
+    # Sweat drop
+    if sweat:
+        cel(4.4, -7.6, 0.6, 1.1, "#7FD3F0")
+    # Floating pixel heart
+    if heart_y is not None:
+        pat = [".XX.XX.", "XXXXXXX", "XXXXXXX", ".XXXXX.", "..XXX..", "...X..."]
+        hx, hy = 3.6, heart_y
+        for r_i, row_s in enumerate(pat):
+            for c_i, ch in enumerate(row_s):
+                if ch == "X":
+                    cel(hx + c_i * 0.35, hy + r_i * 0.35, 0.38, 0.38, "#E85A7A")
+    # Floating Z
+    if z_y is not None:
+        pat = ["XXXXX", "...X.", "..X..", ".X...", "XXXXX"]
+        zx, zy = 4.2, z_y
+        for r_i, row_s in enumerate(pat):
+            for c_i, ch in enumerate(row_s):
+                if ch == "X":
+                    cel(zx + c_i * 0.38, zy + r_i * 0.38, 0.40, 0.40, "#7FB8E0")
+    img.save(OUT / f"{out_name}.png")
+
+
+def koala_assets():
+    pink = MUSIC_PALETTES[4]
+    tile("t_koala", "m_koala", "cookie9", hexc(pink[0]), hexc(pink[1]))
+    draw_koala_sprite("ko_idle_0", eyes="open", arms="normal")
+    draw_koala_sprite("ko_idle_1", eyes="blink", arms="normal")
+    draw_koala_sprite("ko_happy_0", eyes="happy", arms="up", heart_y=-12.2)
+    draw_koala_sprite("ko_happy_1", eyes="happy", arms="normal", heart_y=-13.0)
+    draw_koala_sprite("ko_sad", eyes="sad", arms="normal", sweat=True)
+    draw_koala_sprite("ko_sleep_0", eyes="sleep", arms="normal", hat=True, z_y=-11.8)
+    draw_koala_sprite("ko_sleep_1", eyes="sleep", arms="normal", hat=True, z_y=-12.8)
+
+
 # Shape symmetry period (degrees): rotating that much looks identical -> perfect loop.
 PERIOD = {"cookie9": 40, "sunny": 45, "clover": 90, "cookie12": 30, "squircle": 90, "cookie6": 60}
 ART_FRAMES = 6
@@ -607,6 +716,7 @@ if __name__ == "__main__":
     brief_assets()
     quick_tools_assets()
     places_assets()
+    koala_assets()
     shutter(); shutter(name="shutter_busy", bg="#4a5670", fg="#1b2d52")
     rec_button(); rec_button(name="rec_busy", bg="#6e4a47", fg="#5c1d1a")
     rec_button(name="rec_stop", stop=True)

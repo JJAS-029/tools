@@ -55,7 +55,8 @@
           "pages/hnc/hnc",
           "pages/places/places",
           "pages/placego/placego",
-          "pages/hwtest/hwtest"
+          "pages/hwtest/hwtest",
+          "pages/koala/koala"
         ],
         "name": ".MainAbility"
       }

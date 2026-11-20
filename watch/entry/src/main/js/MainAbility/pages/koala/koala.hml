@@ -1,0 +1,31 @@
+<div class="page" onswipe="onSwipe">
+    <div class="stage" onclick="petQuick">
+        <image class="sprite" src="{{ sprite }}"></image>
+        <text class="mood">{{ moodText }}</text>
+    </div>
+    <div class="bars">
+        <div class="bar-col">
+            <text class="bar-lbl">Com</text>
+            <progress class="bar" type="horizontal" percent="{{ food }}" style="color: #5bc46a;"></progress>
+        </div>
+        <div class="bar-col">
+            <text class="bar-lbl">Áni</text>
+            <progress class="bar" type="horizontal" percent="{{ mood }}" style="color: #ffb0cd;"></progress>
+        </div>
+        <div class="bar-col">
+            <text class="bar-lbl">Ene</text>
+            <progress class="bar" type="horizontal" percent="{{ energy }}" style="color: #ffd27a;"></progress>
+        </div>
+    </div>
+    <list class="list" ref="list">
+        <list-item for="{{ rows }}" class="row" onclick="tap({{ $idx }})">
+            <div class="card" style="background-color: {{ $item.bg }};">
+                <div class="labels">
+                    <text class="name" style="color: {{ $item.color }};">{{ $item.n }}</text>
+                    <text class="sub" style="color: {{ $item.sub }};">{{ $item.s }}</text>
+                </div>
+            </div>
+        </list-item>
+        <list-item class="tail"></list-item>
+    </list>
+</div>

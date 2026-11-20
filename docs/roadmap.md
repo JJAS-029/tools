@@ -38,6 +38,7 @@ necesita a los dos se prueba con el teléfono simulado.
 | Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | probado en el Previewer |
 | Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
 | Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
+| Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
 
 ---
 
@@ -66,7 +67,7 @@ Leyenda: 🟢 solo reloj · 🔵 solo teléfono · 🟡 reloj + teléfono (Wear 
 13. ~~🔬 **Prueba de hardware en el reloj real**~~ ✅ hecho (Antigravity — dentro de Lugares → Probar sensores).
 14. ~~📍 **Lugares** (tags con GPS y flecha)~~ ✅ hecho (Antigravity).
 15. ⌨️ **Teclado con la corona** (autocompleta palabras) 🟢
-16. 🐨 **Koala tamagotchi** 🟢
+16. ~~🐨 **Koala tamagotchi**~~ ✅ hecho (Antigravity — diseño pixel art de `koala_monitor`).
 17. 🔧 **Mantenimiento de la bici por km** + ✅ **Checklist antes de salir** 🟢
 18. ↩️ **Direccionales en la muñeca** 🟢⚡
 19. 🍅 **Pomodoro** + 🏋️ **Intervalos (HIIT)** con vibraciones 🟢
