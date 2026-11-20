@@ -14,7 +14,7 @@ export default {
     data: {
         playing: false,
         showing: false,
-        headerText: 'Simón · Récord 0',
+        headerText: 'Máx 0',
         btnText: 'Jugar',
         bg0: DIM[0],
         bg1: DIM[1],
@@ -25,7 +25,7 @@ export default {
         this.timers = [];
         load('simon', { best: 0 }, (s) => {
             best = (s && Number(s.best)) || 0;
-            this.headerText = 'Simón · Récord ' + best;
+            this.headerText = 'Máx ' + best;
         });
     },
     onDestroy() {
@@ -59,7 +59,7 @@ export default {
         seq.push(Math.floor(Math.random() * 4));
         step = 0;
         this.showing = true;
-        this.headerText = 'Nivel ' + seq.length + ' · Mira';
+        this.headerText = 'Niv ' + seq.length + ' · Mira';
         this.allDim();
 
         let t = 350;
@@ -76,7 +76,7 @@ export default {
         }
         this.timers.push(setTimeout(() => {
             this.showing = false;
-            this.headerText = 'Nivel ' + seq.length + ' · ¡Tú!';
+            this.headerText = 'Niv ' + seq.length + ' · ¡Tú!';
         }, t));
     },
     press(idx) {
@@ -93,7 +93,7 @@ export default {
                 best = score;
                 save('simon', { best: best });
             }
-            this.headerText = 'Fin · ' + score + ' (Máx ' + best + ')';
+            this.headerText = 'Fin ' + score + ' · Máx ' + best;
             this.btnText = 'Otra vez';
             try { vibrator.vibrate({ mode: 'long' }); } catch (e) {}
             return;
