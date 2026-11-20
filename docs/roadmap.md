@@ -21,32 +21,33 @@ necesita a los dos se prueba con el teléfono simulado.
   se cambian sus textos (ver `pages/bike`).
 
 ## Hecho ✅
-| Función | Dónde corre | Hecho por | Estado |
-|---|---|---|---|
-| Música (control, volumen con la corona y color dinámico M3) | reloj + teléfono | Claude Code | probado en el Previewer y en el S23 |
-| Playlists de Spotify | reloj + teléfono | Claude Code | probado en el S23 con tu cuenta |
-| Cámara (foto, video, temporizador y voltear) | reloj + teléfono | Claude Code (foto) + Antigravity (video) | probado en el S23 |
-| Baterías: bici (50 km) y reloj (estimado real) | solo reloj | Claude Code | probado en el Previewer |
-| Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | solo reloj | Antigravity | probado en el Previewer |
-| Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | solo reloj | Antigravity | probado en el Previewer |
-| Convertidor de unidades (USD, lb, °F, mi, oz, ft) + dólar vía puente | reloj + teléfono | Antigravity | compilado y con pruebas unitarias |
-| Now Brief (resumen del día, clima + alertas, efemérides, bici, jornada, MI) | reloj + teléfono | Antigravity | probado en el Previewer |
-| Contador con la corona (Agua, Reps y Libre con metas) | solo reloj | Antigravity | probado en el Previewer |
-| Dividir la cuenta y propinas con la corona | solo reloj | Antigravity | probado en el Previewer |
-| Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | solo reloj | Antigravity | compilado (falta Previewer) |
-| QR en el reloj (componente `qrcode` nativo) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Hoy No Circula CDMX (placa y holograma) | solo reloj | Antigravity | probado en el Previewer |
-| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
-| Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
-| Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
-| Bici Kit (checklist, mantenimiento por km y direccionales nocturnas) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Pomodoro e Intervalos HIIT con patrones de vibración | solo reloj | Antigravity | probado en el Previewer |
-| Hábitos del día (anillo ondulado M3 + racha diaria) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Hora táctil en vibraciones (horas largas + cuartos cortos) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Anki vocabulario inglés (mazo integrado de 15 tarjetas) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Contador de días (Koala, viaje y racha de bici) | solo reloj | Antigravity | compilado (falta Previewer) |
-| Gastos rápidos con la corona y total de la semana | solo reloj | Antigravity | compilado (falta Previewer) |
-| Simón dice con vibraciones y récord | solo reloj | Antigravity | compilado (falta Previewer) |
+| Función | HML | Dónde corre | Hecho por | Estado |
+|---|---|---|---|---|
+| Menú principal | `index.hml` | solo reloj | Claude Code | probado en el Previewer |
+| Música (control, volumen con la corona y barra sinusoidal M3) | `music.hml` | reloj + teléfono | Claude Code + Antigravity (onda) | probado en el Previewer y en el S23 |
+| Playlists de Spotify | `playlists.hml`, `tracks.hml` | reloj + teléfono | Claude Code | probado en el S23 con tu cuenta |
+| Cámara (foto, video, temporizador y voltear) | `shutter.hml` | reloj + teléfono | Claude Code (foto) + Antigravity (video) | probado en el S23 |
+| Baterías: bici (50 km) y reloj (estimado real) | `battery.hml`, `bike.hml`, `watchbat.hml`, `batedit.hml` | solo reloj | Claude Code + Antigravity (onda) | probado en el Previewer |
+| Mi jornada: barra de turno, dinero ganado en vivo y costo de junta | `work.hml`, `workedit.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Metro CDMX (12 líneas, 195 estaciones, transbordos) + Tarjeta MI | `metro.hml`, `metroline.hml`, `metrocard.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Convertidor de unidades (USD, lb, °F, mi, oz, ft) + dólar vía puente | `units.hml`, `unitconv.hml` | reloj + teléfono | Antigravity | probado en el Previewer |
+| Now Brief (resumen del día, clima + alertas, efemérides, bici, jornada, MI) | `brief.hml` | reloj + teléfono | Antigravity | probado en el Previewer |
+| Contador con la corona (Agua, Reps y Libre con metas) | `counter.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Dividir la cuenta y propinas con la corona | `tip.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Para decidir (dado, moneda, ¿qué cenamos?, sí/no) | `decide.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| QR en el reloj (componente `qrcode` nativo) | `qr.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Hoy No Circula CDMX (placa y holograma) | `hnc.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Seguridad y bici: aviso cada hora por SMS, "¿Dónde estás?" automático y "¿Llevas todo?" al salir del Wi-Fi | *(solo Android)* | solo teléfono | Antigravity | compilado (listo para probar en el S23) |
+| Lugares (tags GPS con distancia/flecha) + Prueba de sensores Fit 3 | `places.hml`, `placego.hml`, `hwtest.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
+| Koala científico tamagotchi (sprites de `koala_monitor`, pasos y viajes en bici) | `koala.hml` | solo reloj | Antigravity | compilado y con pruebas unitarias (falta Previewer) |
+| Bici Kit (checklist, mantenimiento por km y direccionales nocturnas) | `bikecare.hml`, `signal.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Pomodoro e Intervalos HIIT con patrones de vibración | `timer.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Hábitos del día (anillo ondulado M3 + racha diaria) | `habits.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Hora táctil en vibraciones (horas largas + cuartos cortos) | `vibeclock.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Anki vocabulario inglés (mazo integrado de 15 tarjetas) | `anki.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Contador de días (Koala, viaje y racha de bici) | `days.hml` | solo reloj | Antigravity | probado en el Previewer |
+| Gastos rápidos con la corona y total de la semana | `spend.hml` | solo reloj | Antigravity | compilado (falta Previewer) |
+| Simón dice con vibraciones y récord | `simon.hml` | solo reloj | Antigravity | probado en el Previewer |
 
 ---
 
