@@ -16,6 +16,7 @@ import android.os.CancellationSignal
 import android.os.Handler
 import android.os.Looper
 import android.telephony.SmsManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.jjas.tools.phone.R
@@ -48,6 +49,7 @@ data class SafetyState(
  */
 @SuppressLint("StaticFieldLeak")
 object SafetyRepository {
+    private const val TAG = "Safety"
     const val CH_SAFETY = "jjas_safety"
     const val CH_REMINDER = "jjas_reminder"
 
@@ -238,10 +240,12 @@ object SafetyRepository {
 
     @SuppressLint("MissingPermission")
     private fun requestFix(ctx: Context, lm: LocationManager, provider: String, timeoutMs: Long, cb: (Location?) -> Unit) {
+        Log.i(TAG, "requestFix provider=$provider timeout=$timeoutMs")
         var done = false
         fun finish(loc: Location?) {
             if (done) return
             done = true
+            Log.i(TAG, "fix result=${loc != null} provider=${loc?.provider} ageMs=${loc?.let { System.currentTimeMillis() - it.time }}")
             cb(loc ?: bestLastLocation(ctx))
         }
         try {
@@ -270,8 +274,9 @@ object SafetyRepository {
                     }
                 }, timeoutMs)
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             // No permission in the background, provider disabled, etc.
+            Log.w(TAG, "requestFix failed", e)
             main.post { finish(null) }
         }
     }
@@ -288,7 +293,11 @@ object SafetyRepository {
     }
 
     fun sendSms(ctx: Context, phone: String, text: String): Boolean {
-        if (!hasPerm(ctx, Manifest.permission.SEND_SMS) || phone.isBlank()) return false
+        if (!hasPerm(ctx, Manifest.permission.SEND_SMS) || phone.isBlank()) {
+            Log.w(TAG, "sendSms skipped: perm=${hasPerm(ctx, Manifest.permission.SEND_SMS)} phoneBlank=${phone.isBlank()}")
+            setStatus("No se envió el SMS: falta permiso o número")
+            return false
+        }
         return try {
             val mgr = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ctx.getSystemService(SmsManager::class.java)
@@ -296,21 +305,73 @@ object SafetyRepository {
                 @Suppress("DEPRECATION")
                 SmsManager.getDefault()
             }
-            val parts = mgr.divideMessage(text)
+            val parts = splitSms(mgr, text)
+            Log.i(TAG, "sendSms parts=${parts.size} len=${text.length}")
+            // Confirmation from the operator (did it actually go out?) → log and card.
+            val sentPi = android.app.PendingIntent.getBroadcast(
+                ctx, (System.currentTimeMillis() % 100000).toInt(),
+                Intent(ACTION_SMS_SENT).setPackage(ctx.packageName),
+                android.app.PendingIntent.FLAG_IMMUTABLE,
+            )
+            ensureSentReceiver(ctx)
             if (parts.size > 1) {
-                mgr.sendMultipartTextMessage(phone, null, parts, null, null)
+                mgr.sendMultipartTextMessage(phone, null, parts, ArrayList(parts.map { sentPi }), null)
             } else {
-                mgr.sendTextMessage(phone, null, text, null, null)
+                mgr.sendTextMessage(phone, null, parts[0], sentPi, null)
             }
             val nowTxt = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
             prefs?.edit()?.putString("lastSent", nowTxt)?.apply()
             _state.value = _state.value.copy(lastSent = nowTxt, statusMsg = "SMS enviado ($nowTxt)")
             true
         } catch (e: Exception) {
+            Log.w(TAG, "sendSms failed", e)
             setStatus("Error SMS: ${e.message ?: "falló"}")
             false
         }
     }
+
+    private const val ACTION_SMS_SENT = "com.jjas.tools.phone.SMS_SENT"
+    private var sentReceiver: android.content.BroadcastReceiver? = null
+
+    private fun ensureSentReceiver(ctx: Context) {
+        if (sentReceiver != null) return
+        val r = object : android.content.BroadcastReceiver() {
+            override fun onReceive(c: Context, i: Intent) {
+                val code = resultCode
+                Log.i(TAG, "SMS sent result=$code")
+                if (code != android.app.Activity.RESULT_OK) {
+                    setStatus("⚠️ El SMS no salió (código $code). ¿Hay señal o saldo?")
+                }
+            }
+        }
+        ContextCompat.registerReceiver(
+            ctx.applicationContext, r, android.content.IntentFilter(ACTION_SMS_SENT),
+            ContextCompat.RECEIVER_NOT_EXPORTED,
+        )
+        sentReceiver = r
+    }
+
+    /**
+     * Splits the SMS. On Samsung (tested on the S23), divideMessage() with emojis or
+     * accents throws SecurityException (getGroupIdLevel1, needs READ_PHONE_STATE). In
+     * that case we send it as plain text (GSM-7, no emojis/accents): 160 characters
+     * per part, enough for the message with the Maps link.
+     */
+    private fun splitSms(mgr: SmsManager, text: String): ArrayList<String> = try {
+        mgr.divideMessage(text)
+    } catch (e: SecurityException) {
+        Log.w(TAG, "divideMessage blocked, sending as plain text", e)
+        val plain = plainSms(text)
+        if (plain.length <= 160) arrayListOf(plain) else ArrayList(plain.chunked(153))
+    }
+
+    /** Removes emojis and accents: "Salí en bici 🚴 Mi ubicación" → "Sali en bici Mi ubicacion". */
+    fun plainSms(text: String): String =
+        Normalizer.normalize(text, Normalizer.Form.NFD)
+            .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+            .filter { it.code in 0x20..0x7E || it == '\n' }
+            .replace(Regex(" {2,}"), " ")
+            .trim()
 
     /** Matches two phone numbers by their last 10 digits (ignores +52, spaces, dashes). */
     fun samePhone(a: String, b: String): Boolean {

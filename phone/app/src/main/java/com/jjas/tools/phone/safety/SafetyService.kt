@@ -99,9 +99,11 @@ class SafetyService : Service() {
 
     /** Fresh location (live GPS if it's recent, otherwise asks for one) → SMS. */
     private fun sendWithLocation(text: (String) -> String) {
+        android.util.Log.i("Safety", "sendWithLocation lastFix=${lastFix != null}")
         val fix = lastFix
         val now = System.currentTimeMillis()
         val send = { loc: Location? ->
+            android.util.Log.i("Safety", "send loc=${loc != null}")
             val st = SafetyRepository.state.value
             SafetyRepository.sendSms(this, st.contactPhone, text(SafetyRepository.mapsLink(loc)))
         }

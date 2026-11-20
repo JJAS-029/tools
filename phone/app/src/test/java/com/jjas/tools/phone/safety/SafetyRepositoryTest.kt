@@ -30,4 +30,13 @@ class SafetyRepositoryTest {
     fun mapsLink_nullMeansNoSignal() {
         assertEquals("(sin señal GPS ahorita)", SafetyRepository.mapsLink(null))
     }
+
+    @Test
+    fun plainSms_removesEmojiAndAccents() {
+        assertEquals(
+            "Sali en bici Mi ubicacion: https://maps.google.com/?q=19.12345,-99.12345",
+            SafetyRepository.plainSms("Salí en bici 🚴 Mi ubicación: https://maps.google.com/?q=19.12345,-99.12345"),
+        )
+        assertEquals("Ya llegue bien", SafetyRepository.plainSms("Ya llegué bien ✅"))
+    }
 }
