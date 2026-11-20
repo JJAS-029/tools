@@ -37,6 +37,11 @@ data class SafetyState(
     val leaveItems: String = "Llaves, cartera, cargador, casco",
     val lastSent: String = "",
     val statusMsg: String = "",
+    /** WhatsApp: chat name exactly as it appears in the notification (e.g. "Koala"). */
+    val waName: String = "",
+    val waAutoReply: Boolean = false,
+    /** Last 1-to-1 WhatsApp chat that sent you a message (to suggest the name). */
+    val waLastSender: String = "",
 )
 
 /**
@@ -65,6 +70,11 @@ object SafetyRepository {
     val state: StateFlow<SafetyState> = _state
     private val main by lazy { Handler(Looper.getMainLooper()) }
 
+    /** Loads the configuration only if it isn't loaded yet (for frequent events). */
+    fun ensureInit(context: Context) {
+        if (prefs == null) init(context)
+    }
+
     fun init(context: Context) {
         val ctx = context.applicationContext
         appCtx = ctx
@@ -81,6 +91,9 @@ object SafetyRepository {
             leaveItems = p.getString("leaveItems", "Llaves, cartera, cargador, casco")
                 ?: "Llaves, cartera, cargador, casco",
             lastSent = p.getString("lastSent", "") ?: "",
+            waName = p.getString("waName", "") ?: "",
+            waAutoReply = p.getBoolean("waAutoReply", false),
+            waLastSender = p.getString("waLastSender", "") ?: "",
         )
         // If the next notice should have gone out a while ago, the ride was interrupted
         // (phone restarted or Android killed the app): don't show "En bici" forever.
@@ -396,11 +409,42 @@ object SafetyRepository {
     }
 
     /** Allows at most one auto-reply every 3 min. Records it if allowed. */
-    fun allowAutoReply(now: Long = System.currentTimeMillis()): Boolean {
+    fun allowAutoReply(now: Long = System.currentTimeMillis(), key: String = "lastAutoReply"): Boolean {
         val p = prefs ?: return true
-        if (now - p.getLong("lastAutoReply", 0L) < AUTO_REPLY_GAP_MS) return false
-        p.edit().putLong("lastAutoReply", now).apply()
+        if (now - p.getLong(key, 0L) < AUTO_REPLY_GAP_MS) return false
+        p.edit().putLong(key, now).apply()
         return true
+    }
+
+    // ---------- WhatsApp ----------
+    fun setWaName(name: String) {
+        val v = name.trim()
+        prefs?.edit()?.putString("waName", v)?.apply()
+        _state.value = _state.value.copy(waName = v)
+    }
+
+    fun setWaAutoReply(on: Boolean) {
+        prefs?.edit()?.putBoolean("waAutoReply", on)?.apply()
+        _state.value = _state.value.copy(waAutoReply = on)
+    }
+
+    fun noteWaSender(name: String) {
+        if (name.isBlank() || name == _state.value.waLastSender) return
+        prefs?.edit()?.putString("waLastSender", name)?.apply()
+        _state.value = _state.value.copy(waLastSender = name)
+    }
+
+    /**
+     * Same chat name ignoring case, accents, emojis and spaces:
+     * "Koala ❤️" == "koala", "Mamá" == "mama". Doesn't accept partial names.
+     */
+    fun sameName(a: String, b: String): Boolean {
+        fun norm(x: String) = Normalizer.normalize(x, Normalizer.Form.NFD)
+            .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+            .lowercase(Locale.ROOT)
+            .filter { it.isLetterOrDigit() }
+        val na = norm(a)
+        return na.isNotEmpty() && na == norm(b)
     }
 
     fun digitsOnly(s: String) = s.filter { it.isDigit() }

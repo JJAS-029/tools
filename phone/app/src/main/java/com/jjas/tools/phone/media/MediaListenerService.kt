@@ -1,6 +1,8 @@
 package com.jjas.tools.phone.media
 
 import android.service.notification.NotificationListenerService
+import android.service.notification.StatusBarNotification
+import com.jjas.tools.phone.safety.WhatsAppResponder
 import com.jjas.tools.phone.camera.CameraRepository
 import com.jjas.tools.phone.safety.SafetyRepository
 
@@ -16,6 +18,11 @@ class MediaListenerService : NotificationListenerService() {
         // Android keeps the notification listener alive: from here the "¿Llevas todo?"
         // monitor survives even if the app is closed.
         SafetyRepository.init(applicationContext)
+    }
+
+    /** "¿Dónde estás?" over WhatsApp (replies from the notification itself). */
+    override fun onNotificationPosted(sbn: StatusBarNotification) {
+        WhatsAppResponder.onPosted(applicationContext, sbn)
     }
 
     override fun onListenerDisconnected() {

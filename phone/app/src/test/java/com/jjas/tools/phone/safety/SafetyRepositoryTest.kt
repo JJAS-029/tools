@@ -39,4 +39,12 @@ class SafetyRepositoryTest {
         )
         assertEquals("Ya llegue bien", SafetyRepository.plainSms("Ya llegué bien ✅"))
     }
+
+    @Test
+    fun sameName_ignoresCaseAccentsAndEmoji() {
+        assertTrue(SafetyRepository.sameName("Koala ❤️", "koala"))
+        assertTrue(SafetyRepository.sameName("Mamá", "mama"))
+        assertFalse(SafetyRepository.sameName("Koala Trabajo", "Koala"))
+        assertFalse(SafetyRepository.sameName("", ""))
+    }
 }

@@ -62,6 +62,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -417,6 +418,41 @@ private fun SafetyCard() {
                     color = cs.onSurfaceVariant)
             }
             Switch(checked = st.autoReply, onCheckedChange = { SafetyRepository.setAutoReply(it) })
+        }
+        // ---- "¿Dónde estás?" over WhatsApp ----
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("Responder \"¿Dónde estás?\" por WhatsApp", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    if (st.waName.isBlank()) "Elige el chat abajo" else "Solo al chat \"${st.waName}\", máx. 1 cada 3 min",
+                    style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant,
+                )
+            }
+            Switch(
+                checked = st.waAutoReply,
+                enabled = st.waName.isNotBlank(),
+                onCheckedChange = { SafetyRepository.setWaAutoReply(it) },
+            )
+        }
+        var waName by remember(st.waName) { mutableStateOf(st.waName) }
+        OutlinedTextField(
+            value = waName,
+            onValueChange = {
+                waName = it
+                SafetyRepository.setWaName(it)
+            },
+            label = { Text("Nombre del chat en WhatsApp") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        if (st.waLastSender.isNotBlank() && !SafetyRepository.sameName(st.waLastSender, st.waName)) {
+            TextButton(onClick = { SafetyRepository.setWaName(st.waLastSender) }) {
+                Text("Usar \"${st.waLastSender}\" (último chat que te escribió)")
+            }
         }
         Row(
             Modifier.fillMaxWidth(),
