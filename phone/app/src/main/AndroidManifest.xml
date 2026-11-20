@@ -14,7 +14,10 @@
     <!-- Reply to "¿Dónde estás?" with the app closed (Android 10+: "Allow all the time") -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!-- Bike notices on time with the phone asleep (if not granted, Android may delay them a bit) -->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+    <!-- Android 13+: granted without asking. Play only allows it for alarm/calendar apps,
+         but the SMS notice is a personal feature (see docs/roadmap.md). -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />

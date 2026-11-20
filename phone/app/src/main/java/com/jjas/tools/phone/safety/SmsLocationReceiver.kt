@@ -39,10 +39,11 @@ class SmsLocationReceiver : BroadcastReceiver() {
             try {
                 val reply = "Aquí ando 📍 ${SafetyRepository.mapsLink(loc)}"
                 if (SafetyRepository.sendSms(app, sender, reply)) {
-                    val warn = if (loc == null && !SafetyRepository.hasBackgroundLocation(app)) {
-                        " · Sin ubicación: permite 'Todo el tiempo'"
-                    } else {
-                        ""
+                    val warn = when {
+                        loc != null -> ""
+                        !SafetyRepository.locationOn(app) -> " · Sin ubicación: la ubicación del teléfono está apagada"
+                        !SafetyRepository.hasBackgroundLocation(app) -> " · Sin ubicación: permite 'Todo el tiempo'"
+                        else -> " · Sin señal GPS"
                     }
                     SafetyRepository.postWatchAlert(
                         app, 4202,

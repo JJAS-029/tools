@@ -145,9 +145,10 @@ class SafetyService : Service() {
     private fun startGps() {
         if (tracking) return
         val lm = getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return
+        val provider = SafetyRepository.bestProvider(this, lm) ?: return
         try {
             lm.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, GPS_EVERY_MS, GPS_MIN_METERS, gpsListener, Looper.getMainLooper()
+                provider, GPS_EVERY_MS, GPS_MIN_METERS, gpsListener, Looper.getMainLooper()
             )
             tracking = true
         } catch (_: Exception) {

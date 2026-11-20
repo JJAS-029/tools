@@ -156,6 +156,9 @@ object SafetyRepository {
         }
         val intent = Intent(context, SafetyService::class.java).setAction(SafetyService.ACTION_START)
         ContextCompat.startForegroundService(context, intent)
+        if (!locationOn(context)) {
+            setStatus("⚠️ La ubicación del teléfono está apagada: el SMS irá sin ubicación. Préndela en ajustes rápidos.")
+        }
     }
 
     fun stopRide(context: Context) {
@@ -165,6 +168,12 @@ object SafetyRepository {
 
     fun hasPerm(ctx: Context, perm: String) =
         ContextCompat.checkSelfPermission(ctx, perm) == PackageManager.PERMISSION_GRANTED
+
+    /** Location switch on the phone (quick settings). If it's off, no app gets GPS. */
+    fun locationOn(ctx: Context): Boolean {
+        val lm = ctx.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return false
+        return androidx.core.location.LocationManagerCompat.isLocationEnabled(lm)
+    }
 
     /** "Allow all the time": needed to reply "¿Dónde estás?" with the app closed. */
     fun hasBackgroundLocation(ctx: Context) =
@@ -181,7 +190,9 @@ object SafetyRepository {
         if (!hasAnyLocation(ctx)) return null
         val lm = ctx.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return null
         var best: Location? = null
-        for (p in listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)) {
+        val providers = mutableListOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) providers.add(0, LocationManager.FUSED_PROVIDER)
+        for (p in providers) {
             val loc = try { lm.getLastKnownLocation(p) } catch (_: Exception) { null } ?: continue
             if (best == null || loc.time > best.time) best = loc
         }
@@ -204,16 +215,29 @@ object SafetyRepository {
             main.post { cb(null) }
             return
         }
-        val provider = when {
-            lm.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
-                hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION) -> LocationManager.GPS_PROVIDER
-            lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-            else -> null
-        }
+        val provider = bestProvider(ctx, lm)
         if (provider == null) {
             main.post { cb(bestLastLocation(ctx)) }
             return
         }
+        requestFix(ctx, lm, provider, timeoutMs, cb)
+    }
+
+    /**
+     * Combined provider (GPS + Wi-Fi + cell, Android 12+) when available: it gets a fix in
+     * seconds even indoors. Tested on the S23: GPS alone got nothing in 25 s indoors.
+     */
+    fun bestProvider(ctx: Context, lm: LocationManager): String? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            lm.isProviderEnabled(LocationManager.FUSED_PROVIDER) -> LocationManager.FUSED_PROVIDER
+        lm.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
+            hasPerm(ctx, Manifest.permission.ACCESS_FINE_LOCATION) -> LocationManager.GPS_PROVIDER
+        lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+        else -> null
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestFix(ctx: Context, lm: LocationManager, provider: String, timeoutMs: Long, cb: (Location?) -> Unit) {
         var done = false
         fun finish(loc: Location?) {
             if (done) return
