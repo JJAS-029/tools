@@ -89,7 +89,7 @@ export default {
         // Special day / efeméride
         const sp = specialDay(now);
         if (sp) {
-            this.setRow(DAY, sp, 'Hoy es fecha especial', C_LILAC);
+            this.setRow(DAY, sp, 'Fecha especial', C_LILAC);
         } else {
             const up = upcomingSpecialDay(now);
             if (up) {

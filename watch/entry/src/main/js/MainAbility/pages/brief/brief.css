@@ -7,25 +7,26 @@
 }
 
 .greet {
-    width: 300px;
-    height: 44px;
-    margin-top: 10px;
-    font-size: 36px;
+    width: 240px;
+    height: 38px;
+    margin-top: 22px;
+    font-size: 30px;
     color: #ffd27a;
     text-align: center;
+    text-overflow: ellipsis;
 }
 
 .date {
-    width: 300px;
-    height: 34px;
-    font-size: 28px;
+    width: 240px;
+    height: 32px;
+    font-size: 26px;
     color: #a9a4ad;
     text-align: center;
 }
 
 .list {
     width: 100%;
-    height: 362px;
+    height: 348px;
     margin-top: 4px;
 }
 
