@@ -76,7 +76,7 @@
     "reqPermissions": [
       {
         "name": "ohos.permission.VIBRATE",
-        "reason": "Vibración al tocar, temporizadores y avisos",
+        "reason": "$string:reason_vibrate",
         "usedScene": {
           "ability": [
             ".MainAbility"
@@ -86,7 +86,7 @@
       },
       {
         "name": "ohos.permission.LOCATION",
-        "reason": "Lugares (distancia y dirección) y modo bici con GPS",
+        "reason": "$string:reason_location",
         "usedScene": {
           "ability": [
             ".MainAbility"
@@ -96,7 +96,7 @@
       },
       {
         "name": "ohos.permission.ACTIVITY_MOTION",
-        "reason": "Pasos para alimentar al Koala",
+        "reason": "$string:reason_activity",
         "usedScene": {
           "ability": [
             ".MainAbility"
@@ -106,7 +106,7 @@
       },
       {
         "name": "ohos.permission.READ_HEALTH_DATA",
-        "reason": "Zonas de pulso en el modo bici",
+        "reason": "$string:reason_health",
         "usedScene": {
           "ability": [
             ".MainAbility"
@@ -116,7 +116,7 @@
       },
       {
         "name": "ohos.permission.ACCELEROMETER",
-        "reason": "Sacudir la muñeca para tomar la foto",
+        "reason": "$string:reason_accel",
         "usedScene": {
           "ability": [
             ".MainAbility"

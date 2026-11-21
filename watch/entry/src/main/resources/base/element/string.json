@@ -11,6 +11,26 @@
     {
       "name": "MainAbility_label",
       "value": "JJAS Tools"
+    },
+    {
+      "name": "reason_vibrate",
+      "value": "Vibration for taps, timers and alerts."
+    },
+    {
+      "name": "reason_location",
+      "value": "Places: save spots and show distance and direction to them. Bike mode: measure your speed. Used only while the screen is open; the location never leaves the watch."
+    },
+    {
+      "name": "reason_activity",
+      "value": "Counts your steps to feed the Koala pet. Steps are stored only on the watch."
+    },
+    {
+      "name": "reason_health",
+      "value": "Shows your live heart-rate zone in Bike mode. Heart rate is not stored."
+    },
+    {
+      "name": "reason_accel",
+      "value": "Detects a wrist shake gesture. Motion data is not stored."
     }
   ]
 }
