@@ -56,7 +56,7 @@ mainland*: exige un registro del gobierno chino (*Filing information*).
 **Generative AI service:** No.
 
 **Para el revisor (Remarks, máx. 300):**
-> Standalone sports-watch app for HUAWEI WATCH FIT 3. No sign-in and no phone app needed; all data stays on the watch. Open the app and pick any tool from the list. GPS features (Places, Bike mode) work best outdoors. Long-press a use in Bikes > Bike to edit its km.
+> Standalone sports-watch app for HUAWEI WATCH FIT 3. No sign-in and no phone app needed; all data stays on the watch. Open the app and pick any tool from the list. GPS features (Places, Bike mode) work best outdoors. Long-press a use in "Baterías > Bici" to edit its km.
 
 **Clasificación de contenido:** cuestionario sin violencia, sexo, apuestas ni
 compras → apta para todo público.
