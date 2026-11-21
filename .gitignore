@@ -39,3 +39,6 @@ exceles/
 
 # Python
 __pycache__/
+
+# Capturas sin procesar del Previewer
+docs/store/raw/
